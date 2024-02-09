@@ -1,4 +1,8 @@
 
+###> custom ###
+/node_modules
+###< custom ###
+
 ###> symfony/framework-bundle ###
 /.env.local
 /.env.local.php
