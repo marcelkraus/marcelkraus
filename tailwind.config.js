@@ -2,7 +2,11 @@
 module.exports = {
     content: ["./templates/**/*.html.twig"],
     theme: {
-        extend: {},
+        extend: {
+            colors: {
+                'brand': '#f97316', // orange-500
+            }
+        },
     },
     plugins: [
         require('@tailwindcss/forms'),
