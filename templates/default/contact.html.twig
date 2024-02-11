@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <div class="md:flex md:gap-8">
+        {{ form_start(contactForm, { 'attr': { 'class': 'mb-8 md:mb-0 md:w-3/4' } }) }}
+            {{  form_errors(contactForm) }}
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                    {{ form_label(contactForm.name, null, { 'label_attr': { 'class': 'block text-sm font-medium text-gray-900' } }) }}
+                    <div class="mt-2">
+                        {{ form_widget(contactForm.name, { 'attr': { 'class': 'block w-full px-4 py-2 rounded-xl border-1 border-gray-300 focus:border-gray-500 focus:ring-0 text-gray-900' } }) }}
+                    </div>
+                </div>
+                <div>
+                    {{ form_label(contactForm.email, null, { 'label_attr': { 'class': 'block text-sm font-medium text-gray-900' } }) }}
+                    <div class="mt-2">
+                        {{ form_widget(contactForm.email, { 'attr': { 'class': 'block w-full px-4 py-2 rounded-xl border-1 border-gray-300 focus:border-gray-500 focus:ring-0 text-gray-900' } }) }}
+                    </div>
+                </div>
+                <div class="sm:col-span-2">
+                    {{ form_label(contactForm.message, null, { 'label_attr': { 'class': 'block text-sm font-medium text-gray-900' } }) }}
+                    <div class="mt-2">
+                        {{ form_widget(contactForm.message, { 'attr': { 'class': 'block w-full px-4 py-2 rounded-xl border-1 border-gray-300 focus:border-gray-500 focus:ring-0 text-gray-900' } }) }}
+                    </div>
+                </div>
+            </div>
+            <div class="mt-4 sm:mt-8">
+                {{ form_widget(contactForm.submit, { 'attr': {  'class': 'px-4 py-2 rounded-xl bg-gray-700 hover:bg-gray-900 text-white' } }) }}
+            </div>
+        {{ form_end(contactForm) }}
+        <div class="mt-4 md:mt-0 md:pl-8 md:w-1/4 md:border-l md:border-gray-300">
+            <p>Und falls du lieber eine Postkarte schickst, meine Adresse lautet:</p>
+            <p class="mt-4 font-medium">
+                Marcel Kraus<br/>
+                Bonner Str. 88<br/>
+                50374 Erftstadt
+            </p>
+        </div>
+    </div>
+{% endblock %}

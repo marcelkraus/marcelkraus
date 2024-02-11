@@ -1,15 +1,43 @@
 <!doctype html>
 
-<html>
+<html lang="de">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        {% block meta %}{% endblock %}
         <link rel="stylesheet" href="/css/output.css">
-        <title>{% block title %}Marcel Kraus: Dein Software-Entwickler aus Erftstadt bei Köln{% endblock %}</title>
+        <title>{% block title %}Marcel Kraus: Dienstleister, Vater, Nerd – aus Erftstadt bei Köln{% endblock %}</title>
     </head>
-    <body>
-        <main class="mx-auto max-w-7xl m-8 sm:m-16">
-            {% block main %}{% endblock %}
-        </main>
+    <body class="mx-auto max-w-4xl p-8 bg-white sm:heropattern-hexagons-gray-50 text-gray-900" id="top">
+        <div class="border-gray-300 sm:p-8 sm:border sm:rounded-xl bg-white">
+            <header class="flex items-center gap-4 sm:gap-8 mb-8 pb-8 border-b border-gray-300">
+                <a href="{{ path('app_services') }}">
+                    <img alt="Foto von Marcel Kraus aus Erftstadt" class="w-24 sm:w-32 aspect-square rounded-full shadow-xl" src="{{ asset('images/marcelkraus.jpg') }}"/>
+                </a>
+                <div>
+                    <h1 class="text-xl sm:text-4xl font-medium sm:font-light">Marcel Kraus</h1>
+                    <p class="mt-2 text-sm sm:text-xl flex flex-col sm:flex-row sm:gap-2">
+                        <span>Dienstleister.</span>
+                        <span>Vater.</span>
+                        <span>Nerd.</span>
+                    </p>
+                </div>
+            </header>
+            <main>
+                {% block menu %}
+                    {% include 'partials/menu.html.twig' %}
+                {% endblock %}
+                {% block content %}{% endblock %}
+            </main>
+        </div>
+        <footer class="border-gray-300 border-t sm:border-0 pt-4 sm:pt-0 mt-8 sm:mt-4 text-xs text-right text-gray-700">
+            <div class="font-medium">
+                © 2024 Marcel Kraus, Erftstadt
+            </div>
+            <div class="flex gap-2 justify-end">
+                <a class="" href="{{ path('app_imprint') }}">Impressum</a>
+                <a class="" href="{{ path('app_data_privacy') }}">Datenschutz</a>
+            </div>
+        </footer>
     </body>
 </html>

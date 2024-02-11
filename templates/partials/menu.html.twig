@@ -1,0 +1,18 @@
+<nav class="mb-8 flex flex-col sm:flex-row gap-1 sm:gap-4 sm:gap-8 text-lg sm:text-xl text-gray-900" id="content">
+    {% if app.request.attributes.get('_route') == "app_services" %}
+        <h2 class="font-medium">Angebote</h2>
+    {% else %}
+        <a class="text-gray-500 hover:text-gray-900" href="{{ path('app_services') }}">Angebote</a>
+    {% endif %}
+    {% if app.request.attributes.get('_route') == "app_milestones" %}
+        <h2 class="font-medium">Stationen</h2>
+    {% else %}
+        <a class="text-gray-500 hover:text-gray-900" href="{{ path('app_milestones') }}">Stationen</a>
+    {% endif %}
+    {% if app.request.attributes.get('_route') == "app_contact" or app.request.attributes.get('_route') == "app_contact_confirmation" %}
+        <h2 class="font-medium">Kontakt</h2>
+    {% else %}
+        <a class="text-gray-500 hover:text-gray-900" href="{{ path('app_contact') }}">Kontakt</a>
+    {% endif %}
+    <a class="text-gray-500 hover:text-gray-900" href="https://blog.marcelkraus.de" target="_blank">Blog</a>
+</nav>
