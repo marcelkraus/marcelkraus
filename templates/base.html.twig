@@ -7,6 +7,22 @@
         {% block meta %}{% endblock %}
         <link rel="stylesheet" href="/css/output.css">
         <title>{% block title %}Marcel Kraus — Dienstleister, Ehemann + Nerd{% endblock %}</title>
+        {% block javascript %}
+            <script>
+                var _paq = window._paq = window._paq || [];
+                /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+                _paq.push(["disableCookies"]);
+                _paq.push(['trackPageView']);
+                _paq.push(['enableLinkTracking']);
+                (function() {
+                var u="https://matomo.marcelkraus.de/";
+                _paq.push(['setTrackerUrl', u+'matomo.php']);
+                _paq.push(['setSiteId', '10']);
+                var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+                g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+            })();
+            </script>
+        {% endblock %}
     </head>
     <body class="bg-sky-900 heropattern-texture-sky-700 text-white" id="top">
         {% for message in app.flashes('success') %}
