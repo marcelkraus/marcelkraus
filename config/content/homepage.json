@@ -1,0 +1,78 @@
+{
+  "facts": [
+    {
+      "title": "iOS-Entwickler",
+      "body": "Teil eines engagierten Teams der Chefkoch Gmbh in Bonn."
+    },
+    {
+      "title": "Dienstleister",
+      "body": "Software-Entwickler, 3D-Drucker und Vermieter von Filmfahrzeugen."
+    },
+    {
+      "title": "Familienmensch",
+      "body": "Glücklicher Ehemann, werdender Vater und passioniertes Herrchen."
+    },
+    {
+      "title": "Schrauber",
+      "body": "Fahrer, Betreuer und Restaurator von automobilem Kulturgut."
+    },
+    {
+      "title": "Sim Racer",
+      "body": "Die grüne Hölle als zweites Zuhause: 25 km, 73 Kurven, 200 Puls."
+    },
+    {
+      "title": "Nerd",
+      "body": "Offen für alle neuen Gadgets und jedes moderne Stück Technik."
+    }
+  ],
+  "milestones": [
+    {
+      "name": "krausgedruckt",
+      "logo": "images/krausgedruckt.jpg",
+      "location": "Erftstadt",
+      "period": "seit 11/2023",
+      "tagline": "Ideen anfassbar machen.",
+      "body": "Ich mache ein weiteres Hobby zum Beruf und biete ab sofort 3D-Druck-Dienstleistungen an. Durch die Verwendung von Druckern und Filamenten aus europäischer Produktion trage ich meinen Teil zur Nachhaltigkeit bei und bleibe trotzdem transparent und fair bei der Preisgestaltung.\n\nBock auf Druck? Ich auch!"
+    },
+    {
+      "name": "Jurassic Jeep",
+      "logo": "images/jurassic-jeep.jpg",
+      "location": "Erftstadt",
+      "period": "seit 05/2021",
+      "tagline": "Das Leben findet einen Jeep.",
+      "body": "Mit dem Jeep Wrangler Sahara aus den Kultfilmen „Jurassic Park“ und „Jurassic World“ eröffne ich einen neuen Geschäftsbereich: Die Vermietung von Fahrzeugen für besondere Anlässe.\n\nWenn dich irgendetwas jagt: Lauf!"
+    },
+    {
+      "name": "Chefkoch GmbH",
+      "logo": "images/chefkoch.jpg",
+      "location": "Bonn",
+      "period": "seit 07/2016",
+      "tagline": "The NeXT Step.",
+      "body": "Nach zwölf Jahren Wohlfahrtsverband führt mich mein Weg zu Europas größtem Kochportal. Nach einem Start als PHP-Entwickler entscheide ich mich 2017, in Zukunft hauptberuflich als iOS-Entwickler zu arbeiten – und dem Internet als Dienstleister treu zu bleiben.\n\nCook them happy!"
+    },
+    {
+      "name": "ASB Deutschland e.V.",
+      "logo": "images/asb.jpg",
+      "location": "Köln",
+      "period": "10/2004 bis 06/2016",
+      "tagline": "Lehrjahre.",
+      "body": "Nach Abschluss meiner Berufsausbildung beginne ich mein Angestelltenverhältnis beim Bundesverband des ASB Deutschland e.V. in Köln. Anfangs als PHP-Entwickler tätig, verlagere ich in den letzten Jahren meinen Fokus in Richtung Projektmanagement und werde Ansprechpartner für sämtliche Internet-Angebote des Bundesverbandes.\n\nWir helfen hier und jetzt."
+    },
+    {
+      "name": "Start des Gewerbes",
+      "logo": "images/marcelkraus.jpg",
+      "location": "Erftstadt",
+      "period": "seit 10/2004",
+      "tagline": "Bock auf Mehr.",
+      "body": "Seit DATON weiß ich sicher: Das Internet ist mein Ding. Ich beantrage meinen Gewerbeschein bei der Stadt Köln und werde in den nächsten Jahren nebenberuflich mehr als ein Dutzend kleinerer und größerer Kundenprojekte umsetzen.\n\nStay hungry, stay foolish."
+    },
+    {
+      "name": "DATON webengineering",
+      "logo": "images/daton.jpg",
+      "location": "Köln",
+      "period": "07/2002 bis 10/2002",
+      "tagline": "Der Anfang.",
+      "body": "In einem viermonatigen Betriebspraktikum bekomme ich meinen ersten Einblick ins Berufsleben. Ich hätte es nicht besser treffen können, setze mehrere Kundenprojekte um und hinterlasse scheinbar einen bleibenden Eindruck: Mit meinem Chef Ralf bin ich bis heute noch in gutem Kontakt.\n\nWeiter, immer weiter."
+    }
+  ]
+}

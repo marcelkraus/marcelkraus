@@ -1,0 +1,99 @@
+{% extends 'base.html.twig' %}
+
+{% set fullHeader = true %}
+
+{% block content %}
+    <!-- Key Facts -->
+
+    <div class="max-w-5xl mx-auto px-8 py-16" id="fakten">
+        <h2 class="pb-16 text-6xl text-sky-600">Key Facts.</h2>
+        <div class="flex flex-wrap gap-8">
+            {% for fact in content.facts %}
+                <div class="p-8 border-4 border-gray-300 rounded-xl max-w-64 aspect-square flex flex-col-reverse items-end justify-between hover:bg-white text-gray-900">
+                    <div class="text-2xl font-medium text-sky-600">{{ fact.title }}.</div>
+                    <div class="text">{{ fact.body | raw }}</div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Milestones -->
+
+    <div class="pt-16 pb-32" id="meilensteine">
+        <div class="max-w-5xl mx-auto px-8 text-right">
+            <h2 class="pb-16 text-6xl text-sky-600">My Way.</h2>
+        </div>
+        <div class="bg-sky-900 heropattern-floatingcogs-sky-600">
+            <div class="max-w-5xl mx-auto flex justify-center sm:justify-end mt-32">
+                <div class="max-w-xl -mt-32 -mb-16 px-8 rounded-xl">
+                    <div class="p-8 border-4 border-gray-300 rounded-xl bg-white">
+                        <ul role="list" class="-mb-8 text-sm text-gray-900">
+                            {% for milestone in content.milestones %}
+                                <li>
+                                    <div class="relative pb-8">
+                                        {% if not loop.last %}
+                                            <span class="absolute left-6 top-6 -ml-px h-full w-0.5 bg-gray-300" aria-hidden="true"></span>
+                                        {% endif %}
+                                        <div class="relative flex items-start space-x-4">
+                                            <div class="relative">
+                                                <img alt="{{ milestone.name }}, {{ milestone.location }}" class="flex w-12 h-auto rounded-md justify-center ring-8 ring-white" src="{{ asset(milestone.logo) }}">
+                                            </div>
+                                            <div class="min-w-0 flex-1">
+                                                <div class="font-medium">
+                                                    <div>{{ milestone.name}}, {{ milestone.location }}</div>
+                                                    <div class="mt-0 text-sky-600">
+                                                        {{ milestone.period }}
+                                                    </div>
+                                                </div>
+                                                <div class="mt-4">
+                                                    <span class="font-medium">{{ milestone.tagline }}</span>
+
+                                                    {{ milestone.body | raw | nl2br }}<br/><br/>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact -->
+
+    <div class="max-w-5xl mx-auto px-8 py-16" id="kontakt">
+        <h2 class="pb-16 text-6xl text-sky-600">Let's Talk.</h2>
+        <div class="text-gray-900">
+            {{ form_start(contactForm, { 'action': path('app_homepage'), 'attr': { 'class': 'p-8 border-4 border-gray-300 rounded-xl bg-white' } }) }}
+                {{  form_errors(contactForm) }}
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        {{ form_label(contactForm.name, null, { 'label_attr': { 'class': 'block text-sm font-medium' } }) }}
+                        <div class="mt-2">
+                            {{ form_widget(contactForm.name, { 'attr': { 'class': 'block w-full px-4 py-2 rounded-xl border-1 border-gray-300 focus:border-sky-600 focus:ring-0' } }) }}
+                        </div>
+                    </div>
+                    <div>
+                        {{ form_label(contactForm.email, null, { 'label_attr': { 'class': 'block text-sm font-medium' } }) }}
+                        <div class="mt-2">
+                            {{ form_widget(contactForm.email, { 'attr': { 'class': 'block w-full px-4 py-2 rounded-xl border-1 border-gray-300 focus:border-sky-600 focus:ring-0' } }) }}
+                        </div>
+                    </div>
+                    <div class="col-span-2">
+                        {{ form_label(contactForm.message, null, { 'label_attr': { 'class': 'block text-sm font-medium' } }) }}
+                        <div class="mt-2">
+                            {{ form_widget(contactForm.message, { 'attr': { 'class': 'block w-full px-4 py-2 rounded-xl border-1 border-gray-300 focus:border-sky-600 focus:ring-0' } }) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-8 text-right -mb-14">
+                    {{ form_widget(contactForm.submit, { 'attr': {  'class': 'px-4 py-2 rounded-xl text-lg border-2 border-gray-300 font-medium ring-8 ring-white bg-sky-600 hover:bg-sky-900 text-white hover:text-white' } }) }}
+                </div>
+            {{ form_end(contactForm) }}
+        </div>
+    </div>
+{% endblock %}

@@ -10,58 +10,61 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\ArrayDenormalizer;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 
 class DefaultController extends AbstractController
 {
-    #[Route('/', name: 'app_services', methods: ['GET'])]
+    #[Route('/', name: 'app_homepage', methods: ['GET'])]
     function services(): Response
     {
-        return $this->render('default/services.html.twig');
-    }
+        $serializer = new Serializer(
+            [new ObjectNormalizer(), new ArrayDenormalizer()],
+            [new JsonEncoder()]
+        );
 
-    #[Route('/stationen', name: 'app_milestones', methods: ['GET'])]
-    function milestones(): Response
-    {
-        return $this->render('default/milestones.html.twig');
-    }
+        $content = $serializer->deserialize(
+            file_get_contents("../config/content/homepage.json"),
+            'App\Entity\Homepage',
+            'json'
+        );
 
-    #[Route('/kontakt', name: 'app_contact', methods: ['GET', 'POST'])]
-    function contact(Request $request, MailerInterface $mailer): Response
-    {
         $contactForm = $this->createForm(ContactRequestType::class, new ContactRequest());
 
-        if ($request->isMethod('post')) {
-            $contactForm->handleRequest($request);
-
-            if ($contactForm->isSubmitted() && $contactForm->isValid()) {
-                $contactRequest = $contactForm->getData();
-                $message = (new TemplatedEmail())
-                    ->from($_SERVER['CONTACT_FORM_SENDER_ADDRESS'])
-                    ->to($_SERVER['CONTACT_FORM_RECIPIENT_ADDRESS'])
-                    ->replyTo($contactRequest->getEmail())
-                    ->subject('Neue Nachricht erhalten')
-                    ->textTemplate('message/contact-request.txt.twig')
-                    ->context([
-                        'name' => $contactRequest->getName(),
-                        'emailAddress' => $contactRequest->getEmail(),
-                        'message' => $contactRequest->getMessage(),
-                    ]);
-
-                $mailer->send($message);
-
-                return $this->redirectToRoute('app_contact_confirmation');
-            }
-        }
-
-        return $this->render('default/contact.html.twig', [
+        return $this->render('default/homepage.html.twig', [
+            'content' => $content,
             'contactForm' => $contactForm,
         ]);
     }
 
-    #[Route('/kontakt/vielen-dank', name: 'app_contact_confirmation', methods: ['GET'])]
-    function contactConfirmation()
+    #[Route('/', methods: ['POST'])]
+    function index(Request $request, MailerInterface $mailer): Response
     {
-        return $this->render('default/contact-confirmation.html.twig');
+        $form = $this->createForm(ContactRequestType::class, new ContactRequest());
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $contactRequest = $form->getData();
+            $message = (new TemplatedEmail())
+                ->from($_SERVER['CONTACT_FORM_SENDER_ADDRESS'])
+                ->to($_SERVER['CONTACT_FORM_RECIPIENT_ADDRESS'])
+                ->replyTo($contactRequest->getEmail())
+                ->subject('Neue Kontaktanfrage erhalten')
+                ->textTemplate('message/contact-request.txt.twig')
+                ->context([
+                    'name' => $contactRequest->getName(),
+                    'emailAddress' => $contactRequest->getEmail(),
+                    'message' => $contactRequest->getMessage(),
+                ]);
+
+            $mailer->send($message);
+
+            $this->addFlash('success', '<default>');
+
+            return $this->redirectToRoute('app_homepage');
+        }
     }
 
     #[Route('/impressum', name: 'app_imprint', methods: ['GET'])]
