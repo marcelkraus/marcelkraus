@@ -48,9 +48,7 @@
                         <p class="text-sky-300">
                             <span class="border-b-2 border-sky-300 pb-2">Hallo Welt.</span>
                         </p>
-                        <p>
-                            Ich bin Marcel. Seit 2002 baue ich das Internet, seit 2017 auch Apps.
-                        </p>
+                        <p>Ich bin Marcel. Seit 2002 baue ich das Internet, seit 2017 auch Apps.</p>
                         <p>Und was baue ich für dich?</p>
                     </div>
                 </div>
@@ -62,10 +60,18 @@
         <main class="bg-white heropattern-topography-sky-100 pt-[7.5rem]">
             {% block content %}{% endblock %}
         </main>
-        <footer class="py-4 text-sm border-t-2 border-gray-300 bg-white text-gray-900">
-            <div class="max-w-5xl mx-auto px-8 flex flex-col sm:flex-row justify-between gap-1">
-                <div class="font-medium text-right">© 2024 Marcel Kraus, Erftstadt</div>
-                <div class="flex gap-2 justify-end">
+        <footer class="max-w-5xl mx-auto px-8 py-16 text-xs">
+            <div class="grid grid-cols-3 gap-8 items-center">
+                <a href="https://krausgedruckt.de"><img alt="Logo von krausgedruckt.de, einem Projekt von Marcel Kraus" class="max-h-12 w-full object-contain" src="{{ asset('images/partner/krausgedruckt.png') }}" /></a>
+                <a href="https://www.jurassicjeep.de"><img alt="Logo von Jurassic Jeep, einem Projekt von Marcel Kraus" class="max-h-12 w-full object-contain" src="{{ asset('images/partner/jurassic-jeep.png') }}" /></a>
+                <a href="https://www.myknight.de"><img alt="Logo von myKNIGHT, einem Projekt von Marcel Kraus" class="max-h-12 w-full object-contain" src="{{ asset('images/partner/myknight.png') }}" /></a>
+            </div>
+            <div class="mt-16 pt-4 border-t border-white flex flex-col sm:flex-row gap-2 justify-center sm:justify-between">
+                <div class="flex gap-2 justify-center sm:justify-start">
+                    <span class="font-medium">© 2024 Marcel Kraus, Erftstadt</span>
+                </div>
+                <div class="flex gap-2 justify-center sm:justify-end">
+                    <a class="hover:underline" href="https://blog.marcelkraus.de">Blog</a>
                     <a class="hover:underline" href="{{ path('app_imprint') }}">Impressum</a>
                     <a class="hover:underline" href="{{ path('app_data_privacy') }}">Datenschutz</a>
                 </div>
