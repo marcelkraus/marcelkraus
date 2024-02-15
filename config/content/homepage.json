@@ -28,7 +28,7 @@
   "milestones": [
     {
       "name": "krausgedruckt",
-      "logo": "images/krausgedruckt.jpg",
+      "logo": "images/milestones/krausgedruckt.jpg",
       "location": "Erftstadt",
       "period": "seit 11/2023",
       "tagline": "Ideen anfassbar machen.",
@@ -36,7 +36,7 @@
     },
     {
       "name": "Jurassic Jeep",
-      "logo": "images/jurassic-jeep.jpg",
+      "logo": "images/milestones/jurassic-jeep.jpg",
       "location": "Erftstadt",
       "period": "seit 05/2021",
       "tagline": "Das Leben findet einen Jeep.",
@@ -44,7 +44,7 @@
     },
     {
       "name": "Chefkoch GmbH",
-      "logo": "images/chefkoch.jpg",
+      "logo": "images/milestones/chefkoch.jpg",
       "location": "Bonn",
       "period": "seit 07/2016",
       "tagline": "The NeXT Step.",
@@ -52,7 +52,7 @@
     },
     {
       "name": "ASB Deutschland e.V.",
-      "logo": "images/asb.jpg",
+      "logo": "images/milestones/asb.jpg",
       "location": "Köln",
       "period": "10/2004 bis 06/2016",
       "tagline": "Lehrjahre.",
@@ -68,7 +68,7 @@
     },
     {
       "name": "DATON webengineering",
-      "logo": "images/daton.jpg",
+      "logo": "images/milestones/daton.jpg",
       "location": "Köln",
       "period": "07/2002 bis 10/2002",
       "tagline": "Der Anfang.",
