@@ -24,6 +24,10 @@ DirectoryIndex index.php
     RewriteCond %{HTTPS} off
     RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
+    # Enforce www subdomain for the current host name.
+    RewriteCond %{HTTP_HOST} !^(www)\.
+    RewriteRule ^(.*?)$ https://www.%{HTTP_HOST}/$1 [R=301,L]
+
     # Determine the RewriteBase automatically and set it as environment variable.
     # If you are using Apache aliases to do mass virtual hosting or installed the
     # project in a subdirectory, the base path will be prepended to allow proper
