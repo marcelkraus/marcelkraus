@@ -31,7 +31,9 @@ class DefaultController extends AbstractController
             'json'
         );
 
-        $contactForm = $this->createForm(ContactRequestType::class, new ContactRequest());
+        $contactForm = $this->createForm(ContactRequestType::class, new ContactRequest(), [
+            'antispam_profile' => 'default',
+        ]);
 
         return $this->render('default/homepage.html.twig', [
             'content' => $content,
@@ -42,7 +44,9 @@ class DefaultController extends AbstractController
     #[Route('/', methods: ['POST'])]
     function index(Request $request, MailerInterface $mailer): Response
     {
-        $form = $this->createForm(ContactRequestType::class, new ContactRequest());
+        $form = $this->createForm(ContactRequestType::class, new ContactRequest(), [
+            'antispam_profile' => 'default',
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
