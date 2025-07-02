@@ -9,9 +9,9 @@
         <h2 class="pb-16 text-6xl text-sky-600">Key Facts.</h2>
         <div class="flex flex-wrap gap-8">
             {% for fact in content.facts %}
-                <div class="p-8 border-4 border-gray-300 rounded-xl max-w-64 aspect-square flex flex-col-reverse items-end justify-between hover:bg-white text-gray-900">
-                    <div class="text-2xl font-medium text-sky-600">{{ fact.title }}.</div>
+                <div class="p-8 border-4 border-gray-300 rounded-xl max-w-64 aspect-square flex flex-col items-start justify-between hover:bg-white text-gray-900">
                     <div class="text">{{ fact.body | raw }}</div>
+                    <div class="text-2xl font-medium text-sky-600">{{ fact.title }}.</div>
                 </div>
             {% endfor %}
         </div>
