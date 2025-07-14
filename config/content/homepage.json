@@ -31,8 +31,8 @@
       "logo": "images/milestones/krausgedruckt.jpg",
       "location": "Erftstadt",
       "period": "seit 11/2023",
-      "tagline": "Ideen anfassbar machen.",
-      "body": "Ich mache ein weiteres Hobby zum Beruf und biete ab sofort 3D-Druck-Dienstleistungen an. Durch die Verwendung von Druckern und Filamenten aus europäischer Produktion trage ich meinen Teil zur Nachhaltigkeit bei und bleibe trotzdem transparent und fair bei der Preisgestaltung.\n\nBock auf Druck? Ich auch!"
+      "tagline": "Ideen zum anfassen.",
+      "body": "Ich mache ein weiteres Hobby zum Beruf und biete ab sofort 3D-Druck-Dienstleistungen an. Mit dem Ziel, vorwiegend Materialien aus europäischer Produktion einzusetzen, trage ich meinen Teil zur Nachhaltigkeit bei und bleibe trotzdem transparent und fair bei der Preisgestaltung.\n\nBock auf Druck? Ich auch!"
     },
     {
       "name": "Jurassic Jeep",
@@ -59,20 +59,20 @@
       "body": "Nach Abschluss meiner Berufsausbildung beginne ich mein Angestelltenverhältnis beim Bundesverband des ASB Deutschland e.V. in Köln. Anfangs als PHP-Entwickler tätig, verlagere ich in den letzten Jahren meinen Fokus in Richtung Projektmanagement und werde Ansprechpartner für sämtliche Internet-Angebote des Bundesverbandes.\n\nWir helfen hier und jetzt."
     },
     {
-      "name": "Start des Gewerbes",
-      "logo": "images/marcelkraus.jpg",
-      "location": "Erftstadt",
-      "period": "seit 10/2004",
-      "tagline": "Bock auf Mehr.",
-      "body": "Seit DATON weiß ich sicher: Das Internet ist mein Ding. Ich beantrage meinen Gewerbeschein bei der Stadt Köln und werde in den nächsten Jahren nebenberuflich mehr als ein Dutzend kleinerer und größerer Kundenprojekte umsetzen.\n\nStay hungry, stay foolish."
-    },
-    {
       "name": "DATON webengineering",
       "logo": "images/milestones/daton.jpg",
       "location": "Köln",
       "period": "07/2002 bis 10/2002",
+      "tagline": "Gewissheit.",
+      "body": "In einem viermonatigen Betriebspraktikum bekomme ich einen ersten Einblick ins „richtige“ Berufsleben. Ich hätte es nicht besser treffen können, setze mehrere Kundenprojekte um und hinterlasse scheinbar einen bleibenden Eindruck: Mit meinem Chef Ralf bin ich bis heute noch in gutem Kontakt.\n\nWeiter, immer weiter."
+    },
+    {
+      "name": "Start des Gewerbes",
+      "logo": "images/marcelkraus.jpg",
+      "location": "Erftstadt",
+      "period": "seit 05/2001",
       "tagline": "Der Anfang.",
-      "body": "In einem viermonatigen Betriebspraktikum bekomme ich meinen ersten Einblick ins Berufsleben. Ich hätte es nicht besser treffen können, setze mehrere Kundenprojekte um und hinterlasse scheinbar einen bleibenden Eindruck: Mit meinem Chef Ralf bin ich bis heute noch in gutem Kontakt.\n\nWeiter, immer weiter."
+      "body": "Früh wusste ich: Das Internet ist mein Ding. Ich beantrage meinen Gewerbeschein bei der Stadt Erftstadt und werde in den nächsten Jahren nebenberuflich viele kleinere und größere Kundenprojekte umsetzen.\n\nStay hungry, stay foolish."
     }
   ]
 }
