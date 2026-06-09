@@ -1,0 +1,38 @@
+[
+  {
+    "language": "de",
+    "title": "Autoschrauber",
+    "description": "Ob Motor, Getriebe oder Elektrik: Mein Herz schlägt für das Schrauben an alten Autos, besonders aus den USA. Mein großes Projekt ist mein 1982er Pontiac Firebird Trans Am, den ich seit 2014 restauriere und in K.I.T.T. aus „Knight Rider“ verwandle.",
+    "icon": "wrench"
+  },
+  {
+    "language": "en",
+    "title": "Gearhead",
+    "description": "Whether engine, gearbox or electrics: my heart beats for wrenching on old cars, especially American ones. My big project is my 1982 Pontiac Firebird Trans Am, which I have been restoring since 2014 and turning into K.I.T.T. from „Knight Rider“.",
+    "icon": "wrench"
+  },
+  {
+    "language": "de",
+    "title": "RC-Modellbauer",
+    "description": "Kleine Modelle, große Begeisterung: Im Maßstab 1:10 hat es damals als Kind angefangen. Während andere ihre Zeit vor dem Monitor verbracht haben, habe ich dank dem RC-Modellbau mein technisches Verständnis aufgebaut.",
+    "icon": "remote"
+  },
+  {
+    "language": "en",
+    "title": "RC Modeller",
+    "description": "Small models, big enthusiasm: at 1:10 scale, it all started when I was a kid. While others spent their time in front of the monitor, RC modelling is where I built my technical understanding.",
+    "icon": "remote"
+  },
+  {
+    "language": "de",
+    "title": "Sim-Racer",
+    "description": "25 km, 73 Kurven, 200 Puls. Wenn ich im echten Leben mal nicht schraube oder fahre, schraube oder fahre ich zumindest virtuell – und suche im Sim-Rig mit Triple-Screen in der grünen Hölle die letzten Zehntelsekunden.",
+    "icon": "wheel"
+  },
+  {
+    "language": "en",
+    "title": "Sim Racer",
+    "description": "25 km, 73 corners, 200 bpm. When I am not wrenching or driving in real life, I am at least wrenching or driving virtually – hunting for the last tenths of a second through the Green Hell on a triple-screen sim rig.",
+    "icon": "wheel"
+  }
+]

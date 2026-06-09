@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Hobby;
 use App\Entity\Milestone;
 use App\Entity\Project;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -40,6 +41,12 @@ class DefaultController extends AbstractController
             'json'
         );
 
+        $allHobbies = $serializer->deserialize(
+            file_get_contents($projectDir . '/config/content/hobbies.json'),
+            Hobby::class . '[]',
+            'json'
+        );
+
         $milestones = array_values(array_filter(
             $allMilestones,
             fn(Milestone $milestone) => $milestone->getLanguage() === $_locale
@@ -50,9 +57,15 @@ class DefaultController extends AbstractController
             fn(Project $project) => $project->getLanguage() === $_locale
         ));
 
+        $hobbies = array_values(array_filter(
+            $allHobbies,
+            fn(Hobby $hobby) => $hobby->getLanguage() === $_locale
+        ));
+
         return $this->render('default/homepage.html.twig', [
             'milestones' => $milestones,
             'projects' => $projects,
+            'hobbies' => $hobbies,
             'switch_route' => $_locale === 'en' ? 'app_de_homepage' : 'app_en_homepage',
         ]);
     }

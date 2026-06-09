@@ -57,6 +57,7 @@ ddev exec php bin/console debug:routes
 personal-homepage/
 ├── config/
 │   ├── content/
+│   │   ├── hobbies.json             ← Hobbys/Leidenschaft (DE + EN, via language-Feld)
 │   │   ├── milestones.json          ← Meilensteine (DE + EN, via language-Feld)
 │   │   └── projects.json            ← Projekte (DE + EN, via language-Feld)
 │   └── packages/
@@ -65,6 +66,7 @@ personal-homepage/
 │   ├── Controller/
 │   │   └── DefaultController.php    ← Alle Routes (nur GET)
 │   ├── Entity/
+│   │   ├── Hobby.php                ← Hobby-Entity
 │   │   ├── Milestone.php            ← Meilenstein-Entity
 │   │   └── Project.php              ← Projekt-Entity
 │   └── EventListener/
@@ -112,6 +114,13 @@ spamgeschützt zusammengesetzt. Das Social-Sharing-Bild liegt unter
 `og:image`/`twitter:image` mit `twitter:card = summary_large_image`
 eingebunden.
 
+Hero-Titel und strukturierte Daten sind bewusst entkoppelt: Die
+sichtbare Hero-Zeile nutzt `hero.roles` (Persönlichkeits-Tagline,
+z. B. „Entwickler · Schrauber · Maker"), während das `jobTitle`-Feld
+des JSON-LD und der Seiten-`<title>` über `hero.job_title` /
+`meta.title` die präzise Berufsbezeichnung („Senior Software-
+Entwickler") behalten.
+
 ## Routing
 
 Jede Seite hat zwei Routen: eine deutsche (ohne Präfix) und eine
@@ -152,6 +161,9 @@ den Symfony Serializer in Entities deserialisiert:
 
 - `config/content/milestones.json` – Berufliche Meilensteine
 - `config/content/projects.json` – Projekte und Arbeiten
+- `config/content/hobbies.json` – Hobbys/Leidenschaft-Sektion (Feld
+  `icon`: `wrench`, `wheel` oder `remote`; das Template mappt den
+  Wert auf ein Inline-SVG)
 
 Jeder Eintrag enthält ein `language`-Feld als erstes Feld.
 Änderungen an Inhalten erfordern keine Code-Änderungen.
@@ -189,7 +201,23 @@ trennt im Mobile-Menü die Sektions-Links von den Optionen. Das Menü
 schließt bei Außenklick, Escape und beim Wechsel auf Desktop; der Fokus
 wird beim Öffnen ins Menü und beim Schließen zurück auf den Hamburger
 geführt. Die Sektions-Links liefert die Startseite über den
-`header_nav`-Block.
+`header_nav`-Block. Die Startseite gliedert sich in die Sektions-Anker
+`#milestones`, `#work`, `#hobbies` und `#location`; das Scroll-Spy-Skript
+hebt den jeweils aktiven Link hervor (Liste der Sektionen im Skript
+synchron halten).
+
+## Code-Konventionen
+
+- **Kommentare sind grundsätzlich Englisch** – das gilt auch für
+  Twig-Kommentare (`{# … #}`), inklusive der Sektions-Trenner. Damit
+  bleiben Twig, JavaScript und PHP einheitlich. Sichtbarer Inhalt
+  (Übersetzungen, Anzeige-Labels) und die deutschen Projekt-Dokumente
+  sind davon ausgenommen.
+- **Bezeichner sind sprachneutral/Englisch und stabil.** Sie folgen
+  der Domäne, nicht der Anzeige: Entity `Hobby`, `hobbies.json`,
+  Anker `#hobbies` – auch wenn die Kachel „Leidenschaft" heißt.
+  Übersetzungs-Keys nutzen denselben Stamm (`hobbies.*`,
+  `nav.hobbies`).
 
 ## Umgebungsvariablen
 

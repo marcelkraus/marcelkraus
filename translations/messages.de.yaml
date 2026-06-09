@@ -17,6 +17,7 @@ footer:
     data_privacy: 'Datenschutz'
 
 nav:
+    hobbies: 'Leidenschaft'
     location: 'Standort'
     menu: 'Menü'
     milestones: 'Meilensteine'
@@ -27,6 +28,7 @@ hero:
     claim: 'Nicht nur mit Hut. Mit Köpfchen.'
     intro: 'Zuhause in Erftstadt bei Köln, in iOS und im Web – am liebsten remote. Hauptberuflich fest angestellt, nebenberuflich selbstständig.'
     job_title: 'Senior Software-Entwickler'
+    roles: 'Entwickler · Schrauber · Maker'
 
 milestones:
     title: 'Meilensteine'
@@ -44,6 +46,10 @@ projects:
     aria_previous: 'Vorheriges Projekt'
     aria_next: 'Nächstes Projekt'
     aria_close: 'Schliessen'
+
+hobbies:
+    title: 'Leidenschaft'
+    description: 'Wenn ich nicht am Mac sitze, stehe ich an der Werkbank oder in der Werkstatt: Ich baue neu und baue um. Was mich antreibt, sind klassische US-Sportwagen, die Geschwindigkeit auf der Nordschleife und der Reiz, alte Dinge mit den eigenen Händen wieder wie neu zu machen.'
 
 location:
     address: 'Adresse'

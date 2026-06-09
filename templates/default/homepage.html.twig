@@ -8,6 +8,7 @@
     <nav class="flex flex-col sm:flex-row sm:items-center gap-5 sm:gap-6 text-base sm:text-sm font-medium sm:border-r sm:border-border sm:dark:border-border-dark sm:pr-6">
         <a href="#milestones" data-nav="milestones" onclick="closeMobileMenu()" class="text-muted hover:text-foreground dark:hover:text-foreground-dark transition-colors duration-300">{{ 'nav.milestones'|trans }}</a>
         <a href="#work" data-nav="work" onclick="closeMobileMenu()" class="text-muted hover:text-foreground dark:hover:text-foreground-dark transition-colors duration-300">{{ 'nav.projects'|trans }}</a>
+        <a href="#hobbies" data-nav="hobbies" onclick="closeMobileMenu()" class="text-muted hover:text-foreground dark:hover:text-foreground-dark transition-colors duration-300">{{ 'nav.hobbies'|trans }}</a>
         <a href="#location" data-nav="location" onclick="closeMobileMenu()" class="text-muted hover:text-foreground dark:hover:text-foreground-dark transition-colors duration-300">{{ 'nav.location'|trans }}</a>
     </nav>
     <hr class="sm:hidden w-full h-px border-0 bg-border dark:bg-border-dark" />
@@ -24,7 +25,7 @@
                 src="{{ asset('images/avatar.jpg') }}"
             />
             <h1 class="mt-8 text-4xl sm:text-6xl font-bold tracking-tight">Marcel Kraus</h1>
-            <p class="mt-3 text-xl sm:text-2xl font-medium tracking-tight text-accent">{{ 'hero.job_title'|trans }}</p>
+            <p class="mt-3 text-xl sm:text-2xl font-medium tracking-tight text-accent">{{ 'hero.roles'|trans }}</p>
             <p class="mt-8 text-lg sm:text-xl font-medium text-foreground dark:text-foreground-dark">{{ 'hero.claim'|trans }}</p>
             <p class="mt-4 max-w-xl mx-auto text-lg text-foreground-subtle dark:text-foreground-subtle-dark leading-relaxed">{{ 'hero.intro'|trans|raw }}</p>
         </div>
@@ -36,15 +37,15 @@
         </a>
     </section>
 
-    {# ── Meilensteine ── #}
+    {# ── Milestones ── #}
     <section class="max-w-6xl mx-auto px-8 pt-24 pb-24 scroll-mt-40" id="milestones">
         <h2 class="text-3xl sm:text-4xl font-bold">{{ 'milestones.title'|trans }}</h2>
         <div class="mt-4 w-12 h-1 bg-accent"></div>
         <p class="mt-8 max-w-2xl text-foreground-subtle dark:text-foreground-subtle-dark leading-relaxed">{{ 'milestones.description'|trans }}</p>
 
-        {# Horizontaler Modus (Desktop) #}
+        {# Horizontal mode (desktop) #}
         <div class="hidden lg:block mt-16 relative">
-            {# Timeline-Leiste #}
+            {# Timeline bar #}
             <div class="relative flex items-center px-8 mb-12">
                 <div class="absolute inset-x-8 h-px bg-border dark:bg-border-dark"></div>
                 <div class="relative flex justify-between w-full" id="timeline-markers">
@@ -64,7 +65,7 @@
                 </div>
             </div>
 
-            {# Karussell #}
+            {# Carousel #}
             <div class="relative overflow-hidden">
                 <div class="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-surface dark:from-surface-dark to-transparent pointer-events-none z-[5]"></div>
                 <div class="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-surface dark:from-surface-dark to-transparent pointer-events-none z-[5]"></div>
@@ -123,7 +124,7 @@
             </div>
         </div>
 
-        {# Vertikaler Modus (Mobile/Tablet) #}
+        {# Vertical mode (mobile/tablet) #}
         <div class="lg:hidden relative ml-10 mt-16 space-y-8">
             <div class="absolute top-0 bottom-0 left-0 w-px bg-border dark:bg-border-dark"></div>
 
@@ -162,7 +163,7 @@
         </div>
     </section>
 
-    {# ── Projekte ── #}
+    {# ── Projects ── #}
     <section class="max-w-6xl mx-auto px-8 pt-24 pb-32 scroll-mt-40" id="work">
         <h2 class="text-3xl sm:text-4xl font-bold">{{ 'projects.title'|trans }}</h2>
         <div class="mt-4 w-12 h-1 bg-accent"></div>
@@ -195,7 +196,38 @@
         </div>
     </section>
 
-    {# ── Standort ── #}
+    {# ── Hobbies ── #}
+    <section class="max-w-6xl mx-auto px-8 pt-24 pb-32 scroll-mt-40" id="hobbies">
+        <h2 class="text-3xl sm:text-4xl font-bold">{{ 'hobbies.title'|trans }}</h2>
+        <div class="mt-4 w-12 h-1 bg-accent"></div>
+        <p class="mt-8 max-w-2xl text-foreground-subtle dark:text-foreground-subtle-dark leading-relaxed">{{ 'hobbies.description'|trans }}</p>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
+            {% for hobby in hobbies %}
+                <div class="rounded-2xl border border-border dark:border-border-dark bg-surface-elevated dark:bg-surface-elevated-dark shadow-lg p-8">
+                    <div class="w-12 h-12 flex items-center justify-center rounded-2xl bg-accent/10 text-accent">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                            {% if hobby.icon == 'wrench' %}
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M11.42 15.17 17.25 21A2.652 2.652 0 0 0 21 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 1 1-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 0 0 4.486-6.336l-3.276 3.277a3.004 3.004 0 0 1-2.25-2.25l3.276-3.276a4.5 4.5 0 0 0-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26" />
+                            {% elseif hobby.icon == 'wheel' %}
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M14.5 12a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0Z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M4 10.5c2.5.9 5 1.3 8 1.3s5.5-.4 8-1.3M12 14.5V21" />
+                            {% elseif hobby.icon == 'remote' %}
+                                <rect x="4.5" y="9" width="15" height="10.5" rx="2" />
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 13.5a1.3 1.3 0 1 1-2.6 0 1.3 1.3 0 0 1 2.6 0ZM16.1 13.5a1.3 1.3 0 1 1-2.6 0 1.3 1.3 0 0 1 2.6 0Z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 9 18 4.5" />
+                            {% endif %}
+                        </svg>
+                    </div>
+                    <h3 class="mt-6 font-bold text-lg">{{ hobby.title }}</h3>
+                    <p class="mt-3 text-sm text-foreground-subtle dark:text-foreground-subtle-dark leading-relaxed">{{ hobby.description }}</p>
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    {# ── Location ── #}
     <section class="max-w-6xl mx-auto scroll-mt-40 px-8 pt-24 pb-32 isolate" id="location">
         <h2 class="text-3xl sm:text-4xl font-bold">{{ 'location.title'|trans }}</h2>
         <div class="mt-4 w-12 h-1 bg-accent"></div>
@@ -224,7 +256,7 @@
     {# ── Showcase Modal ── #}
     <div id="showcase-overlay" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/60 backdrop-blur-sm" role="dialog" aria-modal="true" onclick="closeShowcase(event)">
         <div class="relative max-w-2xl w-full mx-4" onclick="event.stopPropagation()">
-            {# Desktop-Pfeile (seitlich) #}
+            {# Desktop arrows (sides) #}
             <button id="showcase-prev-desktop" class="hidden absolute -left-14 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-surface-elevated dark:bg-surface-elevated-dark shadow-lg lg:items-center lg:justify-center hover:bg-surface-subtle dark:hover:bg-surface-subtle-dark transition-colors duration-300 cursor-pointer" onclick="navigateShowcase(-1)" aria-label="{{ 'projects.aria_previous'|trans }}">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
@@ -244,7 +276,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
                 </svg>
             </button>
-            {# Mobile-Pfeile (unterhalb des Dialogs) #}
+            {# Mobile arrows (below the dialog) #}
             <div class="flex lg:hidden justify-center gap-6 mt-4" id="showcase-nav-mobile">
                 <button id="showcase-prev-mobile" class="hidden w-10 h-10 rounded-full bg-surface-elevated dark:bg-surface-elevated-dark shadow-lg items-center justify-center hover:bg-surface-subtle dark:hover:bg-surface-subtle-dark transition-colors duration-300 cursor-pointer" onclick="navigateShowcase(-1)" aria-label="{{ 'projects.aria_previous'|trans }}">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -414,7 +446,7 @@
             });
         }
 
-        const sections = Array.from(document.querySelectorAll('#milestones, #work, #location'));
+        const sections = Array.from(document.querySelectorAll('#milestones, #work, #hobbies, #location'));
 
         function updateActiveNav() {
             const scrollY = window.scrollY + window.innerHeight / 2;

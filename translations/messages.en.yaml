@@ -17,6 +17,7 @@ footer:
     data_privacy: 'Privacy Policy'
 
 nav:
+    hobbies: 'Passion'
     location: 'Location'
     menu: 'Menu'
     milestones: 'Milestones'
@@ -27,6 +28,7 @@ hero:
     claim: 'Known for the hat. Hired for the head.'
     intro: 'At home in Erftstadt near Cologne, in iOS and on the web – remote by preference. Permanently employed, self-employed on the side.'
     job_title: 'Senior Software Developer'
+    roles: 'Developer · Gearhead · Maker'
 
 milestones:
     title: 'Milestones'
@@ -44,6 +46,10 @@ projects:
     aria_previous: 'Previous project'
     aria_next: 'Next project'
     aria_close: 'Close'
+
+hobbies:
+    title: 'Passion'
+    description: 'When I am not at the Mac, I am at the workbench or in the workshop: I build and rebuild. What drives me are classic US sports cars, the speed on the Nordschleife and the appeal of making old things as good as new again with my own hands.'
 
 location:
     address: 'Address'
