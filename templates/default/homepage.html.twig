@@ -5,13 +5,13 @@
 {% endblock %}
 
 {% block header_nav %}
-    <nav class="flex flex-col sm:flex-row sm:items-center gap-5 sm:gap-6 text-base sm:text-sm font-medium sm:border-r sm:border-border sm:dark:border-border-dark sm:pr-6">
+    <nav class="flex flex-col min-[50rem]:flex-row min-[50rem]:items-center gap-5 min-[50rem]:gap-6 text-base min-[50rem]:text-sm font-medium min-[50rem]:border-r min-[50rem]:border-border min-[50rem]:dark:border-border-dark min-[50rem]:pr-6">
         <a href="#milestones" data-nav="milestones" onclick="closeMobileMenu()" class="text-muted hover:text-foreground dark:hover:text-foreground-dark transition-colors duration-300">{{ 'nav.milestones'|trans }}</a>
         <a href="#work" data-nav="work" onclick="closeMobileMenu()" class="text-muted hover:text-foreground dark:hover:text-foreground-dark transition-colors duration-300">{{ 'nav.projects'|trans }}</a>
         <a href="#hobbies" data-nav="hobbies" onclick="closeMobileMenu()" class="text-muted hover:text-foreground dark:hover:text-foreground-dark transition-colors duration-300">{{ 'nav.hobbies'|trans }}</a>
         <a href="#location" data-nav="location" onclick="closeMobileMenu()" class="text-muted hover:text-foreground dark:hover:text-foreground-dark transition-colors duration-300">{{ 'nav.location'|trans }}</a>
     </nav>
-    <hr class="sm:hidden w-full h-px border-0 bg-border dark:bg-border-dark" />
+    <hr class="min-[50rem]:hidden w-full h-px border-0 bg-border dark:bg-border-dark" />
 {% endblock %}
 
 {% block body %}

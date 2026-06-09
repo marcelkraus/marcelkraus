@@ -193,11 +193,17 @@ weiterhin das schmalere `max-w-3xl` (Lesbarkeit der Prosa).
 ### Navigation (Header)
 
 Sektions-Navigation, Theme- und Sprachumschalter bündelt der Header in
-`#header-controls` (eine einzige Instanz). Auf Desktop (ab `sm`) steht
-der Block inline rechts; auf Mobile ist er ausgeblendet und klappt über
-den rechtsbündigen Hamburger (`#btn-menu`) als Dropdown auf
-(Klasse `.mobile-open`, Styles in `input.css`). Eine graue Trennlinie
-trennt im Mobile-Menü die Sektions-Links von den Optionen. Das Menü
+`#header-controls` (eine einzige Instanz). Der Umschaltpunkt ist die
+maßgeschneiderte Breakpoint-Variante `min-[50rem]` (800px), nicht ein
+Standard-Breakpoint: Die vier deutschen Nav-Labels plus Optionen passen
+erst ab ~784px komfortabel inline, `md` (768px) wäre zu eng. Ab `50rem`
+steht der Block inline rechts; darunter ist er ausgeblendet und klappt
+über den rechtsbündigen Hamburger (`#btn-menu`) als Dropdown auf
+(Klasse `.mobile-open`, Styles in `input.css` – die `@media`-Grenze dort
+und das `matchMedia` im JS sind auf `50rem` zu halten). Der
+Theme-Umschalter nutzt Mond-/Sonne-Icons (Nacht/Tag) statt Text; die
+Labels stecken in `aria-label`. Eine graue Trennlinie trennt im
+Mobile-Menü die Sektions-Links von den Optionen. Das Menü
 schließt bei Außenklick, Escape und beim Wechsel auf Desktop; der Fokus
 wird beim Öffnen ins Menü und beim Schließen zurück auf den Hamburger
 geführt. Die Sektions-Links liefert die Startseite über den

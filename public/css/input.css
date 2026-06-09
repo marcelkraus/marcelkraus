@@ -64,7 +64,7 @@ address {
 }
 
 /* Mobile dropdown for the header controls (sections, theme, language). */
-@media (width < 40rem) {
+@media (width < 50rem) {
     #header-controls.mobile-open {
         position: absolute;
         top: 100%;
