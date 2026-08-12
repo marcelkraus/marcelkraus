@@ -164,26 +164,25 @@
             <p class="mt-3 font-mono text-[0.8125rem] uppercase tracking-[0.1em] text-neutral-500">Hobbyschrauber · RC-Modellbauer · Maker · Sim Racer</p>
             <p class="mt-5 max-w-3xl leading-relaxed text-neutral-600">Wenn ich nicht am Stehschreibtisch stehe, stehe ich an der Werkbank: Was mich packt, ist Automobiltechnik in jedem Maßstab, die Faszination der Nordschleife und der Reiz, eigene Dinge zu erschaffen.</p>
 
-            {# The cards share the section grid's rows, so icon, heading, description
-                   and link block line up across the row and the divider sits at one
-                   height no matter how long a single text is. Two consequences:
-                   the row count has to be spelled out per breakpoint, which ties
-                   these classes to the number of cards; and the padding cannot sit
-                   on the card itself, because a subgrid item does not shift the
-                   inherited row lines — its last row would spill past the border.
-                   So each child carries the horizontal padding instead. The row gap
-                   drops to zero at lg, where all four cards form a single row and
-                   an inherited gap would only pull the cards apart. #}
-                <div class="mt-12 grid gap-x-6 gap-y-6 grid-rows-[repeat(4,auto_auto_1fr_auto)] sm:grid-cols-2 sm:grid-rows-[repeat(2,auto_auto_1fr_auto)] lg:grid-cols-4 lg:grid-rows-[auto_auto_1fr_auto] lg:gap-y-0">
+            {# The cards share the section grid's rows from lg up, where all four
+                   stand side by side and a common divider line is worth having. A
+                   subgrid inherits the parent's row gap, so it would put that gap
+                   between icon, heading and text as well — below lg the cards
+                   therefore fall back to a flex column that pushes its link block
+                   down with mt-auto. The row count is spelled out for four cards;
+                   a fifth means adjusting this line. Padding sits on the children
+                   because a subgrid item does not shift the inherited row lines,
+                   so its last row would spill past the border. #}
+                                <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4 lg:gap-y-0 lg:grid-rows-[auto_auto_1fr_auto]">
                 {% for hobby in hobbies %}
-                    <div class="grid grid-rows-subgrid row-span-4 rounded-xl border border-neutral-200 bg-white">
+                    <div class="flex flex-col rounded-xl border border-neutral-200 bg-white lg:grid lg:grid-rows-subgrid lg:row-span-4">
                         <div class="px-8 pt-8">
                             <span class="flex h-12 w-12 items-center justify-center rounded-xl bg-accent/10 text-accent-on-light">{{ icons.icon(hobby.icon, 'h-6 w-6') }}</span>
                         </div>
                         <h3 class="mt-5 px-8 font-display text-lg font-bold text-neutral-900">{{ hobby.title }}</h3>
-                        <p class="mt-2.5 px-8 pb-8 text-sm leading-relaxed text-neutral-600">{{ hobby.description }}</p>
+                        <p class="mt-2.5 flex-1 px-8 pb-8 text-sm leading-relaxed text-neutral-600 lg:flex-none">{{ hobby.description }}</p>
                         {% if hobby.url is defined and hobby.urlLabel is defined %}
-                            <div class="px-8 pb-8">
+                            <div class="mt-auto px-8 pb-8 lg:mt-0">
                                 {# The rule carries its own label, so the block reads as a
                                    reference rather than as a second paragraph. #}
                                 <div class="flex items-center gap-3">
