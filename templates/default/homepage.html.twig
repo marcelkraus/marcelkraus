@@ -54,7 +54,7 @@
                         { label: 'Modell', value: 'Bevorzugt Remote' }
                     ] %}
                         {% set highlight = fact.highlight|default(false) %}
-                        <div class="inline-flex items-baseline gap-2 rounded-lg border px-3.5 py-2 font-mono text-[0.6875rem] uppercase tracking-[0.12em] {{ highlight ? 'border-accent bg-accent/[0.07]' : 'border-neutral-200 bg-white' }}">
+                        <div class="inline-flex items-baseline gap-2 rounded-lg border px-3.5 py-2 font-mono text-[0.6875rem] uppercase tracking-[0.15em] {{ highlight ? 'border-accent bg-accent/[0.07]' : 'border-neutral-200 bg-white' }}">
                             <dt class="{{ highlight ? 'text-accent-on-light' : 'text-neutral-500' }}">{{ fact.label }}</dt>
                             <dd class="font-bold {{ highlight ? 'text-accent-on-light' : 'text-neutral-900' }}">{{ fact.value }}</dd>
                         </div>
@@ -161,7 +161,7 @@
         <div class="mx-auto max-w-6xl px-6 lg:px-8">
             {{ include('partials/_eyebrow.html.twig', { number: '03', text: 'Leidenschaft' }) }}
             <h2 class="mt-5 font-display text-3xl font-bold tracking-tight text-neutral-900 sm:text-4xl">Was mich sonst antreibt</h2>
-            <p class="mt-3 font-mono text-[0.8125rem] uppercase tracking-[0.1em] text-neutral-500">Hobbyschrauber · RC-Modellbauer · Maker · Sim Racer</p>
+            <p class="mt-3 font-mono text-xs uppercase tracking-[0.15em] text-neutral-500">Hobbyschrauber · RC-Modellbauer · Maker · Sim Racer</p>
             <p class="mt-5 max-w-3xl leading-relaxed text-neutral-600">Wenn ich nicht am Stehschreibtisch stehe, stehe ich an der Werkbank: Was mich packt, ist Automobiltechnik in jedem Maßstab, die Faszination der Nordschleife und der Reiz, eigene Dinge zu erschaffen.</p>
 
             {# The cards share the section grid's rows from lg up, where all four
@@ -191,7 +191,7 @@
                                     <span class="h-px flex-1 bg-neutral-200"></span>
                                 </div>
                                 <div class="pt-5">
-                                    <a href="{{ hobby.url }}" target="_blank" rel="noopener" class="inline-flex items-center gap-1 py-1 font-mono text-xs font-semibold uppercase tracking-[0.12em] text-accent-on-light transition-colors hover:text-accent-on-light-hover">{{ hobby.urlLabel }}{{ icons.icon('external', 'h-3.5 w-3.5') }}</a>
+                                    <a href="{{ hobby.url }}" target="_blank" rel="noopener" class="inline-flex items-center gap-1 py-1 font-mono text-xs font-semibold uppercase tracking-[0.15em] text-accent-on-light transition-colors hover:text-accent-on-light-hover">{{ hobby.urlLabel }}{{ icons.icon('external', 'h-3.5 w-3.5') }}</a>
                                     <span class="mt-1 block text-[0.8125rem] leading-relaxed text-neutral-500">{{ hobby.urlNote|default('') }}</span>
                                 </div>
                             </div>
