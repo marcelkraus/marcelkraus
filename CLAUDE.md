@@ -460,6 +460,12 @@ location and the availability badge as a mono line at the bottom, and the three
 brand squares oversized and cropped off the right edge — the same "texture off
 the right edge" device krausgebaut uses with its gear.
 
+**The bottom line matches both siblings**: the domain without `www.`, set in
+capitals like everything else in mono. It said `www.marcelkraus.de` in mixed
+case for a while, which made this the only card of the three that spelled its
+own address differently from the other two. The claim carries the ampersand
+the title and the hero use; it had been spelled out here alone.
+
 **Hero title and structured data are deliberately decoupled.** The visible hero
 line is the personality tagline; the `jobTitle` field of the JSON-LD and the
 page `<title>` keep the precise job description ("Senior Software-Entwickler").
