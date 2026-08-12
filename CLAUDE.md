@@ -477,6 +477,23 @@ section 5 of the privacy policy, and pinned by `AnalyticsTest`.
 Production runs on **Uberspace 7** (`ssh kraus`) at https://www.marcelkraus.de,
 alongside both sibling projects. The server directory is `~/html/marcelkraus`.
 
+**A push to `main` rolls out by itself.** The workflow runs the gates first
+and starts `bin/deploy` over SSH only if they pass, so nothing reaches the
+server that has not been linted, tested and built. This project is the only
+one of the three that does it; the siblings are still rolled out by hand.
+
+The key GitHub authenticates with is restricted in the server's
+`authorized_keys` to exactly one command — `cd ~/html/marcelkraus &&
+bin/deploy` — with no terminal and no forwarding. That is what makes the
+secret cheap to hold: it can redeploy the state already on `main`, and
+nothing else. Withdraw it by deleting that line on the server; the entries
+there are labelled so they can be told apart.
+
+Three secrets carry it, all in the repository's Actions settings:
+`DEPLOY_SSH_KEY`, `DEPLOY_HOST` and `DEPLOY_USER`.
+
+By hand, unchanged and always available:
+
 ```bash
 ssh kraus 'cd ~/html/marcelkraus && bin/deploy'
 ```
