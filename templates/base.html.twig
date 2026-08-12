@@ -9,8 +9,7 @@
        under the logo in the footer. One source, so they cannot drift apart.
        Subpages override meta_description alone; the footer keeps naming the
        brand rather than the page. #}
-    {% block brand_description %}Marcel Kraus, Senior Software-Entwickler für iOS &amp; Web aus Erftstadt bei Köln, selbstständig seit 2001. Lebenslauf, Werdegang und Kontakt.{% endblock %}
-    <meta name="description" content="{% block meta_description %}{{ block('brand_description') }}{% endblock %}">
+    <meta name="description" content="{% block meta_description %}{% block brand_description %}Marcel Kraus, Senior Software-Entwickler für iOS &amp; Web aus Erftstadt bei Köln, selbstständig seit 2001. Lebenslauf, Werdegang und Kontakt.{% endblock %}{% endblock %}">
     <title>{% block title %}Marcel Kraus · Senior Software-Entwickler für iOS &amp; Web aus Erftstadt bei Köln{% endblock %}</title>
 
     {# Favicons. Three files, all derived from the master artwork: the SVG scales
