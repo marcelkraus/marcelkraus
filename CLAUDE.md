@@ -146,7 +146,7 @@ same five tokens exist on krausgebaut and krausgedruckt under the same names.
 | `accent-on-light-hover` | `purple-800` | hover of type on a light ground |
 
 The purple is a **dark** color, like krausgebaut's petrol: it carries a light
-ground as it is and misses AA as type on a dark one (2.53:1), where it needs
+ground as it is and misses AA as type on a dark one (2.54:1), where it needs
 the brighter step. The hover of a filled surface always moves in whichever
 direction keeps its label readable — here the label is white, so the fill
 **darkens**.
@@ -154,29 +154,29 @@ direction keeps its label readable — here the label is white, so the fill
 The naming makes the rule checkable: **`text-accent` without a role suffix must
 not appear anywhere.** The same split holds for the focus ring: on the footer
 and on the brand band it takes `accent-on-dark`, because the accent measures
-2.53:1 and 2.80:1 there and WCAG 1.4.11 asks 3:1 of an indicator.
+2.54:1 and 2.80:1 there and WCAG 1.4.11 asks 3:1 of an indicator.
 
 **The gray ramp needs the same care as the accent and has no names for it.**
 Measured against the grounds this site actually uses: `neutral-400` carries only
-dark grounds (6.91:1 on `neutral-900`) and fails on white (2.59:1);
-`neutral-500` passes on white (4.73:1) but not on `neutral-100` (4.34:1) and not
-on the dark grounds (3.79:1 / 4.18:1); `neutral-600` carries every light ground
-(7.80:1 / 7.15:1). So: **`neutral-600` for labels on light, `neutral-400` for
+dark grounds (6.94:1 on `neutral-900`) and fails on white (2.58:1);
+`neutral-500` passes on white (4.74:1) but not on `neutral-100` (4.35:1) and not
+on the dark grounds (3.78:1 / 4.18:1); `neutral-600` carries every light ground
+(7.81:1 / 7.17:1). So: **`neutral-600` for labels on light, `neutral-400` for
 secondary text on dark, `neutral-500` only on white.**
 
 The eyebrow separator is the one measured exception: it takes `neutral-500` on
-both grounds (4.34:1 on `neutral-100`, 4.18:1 on the band). It is an
+both grounds (4.35:1 on `neutral-100`, 4.18:1 on the band). It is an
 `aria-hidden` glyph and therefore answers to the 3:1 of WCAG 1.4.11 rather
 than the 4.5:1 of body text — but it had the ramp the wrong way round before
-(2.38:1 and 2.54:1), which is below even that.
+(2.37:1 and 2.53:1), which is below even that.
 
 The two sibling brands have their own tokens, so foreign colors stay out of
 the accent scale: `brand-krausgebaut` (`cyan-800`),
 `brand-krausgebaut-on-dark` (`cyan-600`) and `brand-krausgedruckt`
 (`orange-600`). A role step exists only where the base value fails as type, so
-a missing step is information: the petrol measures 2.73:1 on the dark band and
-needs the brighter step (5.50:1 on the band, 4.97:1 on the footer), the papaya
-passes as it is (5.51:1 / 4.99:1).
+a missing step is information: the petrol measures 2.74:1 on the dark band and
+needs the brighter step (5.47:1 on the band, 4.95:1 on the footer), the papaya
+passes as it is (5.50:1 / 4.98:1).
 
 ### Type, shapes, container
 
@@ -241,7 +241,7 @@ section rhythm.
   carries the accent, the label does not** — both siblings set the whole eyebrow
   in the accent. Here the number leads, so the structure reads before the label
   does. That is the one deliberate deviation of this partial from the family;
-  contrast was not the reason (`accent-on-light` measures 6.49:1 on
+  contrast was not the reason (`accent-on-light` measures 6.48:1 on
   `neutral-100`).
 - **The career is one single vertical list**, on every width, with a hairline
   rail and one square marker per station — the same marker shape as in the

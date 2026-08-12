@@ -60,7 +60,7 @@
 
        The purple is a DARK color, like krausgebaut's petrol: it carries a
        light ground as it is (7.07:1) and misses AA as type on a dark one
-       (2.53:1), where it needs a brighter step (purple-400, 6.42:1). The
+       (2.54:1), where it needs a brighter step (purple-400, 6.42:1). The
        hover of a filled surface moves in whichever direction keeps its label
        readable — here the label is white, so the fill DARKENS. */
     --color-accent: var(--color-purple-700);
@@ -72,10 +72,10 @@
     /* The two sibling brands. They appear as the other two squares in the
        logo, as marker dots in the footer and in the closing brand band.
        A role step exists only where the base value fails as type, so a
-       missing step is information: krausgebaut's petrol measures 2.73:1 on
-       the dark band and needs the brighter cyan-600 (5.50:1 there, 4.97:1 on
-       the footer), while krausgedruckt's papaya passes as it is (5.51:1 and
-       4.99:1). */
+       missing step is information: krausgebaut's petrol measures 2.74:1 on
+       the dark band and needs the brighter cyan-600 (5.47:1 there, 4.95:1 on
+       the footer), while krausgedruckt's papaya passes as it is (5.50:1 and
+       4.98:1). */
     --color-brand-krausgebaut: var(--color-cyan-800);
     --color-brand-krausgebaut-on-dark: var(--color-cyan-600);
     --color-brand-krausgedruckt: var(--color-orange-600);
@@ -109,10 +109,10 @@
         outline-offset: 2px;
     }
 
-    /* The ring follows the same rule as type: the accent measures 2.53:1 on
+    /* The ring follows the same rule as type: the accent measures 2.54:1 on
        the footer and 2.80:1 on the brand band, below the 3:1 that WCAG 1.4.11
        asks of an indicator. On those grounds it takes the brighter step
-       (6.42:1 and 7.10:1). */
+       (6.42:1 and 7.09:1). */
     .bg-neutral-900 :focus-visible,
     .bg-neutral-950 :focus-visible {
         outline-color: var(--color-accent-on-dark);
