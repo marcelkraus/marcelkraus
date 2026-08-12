@@ -115,7 +115,7 @@ necessarily missing here.
 | `GET /kontakt-per-email` | `app_contact_email` | Redirect to `mailto:` |
 | `GET /kontakt-per-whats-app` | `app_contact_whats_app` | Redirect to WhatsApp |
 | `GET /impressum` | `app_imprint` | Imprint (`noindex,follow`) |
-| `GET /datenschutz` | `app_privacy` | Privacy policy (`noindex,follow`) |
+| `GET /datenschutz` | `app_data_privacy` | Privacy policy (`noindex,follow`) |
 | `GET /robots.txt` | `app_robots` | robots (absolute sitemap URL) |
 | `GET /sitemap.xml` | `app_sitemap` | Sitemap (the homepage) |
 
