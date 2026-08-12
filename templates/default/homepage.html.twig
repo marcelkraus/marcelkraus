@@ -191,7 +191,7 @@
                                     <span class="h-px flex-1 bg-neutral-200"></span>
                                 </div>
                                 <div class="pt-5">
-                                    <a href="{{ hobby.url }}" target="_blank" rel="noopener" class="inline-flex items-center gap-1 font-mono text-xs font-semibold uppercase tracking-[0.12em] text-accent-on-light transition-colors hover:text-accent-on-light-hover">{{ hobby.urlLabel }}{{ icons.icon('external', 'h-3.5 w-3.5') }}</a>
+                                    <a href="{{ hobby.url }}" target="_blank" rel="noopener" class="inline-flex items-center gap-1 py-1 font-mono text-xs font-semibold uppercase tracking-[0.12em] text-accent-on-light transition-colors hover:text-accent-on-light-hover">{{ hobby.urlLabel }}{{ icons.icon('external', 'h-3.5 w-3.5') }}</a>
                                     <span class="mt-1 block text-[0.8125rem] leading-relaxed text-neutral-500">{{ hobby.urlNote|default('') }}</span>
                                 </div>
                             </div>
@@ -228,15 +228,15 @@
                         </div>
                         <div class="flex items-start gap-4 py-5">
                             <span class="mt-0.5 text-accent-on-light">{{ icons.icon('mail', 'h-5 w-5') }}</span>
-                            <div><dt class="font-mono text-xs uppercase tracking-[0.15em] text-neutral-600">E-Mail</dt><dd class="mt-1.5 text-sm"><a class="font-semibold text-accent-on-light transition-colors hover:text-accent-on-light-hover" href="{{ path('app_contact_email') }}">Schreiben Sie mir eine E-Mail</a></dd></div>
+                            <div><dt class="font-mono text-xs uppercase tracking-[0.15em] text-neutral-600">E-Mail</dt><dd class="mt-1.5 text-sm"><a class="inline-block py-1 font-semibold text-accent-on-light transition-colors hover:text-accent-on-light-hover" href="{{ path('app_contact_email') }}">Schreiben Sie mir eine E-Mail</a></dd></div>
                         </div>
                         <div class="flex items-start gap-4 py-5">
                             <span class="mt-0.5 text-accent-on-light">{{ icons.icon('external', 'h-5 w-5') }}</span>
-                            <div><dt class="font-mono text-xs uppercase tracking-[0.15em] text-neutral-600">LinkedIn</dt><dd class="mt-1.5 text-sm"><a class="font-semibold text-accent-on-light transition-colors hover:text-accent-on-light-hover" href="https://www.linkedin.com/in/kraus-marcel" target="_blank" rel="noopener">Schreiben Sie mir über LinkedIn</a></dd></div>
+                            <div><dt class="font-mono text-xs uppercase tracking-[0.15em] text-neutral-600">LinkedIn</dt><dd class="mt-1.5 text-sm"><a class="inline-block py-1 font-semibold text-accent-on-light transition-colors hover:text-accent-on-light-hover" href="https://www.linkedin.com/in/kraus-marcel" target="_blank" rel="noopener">Schreiben Sie mir über LinkedIn</a></dd></div>
                         </div>
                         <div class="flex items-start gap-4 py-5">
                             <span class="mt-0.5 text-accent-on-light">{{ icons.icon('chat', 'h-5 w-5') }}</span>
-                            <div><dt class="font-mono text-xs uppercase tracking-[0.15em] text-neutral-600">WhatsApp</dt><dd class="mt-1.5 text-sm"><a class="font-semibold text-accent-on-light transition-colors hover:text-accent-on-light-hover" href="{{ path('app_contact_whats_app') }}">Schreiben Sie mir per WhatsApp</a></dd></div>
+                            <div><dt class="font-mono text-xs uppercase tracking-[0.15em] text-neutral-600">WhatsApp</dt><dd class="mt-1.5 text-sm"><a class="inline-block py-1 font-semibold text-accent-on-light transition-colors hover:text-accent-on-light-hover" href="{{ path('app_contact_whats_app') }}">Schreiben Sie mir per WhatsApp</a></dd></div>
                         </div>
                         <div class="flex items-start gap-4 py-5">
                             <span class="mt-0.5 text-accent-on-light">{{ icons.icon('info', 'h-5 w-5') }}</span>
@@ -247,7 +247,7 @@
 
                 <div>
                     {% if app.flashes('contact_success') %}
-                        <div class="flex items-start gap-4 rounded-xl border border-neutral-900 bg-white p-8">
+                        <div class="flex items-start gap-4 rounded-xl border border-neutral-900 bg-white p-8" role="status">
                             <span class="mt-0.5 text-accent-on-light">{{ icons.icon('check', 'h-7 w-7') }}</span>
                             <div>
                                 <h3 class="font-display text-xl font-bold text-neutral-900">Vielen Dank für Ihre Nachricht!</h3>
