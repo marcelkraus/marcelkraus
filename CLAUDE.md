@@ -183,8 +183,11 @@ passes as it is (5.50:1 / 4.98:1).
 - **Typography:** `font-display` = `font-sans` = Aller (wordmark, headlines and
   body, which ties the type to the logo); `font-mono` = JetBrains Mono for
   eyebrows, labels, years and technical data.
-- **Corners:** soft on purpose — `rounded-lg` for buttons, fields and tags,
-  `rounded-xl` for cards and containers.
+- **Corners scale with the surface:** `rounded-[2px]` for the square markers,
+  `rounded-md` for tags and badges, `rounded-lg` for buttons and fields,
+  `rounded-xl` for cards and containers. A tag stands around 24 pixels tall,
+  where an 8-pixel radius reads as a pill and fights the square marker; six
+  pixels at that height is the shape a button has at twice the size.
 - **Cards are free-standing:** `rounded-xl border border-neutral-200 bg-white`
   in a `gap-6` grid. Deliberately **no** hairline (`gap-px`) grids.
 - **Container:** `max-w-6xl mx-auto px-6 lg:px-8`; legal pages `max-w-3xl`. The
