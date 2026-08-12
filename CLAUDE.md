@@ -99,7 +99,8 @@ public/             css/, fonts/, images/, favicon.*, apple-touch-icon.png
 
 Each partial is the single source for its pattern: `_logo` (brand lockup),
 `_eyebrow` (mono label with square marker and optional section number),
-`_icons` (line-icon macro), `_contact_form`.
+`_icons` (line-icon macro), `_button_class` (the button skin as a bare class
+string, in two sizes), `_contact_form`.
 
 `_icons` keeps **no stock**: every name in it has a caller, and the names are
 alphabetical. Most come from Heroicons v2 outline, `remote` and `wheel` are
@@ -223,8 +224,7 @@ What differs on purpose: this footer carries four contact rows, because
 LinkedIn belongs on a curriculum vitae and not on a sales page. What
 does not differ: behavior. The burger's icon swap and the outside-click
 close were carried back to both siblings in the same pass rather than left
-here. The `=== false` spelling reached krausgedruckt; krausgebaut still has
-the `!` and is owed the same edit.
+here, and the `=== false` spelling now holds in all three.
 
 - **Header:** a three-column grid, not a flex row. The fixed first column
   (`lg:grid-cols-[10rem_1fr_auto]`) starts at `lg`, where the navigation is
