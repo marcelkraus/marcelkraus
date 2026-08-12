@@ -1,0 +1,104 @@
+[
+    {
+        "group": "Täglich",
+        "entries": [
+            {
+                "name": "Git",
+                "since": "seit 2010"
+            },
+            {
+                "name": "iOS"
+            },
+            {
+                "name": "macOS"
+            },
+            {
+                "name": "PHP / MySQL",
+                "since": "seit 2001"
+            },
+            {
+                "name": "Swift",
+                "since": "seit 2017"
+            },
+            {
+                "name": "SwiftUI",
+                "since": "seit 2019"
+            },
+            {
+                "name": "Symfony",
+                "since": "seit 2008"
+            },
+            {
+                "name": "Tailwind CSS",
+                "since": "seit 2024"
+            },
+            {
+                "name": "UIKit",
+                "since": "seit 2017"
+            }
+        ]
+    },
+    {
+        "group": "Regelmäßig",
+        "entries": [
+            {
+                "name": "Arduino",
+                "since": "seit 2014"
+            },
+            {
+                "name": "CAN-Bus",
+                "since": "seit 2024"
+            },
+            {
+                "name": "Linux"
+            },
+            {
+                "name": "Objective-C",
+                "since": "seit 2017"
+            },
+            {
+                "name": "Twig",
+                "since": "seit 2010"
+            }
+        ]
+    },
+    {
+        "group": "Arbeitsweise",
+        "entries": [
+            {
+                "name": "Code Reviews"
+            },
+            {
+                "name": "KI-gestützt"
+            },
+            {
+                "name": "Mentoring"
+            },
+            {
+                "name": "PRINCE2",
+                "since": "seit 2015"
+            },
+            {
+                "name": "Scrum",
+                "since": "seit 2016"
+            }
+        ]
+    },
+    {
+        "group": "Schwerpunkte",
+        "entries": [
+            {
+                "name": "Anforderungsanalyse"
+            },
+            {
+                "name": "Hinterfragen und Entwickeln"
+            },
+            {
+                "name": "Kommunikation"
+            },
+            {
+                "name": "Produktentwicklung"
+            }
+        ]
+    }
+]

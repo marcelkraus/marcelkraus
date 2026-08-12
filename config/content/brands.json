@@ -1,0 +1,18 @@
+[
+    {
+        "name": "krausgebaut",
+        "title": "Internet- & IT-Dienstleistungen",
+        "since": "seit 2001",
+        "description": "Ob App- & Web-Entwicklung, Durchführung von Schulungen & Workshops oder IT-Support vor Ort im Rhein-Erft-Kreis.",
+        "url": "https://www.krausgebaut.de",
+        "colorToken": "krausgebaut"
+    },
+    {
+        "name": "krausgedruckt",
+        "title": "3D-Druck-Dienstleistungen",
+        "since": "seit 2023",
+        "description": "Additive Fertigung von Prototypen, Ersatzteilen, Werkzeugen, Dekoartikeln und mehr nach individuellen Vorgaben.",
+        "url": "https://www.krausgedruckt.de",
+        "colorToken": "krausgedruckt"
+    }
+]

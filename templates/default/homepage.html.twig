@@ -1,494 +1,329 @@
 {% extends 'base.html.twig' %}
+{% import 'partials/_icons.html.twig' as icons %}
 
-{% block stylesheets %}
-    <link rel="stylesheet" href="{{ asset('vendor/leaflet/leaflet.css') }}" />
+{% block structured_data %}
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "Person",
+            "name": "Marcel Kraus",
+            "jobTitle": "Senior Software-Entwickler",
+            "url": "https://www.marcelkraus.de",
+            "image": "{{ app.request.schemeAndHttpHost ~ asset('images/portrait.jpg') }}",
+            "address": {
+                "@type": "PostalAddress",
+                "addressLocality": "Erftstadt",
+                "addressRegion": "Nordrhein-Westfalen",
+                "addressCountry": "DE"
+            },
+            "sameAs": [
+                "https://www.krausgebaut.de",
+                "https://www.krausgedruckt.de",
+                "https://www.linkedin.com/in/kraus-marcel"
+            ],
+            "knowsAbout": {{ knowsAbout|json_encode(constant('JSON_HEX_TAG') b-or constant('JSON_UNESCAPED_UNICODE'))|raw }}
+        }
+    </script>
 {% endblock %}
 
-{% block header_nav %}
-    <nav class="flex flex-col min-[50rem]:flex-row min-[50rem]:items-center gap-5 min-[50rem]:gap-6 text-base min-[50rem]:text-sm font-medium min-[50rem]:border-r min-[50rem]:border-border min-[50rem]:dark:border-border-dark min-[50rem]:pr-6">
-        <a href="#milestones" data-nav="milestones" onclick="closeMobileMenu()" class="text-muted hover:text-foreground dark:hover:text-foreground-dark transition-colors duration-300">{{ 'nav.milestones'|trans }}</a>
-        <a href="#work" data-nav="work" onclick="closeMobileMenu()" class="text-muted hover:text-foreground dark:hover:text-foreground-dark transition-colors duration-300">{{ 'nav.projects'|trans }}</a>
-        <a href="#hobbies" data-nav="hobbies" onclick="closeMobileMenu()" class="text-muted hover:text-foreground dark:hover:text-foreground-dark transition-colors duration-300">{{ 'nav.hobbies'|trans }}</a>
-        <a href="#location" data-nav="location" onclick="closeMobileMenu()" class="text-muted hover:text-foreground dark:hover:text-foreground-dark transition-colors duration-300">{{ 'nav.location'|trans }}</a>
-    </nav>
-    <hr class="min-[50rem]:hidden w-full h-px border-0 bg-border dark:bg-border-dark" />
-{% endblock %}
+{% block content %}
+    {# ── Hero ───────────────────────────────────────────────────────
+       Content-sized, not a full screen: a recruiter decides here whether to
+       read on, so the first view carries checkable facts rather than a
+       photograph and a scroll hint. #}
+    <section class="bg-neutral-50 pt-32 pb-20 lg:pt-40 lg:pb-28">
+        <div class="mx-auto grid max-w-6xl items-center gap-8 px-6 lg:grid-cols-[1fr_18rem] lg:gap-16 lg:px-8">
+            <div>
+                {{ include('partials/_eyebrow.html.twig', { text: 'Lebenslauf' }) }}
+                <h1 class="mt-6 font-display text-5xl font-bold leading-[1.03] tracking-tight text-neutral-900 sm:text-6xl lg:text-[4.25rem]">Marcel Kraus</h1>
+                <p class="mt-4 font-display text-2xl font-bold tracking-tight text-accent-on-light">Senior Software-Entwickler · iOS &amp; Web</p>
+                <p class="mt-7 font-display text-lg font-bold text-neutral-900">Nicht nur mit Hut. Mit Köpfchen.</p>
+                <p class="mt-5 max-w-2xl leading-relaxed text-neutral-600">Der Herd ist nicht aus – nur die Küche wechselt. Nach zehn Jahren bei Chefkoch habe ich Lust auf ein neues Rezept. iOS und das Web sind mein Handwerk, zuhause bin ich in Erftstadt bei Köln.</p>
 
-{% block body %}
-    <main id="main-content">
-    {# ── Hero ── #}
-    <section class="h-[100svh] flex flex-col items-center justify-center px-8 relative hero-grid" id="hero">
-        <div class="text-center animate-fade-in">
-            <img
-                alt="{{ 'hero.alt_avatar'|trans }}"
-                class="w-40 h-40 rounded-full ring-4 ring-border dark:ring-border-dark mx-auto shadow-lg transition-transform duration-500 hover:scale-105 object-cover"
-                src="{{ asset('images/avatar.jpg') }}"
-            />
-            <h1 class="mt-8 text-4xl sm:text-6xl font-bold tracking-tight">Marcel Kraus</h1>
-            <p class="mt-3 text-xl sm:text-2xl font-medium tracking-tight text-accent">{{ 'hero.roles'|trans }}</p>
-            <p class="mt-8 text-lg sm:text-xl font-medium text-foreground dark:text-foreground-dark">{{ 'hero.claim'|trans }}</p>
-            <p class="mt-4 max-w-xl mx-auto text-lg text-foreground-subtle dark:text-foreground-subtle-dark leading-relaxed">{{ 'hero.intro'|trans|raw }}</p>
+                {# Small single-line chips, the same build as on krausgebaut: only
+                   as wide as their content, so they wrap cleanly at every width.
+                   Boxes with a fixed minimum width produced a ragged staircase
+                   at 390 pixels. #}
+                <dl class="mt-10 flex flex-wrap gap-2.5">
+                    {% for fact in [
+                        { label: 'Verfügbarkeit', value: 'Sofort', highlight: true },
+                        { label: 'Standort', value: 'Erftstadt bei Köln' },
+                        { label: 'iOS', value: 'seit 2017' },
+                        { label: 'Web', value: 'seit 2001' },
+                        { label: 'Sprachen', value: 'Deutsch, Englisch' },
+                        { label: 'Modell', value: 'Bevorzugt Remote' }
+                    ] %}
+                        {% set highlight = fact.highlight|default(false) %}
+                        <div class="inline-flex items-baseline gap-2 rounded-lg border px-3.5 py-2 font-mono text-[0.6875rem] uppercase tracking-[0.12em] {{ highlight ? 'border-accent bg-accent/[0.07]' : 'border-neutral-200 bg-white' }}">
+                            <dt class="{{ highlight ? 'text-accent-on-light' : 'text-neutral-500' }}">{{ fact.label }}</dt>
+                            <dd class="font-bold {{ highlight ? 'text-accent-on-light' : 'text-neutral-900' }}">{{ fact.value }}</dd>
+                        </div>
+                    {% endfor %}
+                </dl>
+            </div>
+
+            {# Above the name on a phone, filling the right column from `lg`.
+               Without the photograph the claim above is a claim about a hat
+               that nobody can see. #}
+            <div class="order-first lg:order-none">
+                <img src="{{ asset('images/portrait.jpg') }}" alt="Marcel Kraus" width="576" height="720" class="aspect-[4/5] w-32 rounded-xl border border-neutral-200 object-cover sm:w-44 lg:w-full">
+            </div>
         </div>
-        <div class="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-surface dark:from-surface-dark to-transparent pointer-events-none z-[5]"></div>
-        <a href="#milestones" class="absolute bottom-20 z-10 animate-bounce-down text-muted transition-colors hover:text-accent">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
-            </svg>
-        </a>
     </section>
 
-    {# ── Milestones ── #}
-    <section class="max-w-6xl mx-auto px-8 pt-24 pb-24 scroll-mt-40" id="milestones">
-        <h2 class="text-3xl sm:text-4xl font-bold">{{ 'milestones.title'|trans }}</h2>
-        <div class="mt-4 w-12 h-1 bg-accent"></div>
-        <p class="mt-8 max-w-2xl text-foreground-subtle dark:text-foreground-subtle-dark leading-relaxed">{{ 'milestones.description'|trans }}</p>
+    {# ── 01 Werdegang ───────────────────────────────────────────────
+       One single vertical list, on every width. The former carousel showed
+       less on the desktop than on the phone and kept hidden cards in the tab
+       order. #}
+    <section id="werdegang" class="py-24 lg:py-32">
+        <div class="mx-auto max-w-6xl px-6 lg:px-8">
+            {{ include('partials/_eyebrow.html.twig', { number: '01', text: 'Werdegang' }) }}
+            <h2 class="mt-5 font-display text-3xl font-bold tracking-tight text-neutral-900 sm:text-4xl">Berufliche Stationen</h2>
+            <p class="mt-5 max-w-3xl leading-relaxed text-neutral-600">Vom ersten Ausflug in die Berufswelt über meine Selbstständigkeit als Internet- &amp; IT-Dienstleister bis zum Senior Software-Entwickler: die wichtigen Meilensteine meiner beruflichen Laufbahn.</p>
 
-        {# Horizontal mode (desktop) #}
-        <div class="hidden lg:block mt-16 relative">
-            {# Timeline bar #}
-            <div class="relative flex items-center px-8 mb-12">
-                <div class="absolute inset-x-8 h-px bg-border dark:bg-border-dark"></div>
-                <div class="relative flex justify-between w-full" id="timeline-markers">
-                    {% set prevYear = null %}
-                    {% for milestone in milestones %}
-                        {% set year = milestone.startDate[:4] %}
-                        <div class="flex flex-col items-center">
-                            <button onclick="goToSlide({{ loop.index0 }})" aria-label="{{ milestone.position }}" class="p-2 -m-2 cursor-pointer group">
-                                <span data-slide="{{ loop.index0 }}" class="block w-3 h-3 rounded-[3px] transition-all duration-300 group-hover:scale-150 {{ loop.first ? 'bg-brand-marcelkraus scale-125' : 'bg-muted' }}"></span>
-                            </button>
-                            {% if prevYear != year %}
-                                <span class="mt-2 text-xs text-muted font-medium">{{ milestone.endDate is null ? 'milestones.since'|trans ~ ' ' ~ year : (milestone.endDate[:4] != year ? year ~ '–' ~ milestone.endDate[:4] : year) }}</span>
-                            {% endif %}
-                        </div>
-                        {% set prevYear = year %}
-                    {% endfor %}
-                </div>
-            </div>
+            {# The marker classes are written out per value, never assembled from
+               the content field: Tailwind scans the templates as text, so a
+               class built from a variable never reaches the build. A station of
+               the self-employment carries the color of its brand, everything
+               else the accent — the timeline then says at a glance which line
+               of the career a station belongs to. #}
+            {% set stationMarkers = {
+                'accent': 'bg-accent',
+                'krausgebaut': 'bg-brand-krausgebaut',
+                'krausgedruckt': 'bg-brand-krausgedruckt'
+            } %}
 
-            {# Carousel #}
-            <div class="relative overflow-hidden">
-                <div class="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-surface dark:from-surface-dark to-transparent pointer-events-none z-[5]"></div>
-                <div class="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-surface dark:from-surface-dark to-transparent pointer-events-none z-[5]"></div>
-                <button
-                    onclick="scrollMilestone(-1)"
-                    class="absolute left-4 top-1/2 -translate-y-1/2 z-10 text-muted transition-colors duration-300 hover:text-foreground dark:hover:text-foreground-dark hidden"
-                    id="btn-prev"
-                    aria-label="{{ 'milestones.aria_previous'|trans }}"
-                >
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
-                    </svg>
-                </button>
-                <div class="flex overflow-x-hidden scroll-smooth w-full" id="milestone-scroller">
-                    {% for milestone in milestones %}
-                        <div class="w-full flex-shrink-0 relative flex items-center justify-center px-16 py-4">
-                            {% if not loop.first %}
-                                <div class="absolute left-0 right-1/2 top-1/2 h-px bg-border dark:bg-border-dark pointer-events-none"></div>
+            <div class="mt-14">
+                {% for milestone in milestones %}
+                    <div class="relative grid gap-1.5 pb-11 pl-7 last:pb-0 md:grid-cols-[7rem_1fr] md:gap-8 md:pl-10">
+                        {# The rail is a hairline with one square marker per
+                           station — the same marker shape as in the eyebrow,
+                           the footer lists and the brand band. #}
+                        <span class="absolute left-0 top-0 bottom-0 w-px bg-neutral-200 {{ loop.last ? 'hidden' : '' }}" aria-hidden="true"></span>
+                        <span class="absolute -left-[0.3rem] top-1.5 h-2.5 w-2.5 rounded-[2px] {{ stationMarkers[milestone.marker|default('accent')]|default('bg-accent') }}" aria-hidden="true"></span>
+
+                        <p class="font-mono text-[0.8125rem] text-neutral-500">{{ milestone.years }}</p>
+                        <div>
+                            <p class="font-display {{ milestone.description is defined ? 'text-lg' : 'text-base' }} font-bold leading-tight text-neutral-900">{{ milestone.company }}{% if milestone.division is defined %}<br>{{ milestone.division }}{% endif %}</p>
+                            <p class="font-display text-[0.9375rem] font-bold text-accent-on-light">{{ milestone.position }}</p>
+                            <p class="mt-1 font-mono text-xs text-neutral-500">{{ milestone.location }}</p>
+                            {% if milestone.description is defined %}
+                                <p class="mt-3 text-[0.9375rem] leading-relaxed text-neutral-600">{{ milestone.description }}</p>
                             {% endif %}
-                            {% if not loop.last %}
-                                <div class="absolute left-1/2 right-0 top-1/2 h-px bg-border dark:bg-border-dark pointer-events-none"></div>
-                            {% endif %}
-                            <div class="relative z-10 w-full max-w-sm aspect-square rounded-2xl border border-border dark:border-border-dark bg-surface-elevated dark:bg-surface-elevated-dark shadow-xl p-6 flex flex-col justify-between overflow-hidden">
-                                <div>
-                                    <div class="flex items-center gap-3 mb-4">
-                                        <img alt="{{ milestone.company }}" class="w-10 h-10 rounded-2xl object-cover shadow flex-shrink-0" src="{{ asset(milestone.logo) }}" />
-                                        <div>
-                                            <h3 class="font-bold">{{ milestone.position }}</h3>
-                                            <p class="text-muted text-xs">{{ milestone.company }}<br>{{ milestone.location }}</p>
-                                        </div>
-                                    </div>
-                                    <p class="text-xs font-semibold mb-3 text-muted">
-                                        {{ milestone.endDate is null ? 'milestones.since'|trans ~ ' ' ~ milestone.startDate[5:] ~ '/' ~ milestone.startDate[:4] : milestone.startDate[5:] ~ '/' ~ milestone.startDate[:4] ~ '–' ~ milestone.endDate[5:] ~ '/' ~ milestone.endDate[:4] }}
-                                    </p>
-                                    <p class="text-sm text-foreground-subtle dark:text-foreground-subtle-dark leading-relaxed line-clamp-5">{{ milestone.description }}</p>
-                                </div>
-                                <div class="flex flex-wrap gap-2 mt-6">
-                                    {% for tag in milestone.tags | sort %}
-                                        <span class="px-3 py-1 text-xs font-medium rounded-full bg-surface-subtle dark:bg-surface-subtle-dark text-foreground dark:text-foreground-dark">{{ tag }}</span>
+                            {% if milestone.tags is defined %}
+                                <div class="mt-4 flex flex-wrap gap-1.5">
+                                    {% for tag in milestone.tags %}
+                                        <span class="rounded-md bg-neutral-100 px-2 py-0.5 font-mono text-[0.6875rem] text-neutral-600">{{ tag }}</span>
                                     {% endfor %}
                                 </div>
-                            </div>
+                            {% endif %}
                         </div>
-                    {% endfor %}
-                </div>
-                <button
-                    onclick="scrollMilestone(1)"
-                    class="absolute right-4 top-1/2 -translate-y-1/2 z-10 text-muted transition-colors duration-300 hover:text-foreground dark:hover:text-foreground-dark hidden"
-                    id="btn-next"
-                    aria-label="{{ 'milestones.aria_next'|trans }}"
-                >
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
-                    </svg>
-                </button>
+                    </div>
+                {% endfor %}
             </div>
         </div>
+    </section>
 
-        {# Vertical mode (mobile/tablet) #}
-        <div class="lg:hidden relative ml-10 mt-16 space-y-8">
-            <div class="absolute top-0 bottom-0 left-0 w-px bg-border dark:bg-border-dark"></div>
+    {# ── 02 Kompetenzen ─────────────────────────────────────────────
+       Grouped by intensity, alphabetical inside each group, with the year
+       instead of a self-awarded rating: a year is checkable and matches the
+       stations above. #}
+    <section id="kompetenzen" class="bg-neutral-100 py-24 lg:py-32">
+        <div class="mx-auto max-w-6xl px-6 lg:px-8">
+            {{ include('partials/_eyebrow.html.twig', { number: '02', text: 'Kompetenzen' }) }}
+            <h2 class="mt-5 font-display text-3xl font-bold tracking-tight text-neutral-900 sm:text-4xl">Wie &amp; womit ich arbeite</h2>
+            <p class="mt-5 max-w-3xl leading-relaxed text-neutral-600">Ein Auszug der Technologien, Betriebssysteme, Sprachen &amp; Arbeitsweisen, mit denen ich jeden Tag zu tun habe.</p>
 
-            {% set prevYear = null %}
-            {% for milestone in milestones %}
-                {% set year = milestone.startDate[:4] %}
-
-                <div class="relative pl-6">
-                    {% if prevYear != year %}
-                        <div class="absolute left-0 top-5 w-3 h-3 -translate-x-1/2 rounded-[3px] bg-brand-marcelkraus"></div>
-                        <span class="absolute left-0 top-4 -translate-x-full -rotate-90 origin-bottom-right text-xs font-bold text-accent pr-3">{{ milestone.endDate is null ? 'milestones.since'|trans ~ ' ' ~ year : (milestone.endDate[:4] != year ? year ~ '–' ~ milestone.endDate[:4] : year) }}</span>
-                    {% else %}
-                        <div class="absolute left-0 top-5 w-2 h-2 -translate-x-1/2 rounded-[2px] bg-brand-marcelkraus"></div>
-                    {% endif %}
-                    <div class="rounded-2xl bg-surface-elevated dark:bg-surface-elevated-dark border border-border dark:border-border-dark shadow-xl p-6 overflow-hidden">
-                        <div class="flex items-center gap-3 mb-4">
-                            <img alt="{{ milestone.company }}" class="w-10 h-10 rounded-2xl object-cover shadow flex-shrink-0" src="{{ asset(milestone.logo) }}" />
-                            <div>
-                                <h3 class="font-bold">{{ milestone.position }}</h3>
-                                <p class="text-muted text-xs">{{ milestone.company }}<br>{{ milestone.location }}</p>
-                            </div>
-                        </div>
-                        <p class="text-xs font-semibold mb-3 text-muted">
-                            {{ milestone.endDate is null ? 'milestones.since'|trans ~ ' ' ~ milestone.startDate[5:] ~ '/' ~ milestone.startDate[:4] : milestone.startDate[5:] ~ '/' ~ milestone.startDate[:4] ~ '–' ~ milestone.endDate[5:] ~ '/' ~ milestone.endDate[:4] }}
-                        </p>
-                        <p class="text-sm text-foreground-subtle dark:text-foreground-subtle-dark leading-relaxed">{{ milestone.description }}</p>
-                        <div class="flex flex-wrap gap-2 mt-4">
-                            {% for tag in milestone.tags | sort %}
-                                <span class="px-3 py-1 text-xs font-medium rounded-full bg-surface-subtle dark:bg-surface-subtle-dark text-foreground dark:text-foreground-dark">{{ tag }}</span>
+            <div class="mt-12 grid gap-8 md:grid-cols-2">
+                {% for group in skills %}
+                    <div>
+                        <h3 class="font-mono text-xs uppercase tracking-[0.2em] text-neutral-600">{{ group.group }}</h3>
+                        <div class="mt-3.5 flex flex-wrap gap-2">
+                            {% for entry in group.entries %}
+                                <span class="inline-flex items-baseline gap-1.5 rounded-md border border-neutral-200 bg-white px-2.5 py-1 font-mono text-xs text-neutral-700">
+                                    {{ entry.name }}{% if entry.since is defined %} <span class="text-neutral-500">{{ entry.since }}</span>{% endif %}
+                                </span>
                             {% endfor %}
                         </div>
                     </div>
-                </div>
-                {% set prevYear = year %}
-            {% endfor %}
+                {% endfor %}
+            </div>
         </div>
     </section>
 
-    {# ── Projects ── #}
-    <section class="max-w-6xl mx-auto px-8 pt-24 pb-32 scroll-mt-40" id="work">
-        <h2 class="text-3xl sm:text-4xl font-bold">{{ 'projects.title'|trans }}</h2>
-        <div class="mt-4 w-12 h-1 bg-accent"></div>
-        <p class="mt-8 max-w-2xl text-foreground-subtle dark:text-foreground-subtle-dark leading-relaxed">{{ 'projects.description'|trans }}</p>
+    {# ── 03 Leidenschaft ────────────────────────────────────────────
+       Two of the three cards point at software that came out of the hobby.
+       That is the one deliberate exception to "no projects on this site",
+       and it carries because it says something else than a portfolio tile:
+       not "I built this for a client" but "for this problem I write the
+       software myself". #}
+    <section id="leidenschaft" class="py-24 lg:py-32">
+        <div class="mx-auto max-w-6xl px-6 lg:px-8">
+            {{ include('partials/_eyebrow.html.twig', { number: '03', text: 'Leidenschaft' }) }}
+            <h2 class="mt-5 font-display text-3xl font-bold tracking-tight text-neutral-900 sm:text-4xl">Was mich sonst antreibt</h2>
+            <p class="mt-3 font-mono text-[0.8125rem] uppercase tracking-[0.1em] text-neutral-500">Hobbyschrauber · RC-Modellbauer · Maker · Sim Racer</p>
+            <p class="mt-5 max-w-3xl leading-relaxed text-neutral-600">Wenn ich nicht am Stehschreibtisch stehe, stehe ich an der Werkbank: Was mich packt, ist Automobiltechnik in jedem Maßstab, die Faszination der Nordschleife und der Reiz, eigene Dinge zu erschaffen.</p>
 
-        <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mt-12">
-            {% for project in projects %}
-                <button
-                    onclick="openShowcase({{ loop.index0 }})"
-                    class="group relative overflow-hidden rounded-2xl {{ project.featured ? 'md:col-span-2 md:row-span-2' : '' }} aspect-[4/3] bg-surface-elevated dark:bg-surface-elevated-dark border border-border dark:border-border-dark shadow-lg cursor-pointer transition-all duration-300 hover:shadow-xl hover:-translate-y-1 hover:border-accent/40"
-                >
-                    {% if project.image %}
-                        <img alt="{{ project.title }}" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" src="{{ asset(project.image) }}" />
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
-                        <div class="relative flex flex-col justify-end h-full p-5">
-                            <h3 class="font-bold text-sm {{ project.featured ? 'lg:text-xl' : '' }} text-white drop-shadow-lg">{{ project.title }}</h3>
-                            <p class="text-xs text-white/70 mt-1">{{ project.category }}</p>
-                            <span class="inline-flex items-center gap-1 text-xs font-medium text-white/90 mt-3 opacity-0 translate-y-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0">{{ 'projects.details'|trans }} &rarr;</span>
+            {# The cards share the section grid's rows, so icon, heading, description
+                   and link block line up across the row and the divider sits at one
+                   height no matter how long a single text is. Two consequences:
+                   the row count has to be spelled out per breakpoint, which ties
+                   these classes to the number of cards; and the padding cannot sit
+                   on the card itself, because a subgrid item does not shift the
+                   inherited row lines — its last row would spill past the border.
+                   So each child carries the horizontal padding instead. The row gap
+                   drops to zero at lg, where all four cards form a single row and
+                   an inherited gap would only pull the cards apart. #}
+                <div class="mt-12 grid gap-x-6 gap-y-6 grid-rows-[repeat(4,auto_auto_1fr_auto)] sm:grid-cols-2 sm:grid-rows-[repeat(2,auto_auto_1fr_auto)] lg:grid-cols-4 lg:grid-rows-[auto_auto_1fr_auto] lg:gap-y-0">
+                {% for hobby in hobbies %}
+                    <div class="grid grid-rows-subgrid row-span-4 rounded-xl border border-neutral-200 bg-white">
+                        <div class="px-8 pt-8">
+                            <span class="flex h-12 w-12 items-center justify-center rounded-xl bg-accent/10 text-accent-on-light">{{ icons.icon(hobby.icon, 'h-6 w-6') }}</span>
+                        </div>
+                        <h3 class="mt-5 px-8 font-display text-lg font-bold text-neutral-900">{{ hobby.title }}</h3>
+                        <p class="mt-2.5 px-8 pb-8 text-sm leading-relaxed text-neutral-600">{{ hobby.description }}</p>
+                        {% if hobby.url is defined and hobby.urlLabel is defined %}
+                            <div class="px-8 pb-8">
+                                {# The rule carries its own label, so the block reads as a
+                                   reference rather than as a second paragraph. #}
+                                <div class="flex items-center gap-3">
+                                    <span class="h-px flex-1 bg-neutral-200"></span>
+                                    <span class="font-mono text-[0.6875rem] uppercase tracking-[0.15em] text-neutral-600">Daraus wurde</span>
+                                    <span class="h-px flex-1 bg-neutral-200"></span>
+                                </div>
+                                <div class="pt-5">
+                                    <a href="{{ hobby.url }}" target="_blank" rel="noopener" class="inline-flex items-center gap-1 font-mono text-xs font-semibold uppercase tracking-[0.12em] text-accent-on-light transition-colors hover:text-accent-on-light-hover">{{ hobby.urlLabel }}{{ icons.icon('external', 'h-3.5 w-3.5') }}</a>
+                                    <span class="mt-1 block text-[0.8125rem] leading-relaxed text-neutral-500">{{ hobby.urlNote|default('') }}</span>
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    {# ── 04 Kontakt ─────────────────────────────────────────────────
+       Two columns: the form on the left, address and channels on the right.
+       The address never appears in the markup — e-mail and WhatsApp are
+       redirect routes, exactly as on both sibling sites. #}
+    <section id="kontakt" class="bg-neutral-100 py-24 lg:py-32">
+        <div class="mx-auto max-w-6xl px-6 lg:px-8">
+            {{ include('partials/_eyebrow.html.twig', { number: '04', text: 'Kontakt' }) }}
+            <h2 class="mt-5 font-display text-3xl font-bold tracking-tight text-neutral-900 sm:text-4xl">Lassen Sie uns sprechen</h2>
+            <p class="mt-5 max-w-3xl leading-relaxed text-neutral-600">Erstkontakt am besten über das nachfolgende Formular. Zeugnisse und Referenzen schicke ich gerne auf Anfrage zu.</p>
+
+            {# Channels on the left, the form on the right — the same layout as
+               on both sibling sites, down to the divided list, the icons and
+               the column ratio, so a visitor coming from there reaches for the
+               input in the same place. What differs is the content of the rows:
+               no on-site service here, but a postal address and LinkedIn. On
+               success the form is replaced by a confirmation instead of being
+               repeated below a flash message. #}
+            <div class="mt-14 grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
+                <div>
+                    <dl class="divide-y divide-neutral-200 border-y border-neutral-200">
+                        <div class="flex items-start gap-4 py-5">
+                            <span class="mt-0.5 text-accent-on-light">{{ icons.icon('pin', 'h-5 w-5') }}</span>
+                            <div><dt class="font-mono text-xs uppercase tracking-[0.15em] text-neutral-600">Anschrift</dt><dd class="mt-1.5 text-sm text-neutral-800"><address class="not-italic">Bonner Straße 88 · 50374 Erftstadt</address></dd></div>
+                        </div>
+                        <div class="flex items-start gap-4 py-5">
+                            <span class="mt-0.5 text-accent-on-light">{{ icons.icon('mail', 'h-5 w-5') }}</span>
+                            <div><dt class="font-mono text-xs uppercase tracking-[0.15em] text-neutral-600">E-Mail</dt><dd class="mt-1.5 text-sm"><a class="font-semibold text-accent-on-light transition-colors hover:text-accent-on-light-hover" href="{{ path('app_contact_email') }}">Schreiben Sie mir eine E-Mail</a></dd></div>
+                        </div>
+                        <div class="flex items-start gap-4 py-5">
+                            <span class="mt-0.5 text-accent-on-light">{{ icons.icon('external', 'h-5 w-5') }}</span>
+                            <div><dt class="font-mono text-xs uppercase tracking-[0.15em] text-neutral-600">LinkedIn</dt><dd class="mt-1.5 text-sm"><a class="font-semibold text-accent-on-light transition-colors hover:text-accent-on-light-hover" href="https://www.linkedin.com/in/kraus-marcel" target="_blank" rel="noopener">Schreiben Sie mir über LinkedIn</a></dd></div>
+                        </div>
+                        <div class="flex items-start gap-4 py-5">
+                            <span class="mt-0.5 text-accent-on-light">{{ icons.icon('chat', 'h-5 w-5') }}</span>
+                            <div><dt class="font-mono text-xs uppercase tracking-[0.15em] text-neutral-600">WhatsApp</dt><dd class="mt-1.5 text-sm"><a class="font-semibold text-accent-on-light transition-colors hover:text-accent-on-light-hover" href="{{ path('app_contact_whats_app') }}">Schreiben Sie mir per WhatsApp</a></dd></div>
+                        </div>
+                        <div class="flex items-start gap-4 py-5">
+                            <span class="mt-0.5 text-accent-on-light">{{ icons.icon('info', 'h-5 w-5') }}</span>
+                            <div><dt class="font-mono text-xs uppercase tracking-[0.15em] text-neutral-600">Reaktionszeit</dt><dd class="mt-1.5 text-sm text-neutral-800">In der Regel innerhalb eines Werktags</dd></div>
+                        </div>
+                    </dl>
+                </div>
+
+                <div>
+                    {% if app.flashes('contact_success') %}
+                        <div class="flex items-start gap-4 rounded-xl border border-neutral-900 bg-white p-8">
+                            <span class="mt-0.5 text-accent-on-light">{{ icons.icon('check', 'h-7 w-7') }}</span>
+                            <div>
+                                <h3 class="font-display text-xl font-bold text-neutral-900">Vielen Dank für Ihre Nachricht!</h3>
+                                <p class="mt-2 text-sm leading-relaxed text-neutral-600">Sie ist eingegangen. Ich melde mich bei Ihnen.</p>
+                            </div>
                         </div>
                     {% else %}
-                        <div class="absolute inset-0 bg-gradient-to-br from-accent/10 to-accent/5 dark:from-accent/20 dark:to-accent/5 transition-all duration-300 group-hover:from-accent/20 group-hover:to-accent/10"></div>
-                        <div class="relative flex flex-col items-center justify-center h-full p-5 text-center">
-                            <h3 class="font-bold text-sm">{{ project.title }}</h3>
-                            <p class="text-xs text-muted mt-1">{{ project.category }}</p>
-                            <span class="inline-flex items-center gap-1 text-xs font-medium text-accent mt-3 opacity-0 translate-y-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0">{{ 'projects.details'|trans }} &rarr;</span>
+                        <div class="rounded-xl border border-neutral-200 bg-white p-8 sm:p-10">
+                            {{ include('partials/_contact_form.html.twig', {
+                                errors: contact_errors,
+                                old: contact_old,
+                                focus: contact_focus,
+                                ts: contact_ts,
+                                ts_sig: contact_ts_sig
+                            }) }}
                         </div>
                     {% endif %}
-                </button>
-            {% endfor %}
-        </div>
-    </section>
-
-    {# ── Hobbies ── #}
-    <section class="max-w-6xl mx-auto px-8 pt-24 pb-32 scroll-mt-40" id="hobbies">
-        <h2 class="text-3xl sm:text-4xl font-bold">{{ 'hobbies.title'|trans }}</h2>
-        <div class="mt-4 w-12 h-1 bg-accent"></div>
-        <p class="mt-8 max-w-2xl text-foreground-subtle dark:text-foreground-subtle-dark leading-relaxed">{{ 'hobbies.description'|trans }}</p>
-
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
-            {% for hobby in hobbies %}
-                <div class="rounded-2xl border border-border dark:border-border-dark bg-surface-elevated dark:bg-surface-elevated-dark shadow-lg p-8">
-                    <div class="w-12 h-12 flex items-center justify-center rounded-2xl bg-accent/10 text-accent">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
-                            {% if hobby.icon == 'wrench' %}
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M11.42 15.17 17.25 21A2.652 2.652 0 0 0 21 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 1 1-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 0 0 4.486-6.336l-3.276 3.277a3.004 3.004 0 0 1-2.25-2.25l3.276-3.276a4.5 4.5 0 0 0-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26" />
-                            {% elseif hobby.icon == 'wheel' %}
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M14.5 12a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0Z" />
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M4 10.5c2.5.9 5 1.3 8 1.3s5.5-.4 8-1.3M12 14.5V21" />
-                            {% elseif hobby.icon == 'remote' %}
-                                <rect x="4.5" y="9" width="15" height="10.5" rx="2" />
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 13.5a1.3 1.3 0 1 1-2.6 0 1.3 1.3 0 0 1 2.6 0ZM16.1 13.5a1.3 1.3 0 1 1-2.6 0 1.3 1.3 0 0 1 2.6 0Z" />
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 9 18 4.5" />
-                            {% endif %}
-                        </svg>
-                    </div>
-                    <h3 class="mt-6 font-bold text-lg">{{ hobby.title }}</h3>
-                    <p class="mt-3 text-sm text-foreground-subtle dark:text-foreground-subtle-dark leading-relaxed">{{ hobby.description }}</p>
                 </div>
-            {% endfor %}
+            </div>
         </div>
     </section>
 
-    {# ── Location ── #}
-    <section class="max-w-6xl mx-auto scroll-mt-40 px-8 pt-24 pb-32 isolate" id="location">
-        <h2 class="text-3xl sm:text-4xl font-bold">{{ 'location.title'|trans }}</h2>
-        <div class="mt-4 w-12 h-1 bg-accent"></div>
-        <div class="mt-16 grid grid-cols-1 lg:grid-cols-5 gap-6">
-        <div class="lg:col-span-3 min-h-80 lg:min-h-96 rounded-2xl overflow-hidden border border-border dark:border-border-dark shadow-lg">
-            <div id="map" class="w-full h-full min-h-80" role="img" aria-label="{{ 'location.map_alt'|trans }}"></div>
-        </div>
-        <div class="lg:col-span-2 flex flex-col justify-center gap-8 px-8 py-16 lg:py-24 lg:px-12">
-            <div>
-                <h3 class="text-xs font-semibold uppercase tracking-wide text-muted">{{ 'location.address'|trans }}</h3>
-                <address class="mt-2 text-foreground-subtle dark:text-foreground-subtle-dark leading-relaxed">
-                    Marcel Kraus<br>
-                    Bonner Straße 88<br>
-                    50374 Erftstadt<br>
-                    {{ 'location.country'|trans }}
-                </address>
+    {# ── 05 Selbstständigkeit ───────────────────────────────────────
+       The brand band closes the page, where both sibling sites carry theirs.
+       Between the competences and the passion it would have been read as a
+       third piece of evidence, while it actually says something else —
+       that time is bound elsewhere. #}
+    <section id="selbststaendigkeit" class="bg-neutral-950 py-24 lg:py-32">
+        <div class="mx-auto max-w-6xl px-6 lg:px-8">
+            {{ include('partials/_eyebrow.html.twig', { number: '05', text: 'Selbstständigkeit', tone: 'dark' }) }}
+            <h2 class="mt-5 font-display text-3xl font-bold tracking-tight text-white sm:text-4xl">Zwei Marken, seit 2001 selbstständig</h2>
+            <p class="mt-5 max-w-3xl leading-relaxed text-neutral-400">Seit 2001 bin ich selbstständig. Meine Erfahrungen in Themen wie Kundenkontakt, Anforderungsanalyse, Angebotserstellung, Abnahmen, Support, Betrieb &amp; Wartung bringe ich daher in jede Festanstellung mit.</p>
+
+            <div class="mt-12 grid gap-6 md:grid-cols-2">
+                {# The marker classes are written out per brand, never assembled
+                   from the token: Tailwind scans the templates as text, so a
+                   class built from a variable never reaches the build. On the
+                   dark band the petrol needs its brighter step (2.73:1 → 5.50:1),
+                   the papaya passes as it is (5.51:1). #}
+                {% set brandMarkers = {
+                    'krausgebaut': { text: 'text-brand-krausgebaut-on-dark', background: 'bg-brand-krausgebaut-on-dark' },
+                    'krausgedruckt': { text: 'text-brand-krausgedruckt', background: 'bg-brand-krausgedruckt' }
+                } %}
+                {% for brand in brands %}
+                    {% set marker = brandMarkers[brand.colorToken|default('')]|default({ text: 'text-neutral-400', background: 'bg-neutral-400' }) %}
+                    <a href="{{ brand.url }}" target="_blank" rel="noopener" class="block rounded-xl border border-neutral-800 bg-white/[0.02] p-7 transition-colors hover:border-neutral-700 hover:bg-white/[0.04]">
+                        <span class="flex items-center gap-2.5 font-mono text-xs uppercase tracking-[0.15em] {{ marker.text }}">
+                            <span class="inline-block h-2.5 w-2.5 shrink-0 rounded-[2px] {{ marker.background }}" aria-hidden="true"></span>{{ brand.name }}
+                        </span>
+                        <h3 class="mt-4 font-display text-lg font-bold text-white">{{ brand.title }}</h3>
+                        <p class="mt-0.5 font-mono text-xs text-neutral-400">{{ brand.since }}</p>
+                        <p class="mt-3 text-sm leading-relaxed text-neutral-400">{{ brand.description }}</p>
+                        <span class="mt-4 inline-flex items-center gap-1.5 font-mono text-xs uppercase tracking-[0.15em] {{ marker.text }}">Zur Website{{ icons.icon('external', 'h-3.5 w-3.5') }}</span>
+                    </a>
+                {% endfor %}
             </div>
-            <div>
-                <h3 class="text-xs font-semibold uppercase tracking-wide text-muted">{{ 'location.contact'|trans }}</h3>
-                {% include 'partials/social_links.html.twig' with { wrapperClass: 'flex items-center gap-5 mt-3', iconClass: 'w-6 h-6' } %}
-            </div>
-        </div>
         </div>
     </section>
+{% endblock %}
 
-    {# ── Showcase Modal ── #}
-    <div id="showcase-overlay" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/60 backdrop-blur-sm" role="dialog" aria-modal="true" onclick="closeShowcase(event)">
-        <div class="relative max-w-2xl w-full mx-4" onclick="event.stopPropagation()">
-            {# Desktop arrows (sides) #}
-            <button id="showcase-prev-desktop" class="hidden absolute -left-14 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-surface-elevated dark:bg-surface-elevated-dark shadow-lg lg:items-center lg:justify-center hover:bg-surface-subtle dark:hover:bg-surface-subtle-dark transition-colors duration-300 cursor-pointer" onclick="navigateShowcase(-1)" aria-label="{{ 'projects.aria_previous'|trans }}">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
-                </svg>
-            </button>
-            <div class="bg-surface-elevated dark:bg-surface-elevated-dark rounded-2xl shadow-2xl w-full p-8 relative animate-slide-up" id="showcase-dialog">
-                <button onclick="closeShowcase()" aria-label="{{ 'projects.aria_close'|trans }}" class="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full hover:bg-surface-subtle dark:hover:bg-surface-subtle-dark transition-colors duration-300">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                </button>
-                <div id="showcase-content"></div>
-                <div class="flex justify-center gap-2 mt-6" id="showcase-dots"></div>
-            </div>
-            <button id="showcase-next-desktop" class="hidden absolute -right-14 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-surface-elevated dark:bg-surface-elevated-dark shadow-lg lg:items-center lg:justify-center hover:bg-surface-subtle dark:hover:bg-surface-subtle-dark transition-colors duration-300 cursor-pointer" onclick="navigateShowcase(1)" aria-label="{{ 'projects.aria_next'|trans }}">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
-                </svg>
-            </button>
-            {# Mobile arrows (below the dialog) #}
-            <div class="flex lg:hidden justify-center gap-6 mt-4" id="showcase-nav-mobile">
-                <button id="showcase-prev-mobile" class="hidden w-10 h-10 rounded-full bg-surface-elevated dark:bg-surface-elevated-dark shadow-lg items-center justify-center hover:bg-surface-subtle dark:hover:bg-surface-subtle-dark transition-colors duration-300 cursor-pointer" onclick="navigateShowcase(-1)" aria-label="{{ 'projects.aria_previous'|trans }}">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
-                    </svg>
-                </button>
-                <button id="showcase-next-mobile" class="hidden w-10 h-10 rounded-full bg-surface-elevated dark:bg-surface-elevated-dark shadow-lg items-center justify-center hover:bg-surface-subtle dark:hover:bg-surface-subtle-dark transition-colors duration-300 cursor-pointer" onclick="navigateShowcase(1)" aria-label="{{ 'projects.aria_next'|trans }}">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
-                    </svg>
-                </button>
-            </div>
-        </div>
-    </div>
-
+{% block javascript %}
+    {{ parent() }}
     <script>
-        // Translated strings for JavaScript.
-        const i18n = {
-            viewProject: {{ 'projects.view_project'|trans|json_encode|raw }},
-            project: {{ 'projects.aria_project'|trans|json_encode|raw }}
-        };
-
-        // Milestone horizontal carousel (desktop).
-        const scroller = document.getElementById('milestone-scroller');
-        const totalSlides = scroller ? scroller.children.length : 0;
-        let currentSlide = 0;
-
-        function scrollMilestone(direction) {
-            goToSlide(Math.max(0, Math.min(totalSlides - 1, currentSlide + direction)));
-        }
-
-        function goToSlide(index) {
-            currentSlide = index;
-            if (scroller) {
-                scroller.children[index].scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'nearest' });
-            }
-            updateMilestoneNav();
-        }
-
-        function updateMilestoneNav() {
-            const prev = document.getElementById('btn-prev');
-            const next = document.getElementById('btn-next');
-            if (prev) prev.classList.toggle('hidden', currentSlide === 0);
-            if (next) next.classList.toggle('hidden', currentSlide >= totalSlides - 1);
-
-            document.querySelectorAll('#timeline-markers [data-slide]').forEach((marker, i) => {
-                marker.classList.toggle('bg-brand-marcelkraus', i === currentSlide);
-                marker.classList.toggle('scale-125', i === currentSlide);
-                marker.classList.toggle('bg-muted', i !== currentSlide);
-            });
-        }
-
-        updateMilestoneNav();
-
-        // Showcase modal.
-        const projectData = [
-            {% for project in projects %}
-            {
-                title: {{ project.title | json_encode | raw }},
-                category: {{ project.category | json_encode | raw }},
-                showcase: {{ project.showcase | json_encode | raw }},
-                url: {{ project.url | json_encode | raw }},
-                urlLabel: {{ project.urlLabel | json_encode | raw }},
-                tags: {{ project.tags | json_encode | raw }}
-            }{{ not loop.last ? ',' : '' }}
-            {% endfor %}
-        ];
-        const showcaseOverlay = document.getElementById('showcase-overlay');
-        const showcaseContent = document.getElementById('showcase-content');
-        const showcaseDots = document.getElementById('showcase-dots');
-        const showcasePrevDesktop = document.getElementById('showcase-prev-desktop');
-        const showcaseNextDesktop = document.getElementById('showcase-next-desktop');
-        const showcasePrevMobile = document.getElementById('showcase-prev-mobile');
-        const showcaseNextMobile = document.getElementById('showcase-next-mobile');
-
-        let previouslyFocused = null;
-        let currentShowcase = 0;
-
-        function toggleShowcaseNav(btn, show, isDesktop) {
-            if (show) {
-                btn.classList.remove('hidden');
-                btn.classList.add(isDesktop ? 'lg:flex' : 'flex');
-            } else {
-                btn.classList.add('hidden');
-                btn.classList.remove(isDesktop ? 'lg:flex' : 'flex');
-            }
-        }
-
-        function renderShowcase(index) {
-            currentShowcase = index;
-            const t = projectData[index];
-            showcaseContent.innerHTML = `
-                <h3 class="text-2xl font-bold mb-2">${t.title}</h3>
-                <p class="text-sm text-muted mb-6">${t.category}</p>
-                <div class="text-foreground-subtle dark:text-foreground-subtle-dark leading-relaxed mb-6 space-y-4">${t.showcase.split('\n\n').map(p => `<p>${p.replace(/\n/g, '<br>')}</p>`).join('')}</div>
-                <div class="flex flex-wrap gap-2 mb-6">
-                    ${t.tags.map(tag => `<span class="px-3 py-1 text-xs font-medium rounded-full bg-surface-subtle dark:bg-surface-subtle-dark text-foreground dark:text-foreground-dark">${tag}</span>`).join('')}
-                </div>
-                ${t.url ? `<a href="${t.url}" target="_blank" rel="noopener" class="inline-flex items-center gap-2 text-sm font-medium text-accent hover:underline">${t.urlLabel || i18n.viewProject} &rarr;</a>` : ''}
-            `;
-            showcaseDots.innerHTML = projectData.map((_, i) =>
-                `<button onclick="renderShowcase(${i})" class="p-2 -m-1 cursor-pointer group" aria-label="${i18n.project} ${i + 1}"><span class="block w-2 h-2 rounded-full transition-all duration-300 ${i === index ? 'bg-accent scale-125' : 'bg-muted'}"></span></button>`
-            ).join('');
-            const hasPrev = index > 0;
-            const hasNext = index < projectData.length - 1;
-            toggleShowcaseNav(showcasePrevDesktop, hasPrev, true);
-            toggleShowcaseNav(showcaseNextDesktop, hasNext, true);
-            toggleShowcaseNav(showcasePrevMobile, hasPrev, false);
-            toggleShowcaseNav(showcaseNextMobile, hasNext, false);
-        }
-
-        function openShowcase(index) {
-            renderShowcase(index);
-            previouslyFocused = document.activeElement;
-            showcaseOverlay.classList.remove('hidden');
-            showcaseOverlay.classList.add('flex');
-            const closeBtn = document.querySelector(`#showcase-dialog [aria-label="{{ 'projects.aria_close'|trans }}"]`);
-            if (closeBtn) closeBtn.focus();
-        }
-
-        function navigateShowcase(direction) {
-            const next = currentShowcase + direction;
-            if (next >= 0 && next < projectData.length) {
-                renderShowcase(next);
-            }
-        }
-
-        function closeShowcase(event) {
-            if (event == null || event.target === showcaseOverlay) {
-                showcaseOverlay.classList.add('hidden');
-                showcaseOverlay.classList.remove('flex');
-                if (previouslyFocused) previouslyFocused.focus();
-            }
-        }
-
-        document.addEventListener('keydown', (e) => {
-            if (showcaseOverlay.classList.contains('flex') === false) return;
-
-            if (e.key === 'Escape') closeShowcase();
-            if (e.key === 'ArrowLeft') navigateShowcase(-1);
-            if (e.key === 'ArrowRight') navigateShowcase(1);
-
-            // Focus trap within modal.
-            if (e.key === 'Tab') {
-                const dialog = document.getElementById('showcase-dialog');
-                const focusable = dialog.querySelectorAll('button, a, [tabindex]:not([tabindex="-1"])');
-                if (focusable.length === 0) return;
-                const first = focusable[0];
-                const last = focusable[focusable.length - 1];
-                if (e.shiftKey && document.activeElement === first) {
-                    e.preventDefault();
-                    last.focus();
-                } else if (e.shiftKey === false && document.activeElement === last) {
-                    e.preventDefault();
-                    first.focus();
-                }
-            }
-        });
-
-        // Active navigation highlight.
-        const navLinks = document.querySelectorAll('[data-nav]');
-
-        function resetNav() {
-            navLinks.forEach(link => {
-                link.classList.remove('text-brand-marcelkraus', 'font-semibold');
-                link.classList.add('text-muted');
-            });
-        }
-
-        const sections = Array.from(document.querySelectorAll('#milestones, #work, #hobbies, #location'));
-
-        function updateActiveNav() {
-            const scrollY = window.scrollY + window.innerHeight / 2;
-            let active = null;
-
-            sections.forEach(section => {
-                if (section.offsetTop <= scrollY) {
-                    active = section;
-                }
-            });
-
-            // When scrolled to the very bottom, activate the last section.
-            if ((window.innerHeight + Math.round(window.scrollY)) >= document.body.scrollHeight) {
-                active = sections[sections.length - 1];
+        // Focus the first field the server rejected, so a corrected submission
+        // starts where the error is rather than at the top of the page.
+        (function () {
+            const form = document.querySelector('form[data-error-focus]');
+            if (form === null) {
+                return;
             }
 
-            resetNav();
-            if (active) {
-                const link = document.querySelector(`[data-nav="${active.id}"]`);
-                if (link) {
-                    link.classList.add('text-brand-marcelkraus', 'font-semibold');
-                    link.classList.remove('text-muted');
-                }
+            const field = document.getElementById('f_' + form.dataset.errorFocus);
+            if (field !== null) {
+                field.focus({ preventScroll: false });
             }
-        }
-
-        window.addEventListener('scroll', updateActiveNav, { passive: true });
-        updateActiveNav();
+        }());
     </script>
-    <script src="{{ asset('vendor/leaflet/leaflet.js') }}"></script>
-    <script>
-        const map = L.map('map', { scrollWheelZoom: false }).setView([50.8005, 6.7772], 15);
-        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-        }).addTo(map);
-        const markerIcon = L.divIcon({
-            className: '',
-            html: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32" height="40" fill="#607E4A"><path d="M12 0C7.03 0 3 4.03 3 9c0 6.75 9 15 9 15s9-8.25 9-15c0-4.97-4.03-9-9-9zm0 12.75a3.75 3.75 0 110-7.5 3.75 3.75 0 010 7.5z"/></svg>',
-            iconSize: [32, 40],
-            iconAnchor: [16, 40]
-        });
-        L.marker([50.8005, 6.7772], { icon: markerIcon }).addTo(map);
-    </script>
-    </main>
 {% endblock %}

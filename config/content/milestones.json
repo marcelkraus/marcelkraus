@@ -1,178 +1,85 @@
 [
     {
-        "language": "de",
-        "company": "krausgedruckt (als Einzelunternehmer)",
-        "logo": "images/milestones/krausgedruckt.jpg",
-        "location": "Erftstadt",
-        "position": "Inhaber",
-        "startDate": "2023-11",
-        "endDate": null,
-        "description": "Aller guten Dinge sind drei: krausgedruckt macht die Gewerbetätigkeiten meiner Selbstständigkeit komplett. Aus einer privaten Idee heraus geboren, biete ich ab sofort individuelle 3D-Druck-Dienstleistungen: Kompetent, zeitnah, bezahlbar.",
-        "tags": ["3D-Druck", "Additive Fertigung", "FDM", "Prototypentwicklung", "Selbstständigkeit"]
-    },
-    {
-        "language": "en",
-        "company": "krausgedruckt (sole proprietor)",
-        "logo": "images/milestones/krausgedruckt.jpg",
-        "location": "Erftstadt",
-        "position": "Owner",
-        "startDate": "2023-11",
-        "endDate": null,
-        "description": "All good things come in threes: krausgedruckt completes the business activities of my self-employment. Born from a personal idea, I now offer custom 3D printing services: competent, timely, affordable.",
-        "tags": ["3D Printing", "Additive Manufacturing", "FDM", "Prototyping", "Self-employment"]
-    },
-    {
-        "language": "de",
-        "company": "Jurassic Jeep (als Einzelunternehmer)",
-        "logo": "images/milestones/jurassic-jeep.jpg",
-        "location": "Erftstadt",
-        "position": "Inhaber",
-        "startDate": "2021-05",
-        "endDate": null,
-        "description": "Das Leben findet einen Jeep: Mit dem 1993er Jeep Wrangler Sahara aus den Kultfilmen „Jurassic Park“ und „Jurassic World“ starte ich meine zweite Gewerbetätigkeit, die Vermietung von Filmfahrzeugen für besondere Anlässe.",
-        "tags": ["Fahrzeugvermietung", "Filmautos", "Jeep Wrangler", "Jurassic Park", "Selbstständigkeit"]
-    },
-    {
-        "language": "en",
-        "company": "Jurassic Jeep (sole proprietor)",
-        "logo": "images/milestones/jurassic-jeep.jpg",
-        "location": "Erftstadt",
-        "position": "Owner",
-        "startDate": "2021-05",
-        "endDate": null,
-        "description": "Life finds a Jeep: With the 1993 Jeep Wrangler Sahara from the iconic films „Jurassic Park“ and „Jurassic World“, I start my second business activity — renting movie vehicles for special occasions.",
-        "tags": ["Car Rental", "Movie Cars", "Jeep Wrangler", "Jurassic Park", "Self-employment"]
-    },
-    {
-        "language": "de",
+        "years": "2017 – 2026",
         "company": "Chefkoch GmbH",
-        "logo": "images/milestones/chefkoch.jpg",
-        "location": "Bonn",
         "position": "Senior iOS-Entwickler",
-        "startDate": "2017-05",
-        "endDate": null,
-        "description": "Mein „NeXT Step“: Ich wechsle die Plattform und entwickle ab sofort die iOS- & iPadOS-App der Chefkoch GmbH; seit Februar 2024 in einem crossfunktionalen, 11-köpfigen Team.",
-        "tags": ["Hauptbeschäftigung", "iOS-App", "KMP", "Scrum", "Swift", "SwiftUI", "UIKit", "Xcode"]
-    },
-    {
-        "language": "en",
-        "company": "Chefkoch GmbH",
-        "logo": "images/milestones/chefkoch.jpg",
         "location": "Bonn",
-        "position": "Senior iOS Developer",
-        "startDate": "2017-05",
-        "endDate": null,
-        "description": "My „NeXT Step“: I switch platforms and now develop the iOS & iPadOS app for Chefkoch GmbH; since February 2024 as part of a cross-functional team of 11 great people.",
-        "tags": ["Full-time", "iOS App", "KMP", "Scrum", "Swift", "SwiftUI", "UIKit", "Xcode"]
+        "description": "Mein „NeXT Step“: Ich wechsle die Plattform und entwickle seit Mitte 2017 die iOS- und iPadOS-App der Chefkoch GmbH; ab Februar 2024 bis zum Ende meiner Tätigkeit in einem crossfunktionalen, elfköpfigen Team.",
+        "tags": [
+            "iOS-App",
+            "KMP",
+            "Scrum",
+            "Swift",
+            "SwiftUI",
+            "UIKit"
+        ]
     },
     {
-        "language": "de",
-        "company": "Internet- & IT-Dienstleistungen (als Einzelunternehmer)",
-        "logo": "images/avatar.jpg",
-        "location": "Erftstadt",
-        "position": "Inhaber",
-        "startDate": "2001-05",
-        "endDate": null,
-        "description": "Der Anfang: Meine erste Gewerbetätigkeit. Gestartet als reiner Webdesigner, biete ich 25 Jahre später umfassende Internet- & IT-Dienstleistungen inkl. App- & Web-Entwicklung an.",
-        "tags": ["iOS-App", "IT-Dienstleistungen", "IT-Sicherheit", "IT-Support", "Selbstständigkeit", "Symfony", "Webdesign"]
+        "years": "seit 2023",
+        "company": "krausgedruckt",
+        "position": "3D-Druck-Dienstleistungen",
+        "location": "Erftstadt · selbstständig",
+        "description": "Aller guten Dinge sind drei: Aus einer privaten Idee heraus geboren, biete ich die additive Fertigung individueller Teile an – Prototypen, Werkzeuge, Ersatzteile und Dekoration.",
+        "tags": [
+            "3D-Druck",
+            "Additive Fertigung",
+            "FDM",
+            "Prototypentwicklung"
+        ],
+        "marker": "krausgedruckt"
     },
     {
-        "language": "en",
-        "company": "Internet & IT Services (sole proprietor)",
-        "logo": "images/avatar.jpg",
-        "location": "Erftstadt",
-        "position": "Owner",
-        "startDate": "2001-05",
-        "endDate": null,
-        "description": "The beginning: My first business activity. Starting out as a pure web designer, 25 years later I offer comprehensive internet & IT services including app & web development.",
-        "tags": ["iOS App", "IT Services", "IT Security", "IT Support", "Self-employment", "Symfony", "Web Design"]
-    },
-    {
-        "language": "de",
+        "years": "2016 – 2017",
         "company": "Chefkoch GmbH",
-        "logo": "images/milestones/chefkoch.jpg",
-        "location": "Bonn",
         "position": "PHP-Entwickler",
-        "startDate": "2016-07",
-        "endDate": "2017-04",
-        "description": "Mein Wechsel von Köln nach Bonn: Ich beginne meine Arbeit als PHP-Entwickler mit der Mitentwicklung des (damals verwendeten) Online-Magazins unter Einsatz des Content-Management-Systems Drupal 8.",
-        "tags": ["Drupal", "Hauptbeschäftigung", "PHP", "PhpStorm", "Scrum", "Symfony"]
-    },
-    {
-        "language": "en",
-        "company": "Chefkoch GmbH",
-        "logo": "images/milestones/chefkoch.jpg",
         "location": "Bonn",
-        "position": "PHP Developer",
-        "startDate": "2016-07",
-        "endDate": "2017-04",
-        "description": "My move from Cologne to Bonn: I begin my work as a PHP developer, co-developing the (then-used) online magazine using the content management system Drupal 8.",
-        "tags": ["Drupal", "Full-time", "PHP", "PhpStorm", "Scrum", "Symfony"]
+        "description": "Mein Wechsel von Köln nach Bonn: Ich beginne als PHP-Entwickler mit der Mitentwicklung des damals verwendeten Online-Magazins unter Einsatz des Content-Management-Systems Drupal 8.",
+        "tags": [
+            "Drupal",
+            "PHP",
+            "Scrum",
+            "Symfony"
+        ]
     },
     {
-        "language": "de",
-        "company": "ASB Deutschland e.V.",
-        "logo": "images/milestones/asb.jpg",
-        "location": "Köln",
+        "years": "2004 – 2016",
+        "company": "Arbeiter-Samariter-Bund Deutschland e.V.",
+        "division": "Bundesverband",
         "position": "Projektleiter Online-Dienste",
-        "startDate": "2004-04",
-        "endDate": "2016-06",
-        "description": "Mein Start ins Berufsleben: Als treue Seele begann ich als Zivildienstleistender und war zuletzt als leitender Projektmanager der Neu- und Weiterentwicklungen der Online-Dienste des Bundesverbandes tätig.",
-        "tags": ["Hauptbeschäftigung", "PHP", "PhpStorm", "PRINCE2", "Projektmanagement", "Symfony"]
+        "location": "Köln · zwölf Jahre",
+        "description": "Mein Start ins Berufsleben: Als treue Seele begann ich als Zivildienstleistender und war zuletzt als leitender Projektmanager für die Neu- und Weiterentwicklung der Online-Dienste des Bundesverbandes tätig.",
+        "tags": [
+            "PHP",
+            "PRINCE2",
+            "Projektmanagement",
+            "Symfony"
+        ]
     },
     {
-        "language": "en",
-        "company": "ASB Deutschland e.V.",
-        "logo": "images/milestones/asb.jpg",
-        "location": "Cologne",
-        "position": "Project Manager Online Services",
-        "startDate": "2004-04",
-        "endDate": "2016-06",
-        "description": "My start into professional life: As a loyal soul, I began as a community service worker and ultimately served as lead project manager for the development and enhancement of the federal association's online services.",
-        "tags": ["Full-time", "PHP", "PhpStorm", "PRINCE2", "Project Management", "Symfony"]
-    },
-    {
-        "language": "de",
+        "years": "2002",
         "company": "DATON webengineering",
-        "logo": "images/milestones/daton.jpg",
-        "location": "Köln",
         "position": "Praktikant",
-        "startDate": "2002-07",
-        "endDate": "2002-10",
-        "description": "Mein „Sneak Peek“ und Bestätigung meines Berufswunsches: Ich erhalte einen ersten Einblick ins Berufsleben im Rahmen eines dreimonatigen Berufspraktikums. Ich arbeite aktiv und erfolgreich an insgesamt drei Projekten des Teams mit.",
-        "tags": ["PHP", "Praktikum", "Webdesign"]
+        "location": "Köln · dreimonatiges Berufspraktikum"
     },
     {
-        "language": "en",
-        "company": "DATON webengineering",
-        "logo": "images/milestones/daton.jpg",
-        "location": "Cologne",
-        "position": "Intern",
-        "startDate": "2002-07",
-        "endDate": "2002-10",
-        "description": "My „sneak peek“ and confirmation of my career aspirations: I gain my first professional experience through a three-month internship. I actively and successfully contribute to three of the team's projects.",
-        "tags": ["PHP", "Internship", "Web Design"]
+        "years": "seit 2001",
+        "company": "krausgebaut",
+        "position": "Internet- & IT-Dienstleistungen",
+        "location": "Erftstadt · selbstständig",
+        "description": "Der Anfang: meine erste Gewerbetätigkeit. Gestartet als reiner Webdesigner, biete ich 25 Jahre später App- & Web-Entwicklung, Workshops und IT-Unterstützung an.",
+        "tags": [
+            "iOS-App",
+            "IT-Dienstleistungen",
+            "IT-Support",
+            "Symfony",
+            "Web-Entwicklung"
+        ],
+        "marker": "krausgebaut"
     },
     {
-        "language": "de",
+        "years": "2000 – 2003",
         "company": "Adolf-Kolping-Berufskolleg",
-        "logo": "images/milestones/akbk.jpg",
-        "location": "Kerpen",
-        "position": "Ausbildung zum Informationstechnischen Assistenten (ITA)",
-        "startDate": "2000-08",
-        "endDate": "2003-06",
-        "description": "Ich mache meine Berufsausbildung in Vollzeit an einer Berufsschule, inkl. dreimonatigem Betriebspraktikum, und schließe die Ausbildung mit einer praktischen Durchschnittsnote von 1,0 ab.",
-        "tags": ["Ausbildung", "ITA"]
-    },
-    {
-        "language": "en",
-        "company": "Adolf-Kolping-Berufskolleg",
-        "logo": "images/milestones/akbk.jpg",
-        "location": "Kerpen",
-        "position": "IT Assistant Training (ITA)",
-        "startDate": "2000-08",
-        "endDate": "2003-06",
-        "description": "I complete my full-time vocational training at a trade school, including a three-month work placement, and graduate with a practical grade point average of 1.0.",
-        "tags": ["Vocational Training", "ITA"]
+        "position": "Informationstechnischer Assistent (ITA)",
+        "location": "Kerpen · Abschluss praktisch 1,0"
     }
 ]

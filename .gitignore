@@ -1,7 +1,7 @@
-
 ###> custom ###
-/.claude/plans/*
-/.claude/settings.local.json
+/.claude/
+/.playwright-mcp
+/config/reference.php
 /node_modules
 ###< custom ###
 
@@ -14,3 +14,8 @@
 /var/
 /vendor/
 ###< symfony/framework-bundle ###
+
+###> phpunit/phpunit ###
+/phpunit.xml
+/.phpunit.cache/
+###< phpunit/phpunit ###

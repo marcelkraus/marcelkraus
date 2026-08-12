@@ -1,138 +1,125 @@
-@import "tailwindcss";
+/* source(none) switches off Tailwind's automatic project scan. Without it
+   every file in the tree is a candidate source, so a stray word in a
+   Markdown file can end up as a CSS rule in the build. The templates are
+   the only place utilities are written. */
+@import "tailwindcss" source(none);
 @plugin "@tailwindcss/typography";
 @source "../../templates/**/*.html.twig";
-@custom-variant dark (&:where(.dark, .dark *));
 
+/* Self-hosted fonts — no external requests. Aller carries the wordmark,
+   headlines and body (ties the type to the logo); JetBrains Mono is the
+   technical voice for eyebrows, labels and spec data. Latin covers the
+   German umlauts (ä ö ü ß). */
 @font-face {
-    font-family: 'Aller';
-    src: url('../fonts/aller_regular.ttf') format('truetype');
+    font-family: "Aller";
+    src: url("../fonts/aller_regular.ttf") format("truetype");
     font-weight: 400;
     font-style: normal;
     font-display: swap;
 }
 
-
 @font-face {
-    font-family: 'Aller';
-    src: url('../fonts/aller_bold.ttf') format('truetype');
+    font-family: "Aller";
+    src: url("../fonts/aller_bold.ttf") format("truetype");
     font-weight: 700;
     font-style: normal;
     font-display: swap;
 }
 
-@theme {
-    --font-sans: 'Aller', sans-serif;
-    --color-accent: #607E4A;
-    --color-accent-hover: #4d6639;
-    --color-surface: #FAFAFA;
-    --color-surface-dark: #0A0A0A;
-    --color-muted: #737373;
-    --color-border: #E5E5E5;
-    --color-border-dark: #404040;
-
-    --color-foreground: #171717;
-    --color-foreground-dark: #F5F5F5;
-    --color-foreground-subtle: #737373;
-    --color-foreground-subtle-dark: #A3A3A3;
-    --color-surface-elevated: #FFFFFF;
-    --color-surface-elevated-dark: #171717;
-    --color-surface-subtle: #F5F5F5;
-    --color-surface-subtle-dark: #262626;
-    --color-on-accent: #FFFFFF;
-
-    --color-brand-marcelkraus: #607E4A;
-    --color-brand-krausgebaut: #155E75;
-    --color-brand-krausgeborgt: #22C55E;
-    --color-brand-krausgedruckt: #EA580C;
-
-    --animate-fade-in: fadeIn 0.8s ease-out both;
-    --animate-slide-up: slideUp 0.6s ease-out both;
-    --animate-bounce-down: bounceDown 2s ease-in-out infinite;
-    --animate-bounce-left: bounceLeft 2s ease-in-out infinite;
-    --animate-bounce-right: bounceRight 2s ease-in-out infinite;
-}
-
-*:focus-visible {
-    outline: 2px solid var(--color-accent);
-    outline-offset: 2px;
-    border-radius: 4px;
-}
-
-/* Contact/postal addresses should not render italic. */
-address {
+@font-face {
+    font-family: "JetBrains Mono Variable";
+    src: url("../fonts/jetbrains-mono-latin-wght-normal.woff2") format("woff2");
+    font-weight: 100 800;
     font-style: normal;
+    font-display: swap;
 }
 
-/* Mobile dropdown for the header controls (sections, theme, language). */
-@media (width < 50rem) {
-    #header-controls.mobile-open {
-        position: absolute;
-        top: 100%;
-        left: 0;
-        right: 0;
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 1.5rem;
-        padding: 1.5rem 2rem 2rem;
-        background-color: var(--color-surface);
-        border-bottom: 1px solid var(--color-border);
-        box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+/* Design tokens. The single chromatic color is the purple accent; everything
+   else is Tailwind's neutral-*. Typographic roles: Aller (display + body),
+   JetBrains Mono (technical). */
+@theme {
+    --font-sans: "Aller", ui-sans-serif, system-ui, sans-serif;
+    --font-display: "Aller", ui-sans-serif, system-ui, sans-serif;
+    --font-mono: "JetBrains Mono Variable", ui-monospace, monospace;
+
+    /* One vocabulary, all three brands: the role is in the name, so the
+       difference between the sites falls into the values and not into the
+       naming.
+
+         accent                 the brand itself — surfaces, borders, markers,
+                                the mark. Never type without a checked step.
+         accent-on-light        type on a light ground
+         accent-on-dark         type on a dark ground
+         accent-hover           hover of a filled surface
+         accent-on-light-hover  hover of type on a light ground
+
+       The accent is Tailwind's purple-700 — the palette color of the left
+       square in the master logo, which stands for the employment career.
+       Bound to the token rather than a copied hex so it cannot drift from
+       the palette.
+
+       The purple is a DARK color, like krausgebaut's petrol: it carries a
+       light ground as it is (7.07:1) and misses AA as type on a dark one
+       (2.53:1), where it needs a brighter step (purple-400, 6.42:1). The
+       hover of a filled surface moves in whichever direction keeps its label
+       readable — here the label is white, so the fill DARKENS. */
+    --color-accent: var(--color-purple-700);
+    --color-accent-on-light: var(--color-purple-700);
+    --color-accent-on-dark: var(--color-purple-400);
+    --color-accent-hover: var(--color-purple-800);
+    --color-accent-on-light-hover: var(--color-purple-800);
+
+    /* The two sibling brands. They appear as the other two squares in the
+       logo, as marker dots in the footer and in the closing brand band.
+       A role step exists only where the base value fails as type, so a
+       missing step is information: krausgebaut's petrol measures 2.73:1 on
+       the dark band and needs the brighter cyan-600 (5.50:1 there, 4.97:1 on
+       the footer), while krausgedruckt's papaya passes as it is (5.51:1 and
+       4.99:1). */
+    --color-brand-krausgebaut: var(--color-cyan-800);
+    --color-brand-krausgebaut-on-dark: var(--color-cyan-600);
+    --color-brand-krausgedruckt: var(--color-orange-600);
+}
+
+/* Base layer. */
+@layer base {
+    html {
+        scroll-behavior: smooth;
+        /* Offset anchor targets for the fixed header. */
+        scroll-padding-top: 5rem;
     }
 
-    .dark #header-controls.mobile-open {
-        background-color: var(--color-surface-dark);
-        border-color: var(--color-border-dark);
+    body {
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
     }
-}
 
-.hero-grid {
-    background-image:
-        linear-gradient(to right, rgba(0, 0, 0, 0.03) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
-    background-size: 4rem 4rem;
-}
+    /* Contact/postal addresses should not render italic. */
+    address {
+        font-style: normal;
+    }
 
-.dark .leaflet-tile-pane {
-    filter: invert(1) hue-rotate(180deg);
-}
+    ::selection {
+        background-color: var(--color-accent);
+        color: white;
+    }
 
-.dark .hero-grid {
-    background-image:
-        linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-}
+    :focus-visible {
+        outline: 2px solid var(--color-accent);
+        outline-offset: 2px;
+    }
 
-@keyframes fadeIn {
-    0% { opacity: 0; }
-    100% { opacity: 1; }
-}
-
-@keyframes slideUp {
-    0% { opacity: 0; transform: translateY(2rem); }
-    100% { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes bounceDown {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(0.5rem); }
-}
-
-@keyframes bounceLeft {
-    0%, 100% { transform: translateX(0); }
-    50% { transform: translateX(-0.5rem); }
-}
-
-@keyframes bounceRight {
-    0%, 100% { transform: translateX(0); }
-    50% { transform: translateX(0.5rem); }
+    /* The ring follows the same rule as type: the accent measures 2.53:1 on
+       the footer and 2.80:1 on the brand band, below the 3:1 that WCAG 1.4.11
+       asks of an indicator. On those grounds it takes the brighter step
+       (6.42:1 and 7.10:1). */
+    .bg-neutral-900 :focus-visible,
+    .bg-neutral-950 :focus-visible {
+        outline-color: var(--color-accent-on-dark);
+    }
 }
 
 @media (prefers-reduced-motion: reduce) {
-    html {
-        scroll-behavior: auto;
-    }
-
     *,
     *::before,
     *::after {

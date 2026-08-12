@@ -1,3 +1,50 @@
+#!/usr/bin/env bash
+#
+# Rolls the checked-out branch out. Run it on the server, inside the
+# application directory:
+#
+#     ssh kraus 'cd ~/html/marcelkraus && bin/deploy'
+#
+# `set -e` matters here: without it a failed `composer install` would be
+# followed by a cache rebuild against half-installed dependencies, and the
+# site would come back up broken instead of staying on the old release.
+set -euo pipefail
+
 git fetch --all
 git reset --hard origin/main
-bin/console cache:clear
+
+# The secret keys CSRF and the anti-spam timestamp of the contact form, and
+# the repository carries a placeholder for it. A missing or unedited
+# .env.local therefore does not break the site — it silently ships a secret
+# that anybody can read here, which makes both tokens forgeable. Checked on
+# every release, because the failure is invisible from the outside.
+if [ ! -f .env.local ]; then
+    echo "bin/deploy: .env.local is missing — aborting." >&2
+    exit 1
+fi
+
+if grep -qE '^APP_SECRET=(<ChangeMe|\s*$|""$)' .env.local || ! grep -q '^APP_SECRET=' .env.local; then
+    echo "bin/deploy: .env.local has no usable APP_SECRET — aborting." >&2
+    exit 1
+fi
+
+composer install --no-dev --optimize-autoloader
+
+# The compiled container is moved aside rather than cleared. `cache:clear`
+# loads the existing container before it replaces it, so a release that drops
+# a bundle makes it die on a class that no longer exists — reproduced once,
+# and it takes the site down for the length of the fix.
+#
+# Moved rather than deleted outright, because a plain `rm -rf` races the web
+# server: PHP-FPM writes into the directory while rm walks it and rm gives up
+# with "Directory not empty". Under `set -e` that aborts the deployment right
+# between removing the cache and rebuilding it, which is the worst possible
+# moment. The rename is atomic and cannot race; sweeping the leftovers
+# afterwards may fail harmlessly, so it is allowed to.
+if [ -d var/cache/prod ]; then
+    discard="var/cache/prod.discard.$$"
+    mv var/cache/prod "$discard"
+    rm -rf "$discard" || true
+fi
+
+bin/console cache:clear --env=prod --no-debug
