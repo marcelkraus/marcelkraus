@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Dto\ContactRequest;
+use App\Service\AvailabilityCalculator;
+use DateTimeImmutable;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
@@ -21,6 +23,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 final class DefaultController extends AbstractController
 {
     public function __construct(
+        private readonly AvailabilityCalculator $availabilityCalculator,
         private readonly MailerInterface $mailer,
         private readonly ValidatorInterface $validator,
         #[Autowire('%kernel.secret%')]
@@ -222,6 +225,7 @@ final class DefaultController extends AbstractController
         $skills = $this->loadContent('skills');
 
         $response = $this->render('default/homepage.html.twig', array_merge([
+            'availability' => $this->availabilityCalculator->availabilityLabel(new DateTimeImmutable()),
             'brands' => $this->loadContent('brands'),
             'hobbies' => $hobbies,
             'knowsAbout' => $this->knowsAbout($skills, $hobbies),

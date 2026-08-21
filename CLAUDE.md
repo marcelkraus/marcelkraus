@@ -93,6 +93,7 @@ config/content/     milestones.json, skills.json, hobbies.json, brands.json
 src/Controller/     DefaultController – all routes, form handling, JSON loading
 src/Dto/            ContactRequest – form DTO with validation constraints
 src/EventListener/  SecurityHeadersListener
+src/Service/        AvailabilityCalculator – the availability month, computed
 templates/          base.html.twig, default/, partials/
 public/             css/, fonts/, images/, favicon.*, apple-touch-icon.png
 ```
@@ -100,7 +101,8 @@ public/             css/, fonts/, images/, favicon.*, apple-touch-icon.png
 Each partial is the single source for its pattern: `_logo` (brand lockup),
 `_eyebrow` (mono label with square marker and optional section number),
 `_icons` (line-icon macro), `_button_class` (the button skin as a bare class
-string, in two sizes), `_contact_form`.
+string, in two sizes), `_contact_form`, `_tags` (the technology tags of a
+career station, shared by a station and by the roles nested inside one).
 
 `_icons` keeps **no stock**: every name in it has a caller, and the names are
 alphabetical. Most come from Heroicons v2 outline, `remote` and `wheel` are
@@ -174,7 +176,12 @@ than the 4.5:1 of body text — but it had the ramp the wrong way round before
 The two sibling brands have their own tokens, so foreign colors stay out of
 the accent scale: `brand-krausgebaut` (`cyan-800`),
 `brand-krausgebaut-on-dark` (`cyan-600`) and `brand-krausgedruckt`
-(`orange-600`). A role step exists only where the base value fails as type, so
+(`orange-600`). `brand-jurassic-jeep` (`red-700`) joins them for the career
+marker of the vehicle rental — the trade has no square in the logo and no tile
+in the band, only that marker. Its own red is `#C01D0C`; `red-700` is the
+nearest palette step at a perceptual distance of 0.0155 in oklab, about three
+times closer than `orange-700`, which is what keeps the token bound to the
+palette instead of carrying a copied hex. A role step exists only where the base value fails as type, so
 a missing step is information: the petrol measures 2.74:1 on the dark band and
 needs the brighter step (5.47:1 on the band, 4.95:1 on the footer), the papaya
 passes as it is (5.50:1 / 4.98:1).
@@ -268,19 +275,44 @@ section rhythm.
   of the career a station belongs to. There is deliberately no carousel: the
   previous one showed *less* on the desktop than on the phone and kept hidden
   cards in the tab order.
-- **Competences carry a year, not a rating.** A year is checkable; self-awarded
-  scales are an anti-pattern. Grouped by intensity, alphabetical inside each
-  group. **The years do not have to match the career** and mostly do not — they
-  say since when Marcel works with a thing, not since when an employer paid for
-  it.
+- **Several roles at one employer are nested, not listed side by side.** Ten
+  years at Chefkoch is the strongest single statement in the document, and two
+  stations next to each other read as two jobs rather than as one development.
+  The employer line carries the whole span, the roles sit indented below it on
+  their own hairline. Only Chefkoch has this shape today.
+- **The availability is computed, never written out.** `AvailabilityCalculator`
+  derives the month from the notice period, so the statement in the hero cannot
+  fall out of date between two edits. The word *freigestellt* deliberately
+  appears nowhere: it answers a question the reader did not ask and raises one
+  he did not have. A date answers the only question there is — when?
+- **Competences carry a year where a year says something, and never a
+  rating.** A year is checkable; self-awarded scales are an anti-pattern.
+  Grouped by intensity, alphabetical inside each group. **The years do not have
+  to match the career** and mostly do not — they say since when Marcel works
+  with a thing, not since when an employer paid for it.
 - **Voice:** first person singular ("ich"), and the visitor is addressed
   formally ("Sie") — the audience is a hiring company, and it matches
   krausgebaut.
+- **The station texts follow one build, and it is checkable.** Responsibility
+  and scope are nominal ("Mitverantwortlich für…", "Zunächst in einem
+  Plattform-Team…"); what Marcel personally achieved is a full sentence in the
+  first person ("Ich habe … begleitet", "Federführend habe ich …"); the trades
+  are purely descriptive, because a business describes itself and does not
+  claim an achievement. The perspective used to jump inside a single text —
+  nominal, then "ich", then nominal again — which read as three drafts stitched
+  together.
+- **No selling on this site, not even in a trade's description.** "Ich mache
+  die Ideen meiner Kunden greifbar" stood at krausgedruckt for a while and was
+  the one sentence on the page that advertised. Sales copy belongs on
+  krausgebaut; here a trade says what it does, in what process, and stops.
 - **Positioning:** this is the curriculum vitae and the hub. Sales copy belongs
-  on krausgebaut. **Jurassic Jeep appears nowhere** — not in the career, not in
-  the brand band, not in the footer; whether the vehicle-rental business gets a
-  place here is an open decision, so do not add it back in passing. The passion
-  section carries four cards, three of which link out. OwnYard and meetMyRC are
+  on krausgebaut. **Jurassic Jeep sits in the career and nowhere else** — not in
+  the brand band, not in the footer. A curriculum vitae that lists two of three
+  registered trades invites the question what else is missing, and an omission
+  weighs more than the thing omitted. The brand band stays at two cards because
+  the mark is three squares for three brands; a fourth tile under it contradicts
+  the logo, and the vehicle rental is a trade rather than a brand of the family.
+  The passion section carries four cards, three of which link out. OwnYard and meetMyRC are
   the deliberate exception to "no projects here": they make a different
   statement than a portfolio tile — not "I built this for a client" but "for
   this problem I write the software myself". The Maker card points at
@@ -337,26 +369,70 @@ or malformed → empty list). Editing content needs no code change.
 ### milestones.json
 
 The rendered order is the file order. **Employment runs newest first; each of
-the two businesses sits directly below the employment it started under.**
-krausgedruckt (2023) therefore follows the current Chefkoch station,
-krausgebaut (2001) follows the internship of 2002. Sorting purely by date would
-push the current employment below a business that started in 2001, and the
-first line of a curriculum vitae has to be the current job.
+the businesses sits directly below the employment it started under.**
+krausgedruckt (11/2023) and Jurassic Jeep (05/2021) therefore follow the
+Chefkoch station, krausgebaut (01/2002) follows the internship of 07/2002.
+Sorting purely by date would push the current employment below a business that
+started in 2002, and the first line of a curriculum vitae has to be the current
+job.
 
-Fields: `years` (the printed label, e.g. `2017 – 2026`), `company`, `position`,
-`location`, and optionally `description`, `division`, `tags[]` and `marker`.
+**Every period is month-precise.** Month precision exists so that gaps are
+visible, which means the dates have to be right rather than merely plausible:
+krausgebaut starts with the date on the trade licence (01/2002, not the 05/2001
+that older sources carry), and the ASB employment starts 10/2004, with the
+freelance work that ran from 04/2004 named in the text instead of folded into
+the dates.
+
+Fields: `years` (the printed label, e.g. `05/2017 – 11/2026`), `company`,
+`location`, and optionally `position`, `description`, `division`, `tags[]`,
+`marker`, `url` and `roles[]`.
+
+**`location` reads `Ort · Zusatz`**, the second part optional: `Köln`,
+`Köln · Poststelle und Versand`, `Erftstadt · selbstständig`. The field is
+mono without `uppercase`, so it prints exactly as it stands in the file, and
+the addition stays lowercase where German asks for it (`selbstständig`).
+
+**It carries no duration.** Durations were tried here and removed: the period
+already stands in the date column to the left, so a second figure only invites
+the reader to check one against the other — and at `07/2002 – 10/2002` next to
+"drei Monate" the two do not agree, because counting whole months and counting
+elapsed time give different answers. One statement of the period, in one
+place.
 
 - **`division`** is a second line under the company name, for an organizational
   unit such as `Bundesverband`.
-- **`marker`** takes `krausgebaut` or `krausgedruckt` and selects the station's
-  color from the literal map in the template; without it the station takes the
-  accent.
+- **`marker`** takes `krausgebaut`, `krausgedruckt`, `jurassic-jeep` or
+  `secondary` and selects the station's color from the literal map in the
+  template; without it the station takes the accent. The three trades carry
+  their own color, the employments share the accent, and `secondary` sets a
+  station back into `neutral-500` — education, community service and the
+  internship, so the accent belongs to the working life alone. `secondary`
+  also greys the position line, which is the only place a marker value reaches
+  beyond its square.
+- **`neutral-500` is the floor for a set-back station, not `neutral-400`.**
+  The calmer step measures 2.58:1 on this ground and misses the 3:1 that WCAG
+  1.4.11 asks of an indicator; `neutral-500` measures 4.74:1 and therefore
+  carries the marker and its line of type.
+- **`url`** hangs the business homepage in the muted location line — label
+  `Homepage` plus the `external` glyph, no underline, because the glyph is a
+  shape rather than a color and satisfies WCAG 1.4.1 on its own. The label is
+  identical on all three, so the `aria-label` names the business; otherwise a
+  screen reader announces the same word three times without a subject.
+- **`roles[]`** turns one entry into an employer with several roles, each with
+  its own `years`, `position`, `description` and `tags[]`. The entry then omits
+  its own `position`. Chefkoch is the only case; the alternative — giving every
+  entry a `roles[]` — would spare the branch in the template and inflate six
+  single-role entries instead.
 - An entry **without `description`** renders as a condensed one-liner. That is
-  how the internship and the vocational school are kept from taking as much
-  room as twelve years at the ASB.
+  how the internship, the community service and the vocational school are kept
+  from taking as much room as twelve years at the ASB.
+- **Community service and employment at the ASB are two entries, not one.**
+  Merging them would put eleven months of mail room under a heading that says
+  "Projektleiter Online-Dienste". The month between them is covered by
+  krausgebaut, which runs through the whole timeline.
 - **No employment entry carries an open end.** The only statement about
-  availability lives in the hero and therefore has exactly one place to
-  maintain. The two businesses are open by design (`seit 2023`, `seit 2001`).
+  availability lives in the hero and is computed there. The businesses are open
+  by design (`seit 11/2023`, `seit 05/2021`, `seit 01/2002`).
 
 ### skills.json
 
@@ -367,14 +443,31 @@ alphabetical inside each group: `group`, `entries[]` with `name` and optional
 - **`Täglich`** carries what is in daily use, **`Regelmäßig`** everything else
   that is still worked with, **`Arbeitsweise`** the methods, **`Schwerpunkte`**
   what the other three cannot say.
-- **`Schwerpunkte` is the one group without years.** A focus is not something
-  one has "since", and its entries are qualities and activities rather than
-  technologies.
-- Operating systems are listed as a user, everything else as a developer, which
-  is why they carry no year: `iOS` next to `Swift seit 2017` would otherwise
-  read as years of unrecorded Apple development.
-- Capped at around twenty entries; tools are left out, methods stay. The years
-  are Marcel's own figures.
+- **Which group carries years is itself the statement.** `Täglich` carries
+  them, because "in daily use since 2017" is a claim worth checking.
+  `Regelmäßig` carries none: "since 2014, now and then" tells a reader nothing
+  and only invites arithmetic. `Arbeitsweise` carries them for the dated
+  methods. `Schwerpunkte` never — a focus is not something one has "since", and
+  its entries are qualities and activities rather than technologies.
+- Inside `Täglich`, a missing year means no year is claimed. That covers the
+  operating systems, which are listed as a user rather than as a developer
+  (`iOS` next to `Swift seit 2017` would otherwise read as years of unrecorded
+  Apple development), and `Git`, where the year was a guess and a guess on a
+  curriculum vitae is worth less than silence.
+- Around twenty-five entries; tools are left out, methods stay. The years are
+  Marcel's own figures.
+- **A station tag is not a competence.** Tags say what a station worked with,
+  the groups here say what Marcel can do today. `Drupal` is the proof: it sits
+  on the PHP role and does not belong in this file, because the work ended in
+  2017. Do not add a rule that pairs the two lists; it was tried on paper and
+  it is wrong — and the reverse is just as true, a technology that is neither
+  a competence nor a defining part of a station simply appears in neither
+  list, which is why Kotlin Multiplatform is now absent from both.
+- **A year that cannot be defended in an interview is worse than none.**
+  `Objective-C seit 2017` claimed nine years of practice in a language Marcel
+  never deliberately wrote, and `SwiftUI seit 2019` named the year the
+  framework shipped rather than the year he started. The first entry is gone,
+  the second says 2021.
 
 ### hobbies.json
 
@@ -455,10 +548,16 @@ only indexable page; the legal pages are `noindex`.
 
 The sharing image is a finished asset, not a build product. It was rendered
 from the real logo partial and the real fonts at 1200×630: white, the eyebrow
-and the logo lockup on the left, the job title in the accent below it, domain,
-location and the availability badge as a mono line at the bottom, and the three
-brand squares oversized and cropped off the right edge — the same "texture off
-the right edge" device krausgebaut uses with its gear.
+and the logo lockup on the left, the job title in the accent below it, domain
+and location as a mono line at the bottom, and the three brand squares
+oversized and cropped off the right edge — the same "texture off the right
+edge" device krausgebaut uses with its gear.
+
+**The card states nothing that expires.** It carried an availability badge
+("VERFÜGBAR AB SOFORT") until the availability became a computed month; a
+finished asset cannot follow a value that moves, so the card would have
+contradicted the page it links to on every share. The badge is gone rather
+than updated.
 
 **The bottom line matches both siblings**: the domain without `www.`, set in
 capitals like everything else in mono. It said `www.marcelkraus.de` in mixed

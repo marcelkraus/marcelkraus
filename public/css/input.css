@@ -79,6 +79,17 @@
     --color-brand-krausgebaut: var(--color-cyan-800);
     --color-brand-krausgebaut-on-dark: var(--color-cyan-600);
     --color-brand-krausgedruckt: var(--color-orange-600);
+
+    /* Jurassic Jeep is a trade, not a brand of the family — it has no square
+       in the logo and no tile in the closing band, only a marker in the
+       career. Its own red is #C01D0C (jurassicjeep.de); red-700 is the
+       closest palette step at a perceptual distance of 0.0155 in oklab,
+       roughly three times closer than orange-700. Binding to the palette
+       keeps the rule that no interface token carries a copied hex. 6.42:1 on
+       white, so the marker clears the 3:1 of WCAG 1.4.11 with room to spare.
+       The same palette step also backs --color-error-on-surface; the two
+       never meet on a page, and the role names keep them apart. */
+    --color-brand-jurassic-jeep: var(--color-red-700);
     /* Error is the second semantic color of the interface and gets the same
        role treatment as the accent, so its contrast is checkable by name.
 

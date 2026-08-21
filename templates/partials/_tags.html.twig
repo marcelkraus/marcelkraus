@@ -1,0 +1,11 @@
+{# Technology tags of a career station. Kept as a partial because the pattern
+   now has two callers — a station and the roles nested inside one — and two
+   copies of the same markup drift apart at the first change.
+   Params: tags (list of strings). #}
+{% if tags is not empty %}
+    <div class="mt-4 flex flex-wrap gap-1.5">
+        {% for tag in tags %}
+            <span class="rounded-md bg-neutral-100 px-2 py-0.5 font-mono text-[0.6875rem] text-neutral-600">{{ tag }}</span>
+        {% endfor %}
+    </div>
+{% endif %}

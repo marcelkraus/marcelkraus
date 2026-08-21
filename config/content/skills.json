@@ -3,8 +3,7 @@
         "group": "Täglich",
         "entries": [
             {
-                "name": "Git",
-                "since": "seit 2010"
+                "name": "Git"
             },
             {
                 "name": "iOS"
@@ -14,7 +13,7 @@
             },
             {
                 "name": "PHP / MySQL",
-                "since": "seit 2001"
+                "since": "seit 2002"
             },
             {
                 "name": "Swift",
@@ -22,19 +21,11 @@
             },
             {
                 "name": "SwiftUI",
-                "since": "seit 2019"
+                "since": "seit 2021"
             },
             {
                 "name": "Symfony",
                 "since": "seit 2008"
-            },
-            {
-                "name": "Tailwind CSS",
-                "since": "seit 2024"
-            },
-            {
-                "name": "UIKit",
-                "since": "seit 2017"
             }
         ]
     },
@@ -42,23 +33,25 @@
         "group": "Regelmäßig",
         "entries": [
             {
-                "name": "Arduino",
-                "since": "seit 2014"
+                "name": "Arduino"
             },
             {
-                "name": "CAN-Bus",
-                "since": "seit 2024"
+                "name": "CAN-Bus"
             },
             {
                 "name": "Linux"
             },
             {
-                "name": "Objective-C",
-                "since": "seit 2017"
+                "name": "Redux"
             },
             {
-                "name": "Twig",
-                "since": "seit 2010"
+                "name": "Tailwind CSS"
+            },
+            {
+                "name": "Twig"
+            },
+            {
+                "name": "UIKit"
             }
         ]
     },
@@ -91,13 +84,19 @@
                 "name": "Anforderungsanalyse"
             },
             {
-                "name": "Hinterfragen und Entwickeln"
+                "name": "Architektur"
             },
             {
-                "name": "Kommunikation"
+                "name": "Migration bestehender Systeme"
             },
             {
                 "name": "Produktentwicklung"
+            },
+            {
+                "name": "Softwareentwicklung"
+            },
+            {
+                "name": "Technische Konzeption"
             }
         ]
     }

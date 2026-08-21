@@ -1,53 +1,71 @@
 [
     {
-        "years": "2017 – 2026",
+        "years": "07/2016 – 11/2026",
         "company": "Chefkoch GmbH",
-        "position": "Senior iOS-Entwickler",
-        "location": "Bonn",
-        "description": "Mein „NeXT Step“: Ich wechsle die Plattform und entwickle seit Mitte 2017 die iOS- und iPadOS-App der Chefkoch GmbH; ab Februar 2024 bis zum Ende meiner Tätigkeit in einem crossfunktionalen, elfköpfigen Team.",
-        "tags": [
-            "iOS-App",
-            "KMP",
-            "Scrum",
-            "Swift",
-            "SwiftUI",
-            "UIKit"
+        "location": "In Bonn · seit 2020 remote",
+        "roles": [
+            {
+                "years": "05/2017 – 11/2026",
+                "position": "Senior iOS-Entwickler",
+                "description": "Mitverantwortlich für die iOS- und iPadOS-App der führenden Food-Plattform Deutschlands – 4,7 Sterne bei über 169.000 Bewertungen im App Store. Zunächst in einem Plattform-Team mit bis zu fünf weiteren iOS-Entwicklern, ab Februar 2024 als alleiniger iOS-Entwickler in einem elfköpfigen crossfunktionalen Team, dazu tägliche Code Reviews und das Mentoring von Junior-Entwicklern. Ich habe ab 2017 die Umstellung von Objective-C auf Swift begleitet, 2022 mit dem Wochenplaner die Migration von UIKit auf SwiftUI begonnen, ab 2025 gemeinsam mit den anderen Entwicklern auf Redux umgestellt und Projekte wie den Rezeptimport leitend umgesetzt. Federführend habe ich 2026 den neuen Homescreen und das dahinterliegende Content-Management-System umgesetzt und damit Drupal 8 abgelöst, das ich 2017 als PHP-Entwickler selbst mit eingeführt hatte.",
+                "tags": [
+                    "iOS-App",
+                    "Redux",
+                    "Scrum",
+                    "Swift",
+                    "SwiftUI",
+                    "UIKit"
+                ]
+            },
+            {
+                "years": "07/2016 – 04/2017",
+                "position": "PHP-Entwickler",
+                "description": "Einstieg bei Chefkoch und Wechsel von Köln nach Bonn: Ich habe ein neues Content-Management-System auf Basis von Drupal 8 und Symfony mit eingeführt, inklusive der teilautomatischen Migration aller Inhalte des damaligen Online-Magazins.",
+                "tags": [
+                    "Drupal",
+                    "PHP",
+                    "Scrum",
+                    "Symfony"
+                ]
+            }
         ]
     },
     {
-        "years": "seit 2023",
+        "years": "seit 11/2023",
         "company": "krausgedruckt",
         "position": "3D-Druck-Dienstleistungen",
-        "location": "Erftstadt · selbstständig",
-        "description": "Aller guten Dinge sind drei: Aus einer privaten Idee heraus geboren, biete ich die additive Fertigung individueller Teile an – Prototypen, Werkzeuge, Ersatzteile und Dekoration.",
+        "location": "In Erftstadt · selbstständig",
+        "description": "Additive Fertigung individueller Teile im FDM-Verfahren: Prototypen, Werkzeuge, Ersatzteile und Dekoration, als Einzelstück ebenso wie als Kleinserie. Dazu 3D-Modellierung und Prototypentwicklung direkt am Objekt sowie ein Onlineshop.",
         "tags": [
             "3D-Druck",
-            "Additive Fertigung",
+            "3D-Modellierung",
             "FDM",
-            "Prototypentwicklung"
+            "Kleinserienfertigung",
+            "Onlineshop"
         ],
-        "marker": "krausgedruckt"
+        "marker": "krausgedruckt",
+        "url": "https://www.krausgedruckt.de"
     },
     {
-        "years": "2016 – 2017",
-        "company": "Chefkoch GmbH",
-        "position": "PHP-Entwickler",
-        "location": "Bonn",
-        "description": "Mein Wechsel von Köln nach Bonn: Ich beginne als PHP-Entwickler mit der Mitentwicklung des damals verwendeten Online-Magazins unter Einsatz des Content-Management-Systems Drupal 8.",
+        "years": "seit 05/2021",
+        "company": "Jurassic Jeep",
+        "position": "Vermietung eines Filmfahrzeugs",
+        "location": "In Erftstadt · selbstständig",
+        "description": "Vermietung meines ersten fertigen Filmfahrzeugs. Der Jeep Wrangler Sahara von 1993 gleicht dem markanten Jeep aus „Jurassic Park“ und „Jurassic World“ wie ein Ei dem anderen und steht als Fotopoint für Veranstaltungen aller Art zur Verfügung.",
         "tags": [
-            "Drupal",
-            "PHP",
-            "Scrum",
-            "Symfony"
-        ]
+            "Fahrzeugvermietung",
+            "Filmfahrzeuge"
+        ],
+        "marker": "jurassic-jeep",
+        "url": "https://www.jurassicjeep.de"
     },
     {
-        "years": "2004 – 2016",
+        "years": "10/2004 – 06/2016",
         "company": "Arbeiter-Samariter-Bund Deutschland e.V.",
         "division": "Bundesverband",
         "position": "Projektleiter Online-Dienste",
-        "location": "Köln · zwölf Jahre",
-        "description": "Mein Start ins Berufsleben: Als treue Seele begann ich als Zivildienstleistender und war zuletzt als leitender Projektmanager für die Neu- und Weiterentwicklung der Online-Dienste des Bundesverbandes tätig.",
+        "location": "In Köln",
+        "description": "Verantwortlich für die verbandsweit eingesetzten Online-Dienste, genutzt von allen Gliederungen – von den 16 Landesverbänden bis hinunter zu mehreren Dutzend Ortsverbänden. Als Projektleiter steuerte ich drei bis fünf Vorhaben, darunter die zentrale Verbands-Homepage asb.de und ein neues Intranet; daneben entwickelte ich etwa 10 bis 15 Anwendungen eigenverantwortlich. Begonnen habe ich als freier Mitarbeiter, ab Oktober 2004 fest angestellt.",
         "tags": [
             "PHP",
             "PRINCE2",
@@ -56,17 +74,26 @@
         ]
     },
     {
-        "years": "2002",
-        "company": "DATON webengineering",
-        "position": "Praktikant",
-        "location": "Köln · dreimonatiges Berufspraktikum"
+        "years": "10/2003 – 07/2004",
+        "company": "Arbeiter-Samariter-Bund Deutschland e.V.",
+        "division": "Bundesverband",
+        "position": "Zivildienstleistender",
+        "location": "In Köln · Poststelle und Versand",
+        "marker": "secondary"
     },
     {
-        "years": "seit 2001",
+        "years": "07/2002 – 10/2002",
+        "company": "DATON webengineering",
+        "position": "Praktikant",
+        "location": "In Köln · Betriebspraktikum",
+        "marker": "secondary"
+    },
+    {
+        "years": "seit 01/2002",
         "company": "krausgebaut",
         "position": "Internet- & IT-Dienstleistungen",
-        "location": "Erftstadt · selbstständig",
-        "description": "Der Anfang: meine erste Gewerbetätigkeit. Gestartet als reiner Webdesigner, biete ich 25 Jahre später App- & Web-Entwicklung, Workshops und IT-Unterstützung an.",
+        "location": "In Erftstadt · selbstständig",
+        "description": "Gestartet als reiner Webdesigner, 24 Jahre später Internet- und IT-Dienstleister mit App- und Web-Entwicklung, Workshops und IT-Unterstützung – seit 2004 durchgehend als Nebengewerbe parallel zur Anstellung.",
         "tags": [
             "iOS-App",
             "IT-Dienstleistungen",
@@ -74,12 +101,14 @@
             "Symfony",
             "Web-Entwicklung"
         ],
-        "marker": "krausgebaut"
+        "marker": "krausgebaut",
+        "url": "https://www.krausgebaut.de"
     },
     {
-        "years": "2000 – 2003",
+        "years": "08/2000 – 06/2003",
         "company": "Adolf-Kolping-Berufskolleg",
         "position": "Informationstechnischer Assistent (ITA)",
-        "location": "Kerpen · Abschluss praktisch 1,0"
+        "location": "In Kerpen · Abschluss mit Fachhochschulreife",
+        "marker": "secondary"
     }
 ]

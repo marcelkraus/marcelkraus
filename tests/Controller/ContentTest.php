@@ -66,11 +66,82 @@ final class ContentTest extends WebTestCase
         // Deliberately not a term the career carries as well: 'Swift' also
         // sits in a milestone tag, so it stayed in the document while
         // skills.json degraded to an empty list — which is the one failure
-        // this test is here to catch. 'Objective-C' and 'Anforderungsanalyse'
+        // this test is here to catch. 'CAN-Bus' and 'Anforderungsanalyse'
         // exist in skills.json alone, and the visible section is asserted
         // next to the structured data.
-        self::assertStringContainsString('Objective-C', $body);
+        self::assertStringContainsString('CAN-Bus', $body);
         self::assertStringContainsString('Sim Racing', $body);
         self::assertSelectorTextContains('#kompetenzen', 'Anforderungsanalyse');
+    }
+
+    /**
+     * Every station has to reach the page, because the curriculum vitae and
+     * the PDF fassung are held content-identical: a station that silently
+     * fails to render here would be missing from both.
+     */
+    public function testEveryCareerStationReachesThePage(): void
+    {
+        $client = static::createClient();
+        $client->request('GET', '/');
+
+        foreach ([
+            'Adolf-Kolping-Berufskolleg',
+            'Arbeiter-Samariter-Bund Deutschland e.V.',
+            'Chefkoch GmbH',
+            'DATON webengineering',
+            'Jurassic Jeep',
+            'krausgebaut',
+            'krausgedruckt',
+        ] as $company) {
+            self::assertSelectorTextContains('#werdegang', $company);
+        }
+
+        // The two entries that carry no description of their own and would
+        // therefore disappear unnoticed if the condensed branch broke.
+        self::assertSelectorTextContains('#werdegang', 'Zivildienstleistender');
+        self::assertSelectorTextContains('#werdegang', 'Praktikant');
+    }
+
+    /**
+     * Chefkoch is one employer with two roles. Both role labels and both
+     * periods have to render, otherwise the nesting has swallowed one of them
+     * — which is invisible in a passing "Chefkoch GmbH" assertion.
+     */
+    public function testChefkochRendersBothRolesUnderOneEmployer(): void
+    {
+        $client = static::createClient();
+        $crawler = $client->request('GET', '/');
+
+        self::assertSelectorTextContains('#werdegang', 'Senior iOS-Entwickler');
+        self::assertSelectorTextContains('#werdegang', 'PHP-Entwickler');
+        self::assertSelectorTextContains('#werdegang', '05/2017 – 11/2026');
+        self::assertSelectorTextContains('#werdegang', '07/2016 – 04/2017');
+
+        // One company line, not two: the whole point of the nesting.
+        self::assertSame(1, $crawler->filter('#werdegang')->filter('p')->reduce(
+            static fn ($node): bool => trim((string) $node->text()) === 'Chefkoch GmbH',
+        )->count());
+    }
+
+    /**
+     * The availability is computed from the notice period rather than written
+     * out. Asserted as a shape, not as a value: the value moves with the
+     * calendar, and a test pinned to one month would fail on its own the next
+     * time the boundary passes.
+     */
+    public function testAvailabilityIsStatedAsAMonth(): void
+    {
+        $client = static::createClient();
+        $crawler = $client->request('GET', '/');
+
+        $chips = $crawler->filter('dl div')->reduce(
+            static fn ($node): bool => trim((string) $node->filter('dt')->text()) === 'Verfügbarkeit',
+        );
+
+        self::assertCount(1, $chips);
+        self::assertMatchesRegularExpression(
+            '/^(Ab \w+ \d{4}|Sofort)$/u',
+            trim((string) $chips->filter('dd')->text()),
+        );
     }
 }
