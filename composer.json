@@ -9,6 +9,7 @@
         "php": ">=8.4",
         "ext-ctype": "*",
         "ext-iconv": "*",
+        "mpdf/mpdf": "^8.3",
         "symfony/apache-pack": "*",
         "symfony/asset": "8.1.*",
         "symfony/console": "8.1.*",

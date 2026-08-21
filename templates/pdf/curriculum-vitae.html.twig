@@ -1,0 +1,272 @@
+{# Only the narrow left column breaks a period over two lines. In the wide
+   content column a period stays on one line, exactly as on the page. #}
+{# The eyebrow of a section: the square marker and the label in grey
+   capitals. The square is a drawn image, not a glyph and not a coloured cell —
+   no embedded font is guaranteed to carry a filled square, and mPDF ignores a
+   background on a block inside a table cell.
+
+   NO SECTION NUMBER, unlike the page. Online the numbers structure one long
+   scroll that has no table of contents; here there are four headings on two
+   numbered pages and the ordinal earns nothing. It would also collide: "02"
+   is Kompetenzen on the page and Selbstständigkeit in this document, so the
+   same figure would mean two things across two documents that are meant to
+   say the same. #}
+{% macro eyebrow(title, markerPath) %}
+    <table cellpadding="0" cellspacing="0">
+        <tr>
+            <td width="5mm" valign="middle">
+                <img src="{{ markerPath }}" style="width: 2mm; height: 2mm;">
+            </td>
+            <td valign="middle" class="eyebrow">{{ title }}</td>
+        </tr>
+    </table>
+{% endmacro %}
+{% macro period(years) %}
+    {%- if ' – ' in years -%}
+        {{ years|split(' – ')|first }} –<br>{{ years|split(' – ')|last }}
+    {%- else -%}
+        {{ years }}
+    {%- endif -%}
+{% endmacro %}
+{% import _self as parts %}
+{# The printed curriculum vitae. Same content files as the page, different
+   rendering — mPDF knows neither flexbox nor grid, so every column is a table
+   cell and the rail beside the nested roles is a cell with one border.
+
+   THE GRID, and everything lines up on it:
+
+     20.0 mm   left margin
+     30.5 mm   first column — half the logo width (61.03 ÷ 2)
+     50.5 mm   text column starts here, in every section
+    109.0 mm   the left column ends here — 20 mm of clearance follow
+    129.0 mm   right column of the head, under the left edge of the logo
+    190.0 mm   right margin
+
+   Two typefaces, each with one job. Aller carries names, headings and every
+   sentence; JetBrains Mono carries the technical layer — eyebrows, periods,
+   locations, tags, labels and the dateline. Nothing mixes.
+
+   This template holds literal hex values, which the interface templates must
+   not: mPDF parses its own stylesheet and never sees the Tailwind theme, so
+   there is no token to bind to. Same exception as `favicon.svg`. The values
+   are the ones the tokens resolve to and have to move with them. #}
+<style>
+    /* TWO SCALES — five steps of type, four of spacing. Nothing in this
+       document gets a size or a distance of its own; everything picks a step.
+
+       TYPE
+         24 pt  the title
+         12 pt  the byline
+         10 pt  names — a company, a role, a position
+          9 pt  running text and values — the profile, the station
+                descriptions, the contact column
+          8 pt  the technical layer — periods, locations, competences and
+                the labels in capitals
+
+       The fifth type step earns its place. Names and running text shared one
+       for a while; ten point for everything reads well and does not fit: the document ran to three pages, and the
+       first ended at 168 mm because the Chefkoch block no longer had room
+       beside the head. Nine point for the descriptions alone brings it back
+       to two pages, so the extra step buys a whole page.
+
+       SPACING — four steps, every distance a multiple of 1.5 mm
+          0 mm  inside an entry, the lines sit flush — company, division,
+                position, location; role and period. They are one unit, and
+                the line height alone separates them, exactly as on the page.
+        1.5 mm  between the rows of the contact column
+        3.0 mm  between siblings — contact rows, profile paragraphs, stations
+                within a section, roles under one employer, and a description
+                under the line introducing it
+        9.0 mm  between blocks — the title down to the profile, the head down
+                to the first section, one section down to the next
+
+       The one value off the scales is 0.5 mm above the period column: an
+       optical nudge that puts the mono digits on the baseline of the company
+       name beside them, not a distance between things.
+
+       Every distance is padding on a table row or an explicit spacer element.
+       mPDF drops block margins inside a table cell and renders an empty
+       spacer only sometimes, so those are the two shapes that survive.
+
+       This template holds literal hex values, which the interface templates
+       must not: mPDF parses its own stylesheet and never sees the Tailwind
+       theme, so there is no token to bind to. Same exception as
+       `favicon.svg`. The values are the ones the tokens resolve to and have
+       to move with them. */
+    body { font-family: aller; font-size: 9pt; color: #525252; line-height: 1.45; }
+    p { margin: 0; }
+
+    h1 { font-family: aller; font-size: 24pt; font-weight: bold; color: #171717;
+         margin: 0; letter-spacing: -0.5pt; line-height: 1.1; }
+    .byline { font-family: aller; font-size: 12pt; font-weight: bold; color: #8200DB;
+              margin: 0; }
+
+    .eyebrow { font-family: jetbrainsmono; font-size: 8pt; letter-spacing: 1.6pt;
+               text-transform: uppercase; color: #737373; }
+    .rule { border-bottom-width: 0.25mm; border-bottom-style: solid;
+            border-bottom-color: #E5E5E5; margin: 1.5mm 0 3mm 0; }
+
+    .company { font-family: aller; font-size: 10pt; font-weight: bold; color: #171717;
+               line-height: 1.3; }
+    .position { font-family: aller; font-size: 10pt; font-weight: bold; color: #8200DB;
+                line-height: 1.3; }
+    .position-secondary { font-family: aller; font-size: 10pt; font-weight: bold;
+                          color: #737373; line-height: 1.3; }
+
+    .years { font-family: jetbrainsmono; font-size: 8pt; color: #737373; }
+    .meta  { font-family: jetbrainsmono; font-size: 8pt; color: #737373; }
+    .tags  { font-family: jetbrainsmono; font-size: 8pt; color: #737373; }
+    .rail  { border-left-width: 0.25mm; border-left-style: solid; border-left-color: #E5E5E5; }
+
+    .label { font-family: jetbrainsmono; font-size: 8pt; letter-spacing: 1.2pt;
+             text-transform: uppercase; color: #737373; }
+    .value { font-family: aller; font-size: 9pt; color: #171717; }
+    .claim { font-family: aller; font-size: 10pt; font-weight: bold; color: #171717; }
+</style>
+
+{# ── Kopf: Profil links, Kontakt unter der Logokante ───────────────────── #}
+<table width="100%" cellpadding="0" cellspacing="0">
+    <tr>
+        <td width="89mm" valign="top">
+            {# The whole left column is one table, one row per block. mPDF
+               drops block margins inside a table cell and renders an empty
+               spacer only sometimes; cell padding is the one thing it honours
+               every time, so every vertical distance in this column is
+               padding on a row. #}
+            <table width="100%" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td style="padding-bottom: 9mm;">
+                        <h1>Lebenslauf</h1>
+                        <p class="byline">von Marcel Kraus</p>
+                    </td>
+                </tr>
+                {% for paragraph in profile %}
+                    <tr><td style="padding-bottom: 3mm;">{{ paragraph }}</td></tr>
+                {% endfor %}
+                {# The claim closes the profile, as it closes the hero. Bold
+                   rather than semi-bold: Aller is embedded in two weights and
+                   a middle one does not exist to pick. #}
+                <tr><td><span class="claim">{{ claim }}</span></td></tr>
+            </table>
+        </td>
+        <td width="20mm"></td>
+        <td width="61mm" valign="top">
+            <table width="100%" cellpadding="0" cellspacing="0">
+                {% for row in contact %}
+                    <tr>
+                        <td style="padding-bottom: 1.5mm;">
+                            <p class="label">{{ row.label }}</p>
+                            <p class="value">{{ row.value|raw }}</p>
+                        </td>
+                    </tr>
+                {% endfor %}
+                <tr>
+                    <td><img src="{{ qrCodePath }}" style="width: 18mm; height: 18mm;"></td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+
+{# Every vertical distance between blocks is a spacer of the same height, so
+   the head sits as far from the first section as the sections sit from each
+   other. A table margin would be right in a browser and is dropped here. #}
+<div style="height: 9mm;"></div>
+
+{# ── Stationen ─────────────────────────────────────────────────────────── #}
+{% for section in sections %}
+    {% if section.milestones is not empty %}
+        {% if loop.first == false %}<div style="height: 9mm;"></div>{% endif %}
+        {{ parts.eyebrow(section.title, markerPath) }}
+        <div class="rule"></div>
+
+        {% for milestone in section.milestones %}
+            <table width="100%" cellpadding="0" cellspacing="0"
+                   style="page-break-inside: avoid; margin-bottom: {{ loop.last ? '0' : '3mm' }};">
+                <tr>
+                    <td width="30.5mm" valign="top" style="padding-top: 0.5mm;">
+                        <p class="years">{{ parts.period(milestone.years) }}</p>
+                    </td>
+                    <td valign="top">
+                        {# One row per line, because a margin between them
+                           would be dropped. The head of a station is tight
+                           (1.5 mm), the description stands apart (3 mm). #}
+                        <table width="100%" cellpadding="0" cellspacing="0">
+                            <tr>
+                                <td><span class="company">{{ milestone.company }}</span>{% if milestone.division is defined %}<br><span class="company">{{ milestone.division }}</span>{% endif %}</td>
+                            </tr>
+                            {% if milestone.position is defined %}
+                                <tr>
+                                    <td><span class="{{ milestone.marker|default('') == 'secondary' ? 'position-secondary' : 'position' }}">{{ milestone.position }}</span></td>
+                                </tr>
+                            {% endif %}
+                            <tr>
+                                <td class="meta" style="padding-bottom: {{ milestone.description is defined ? '3mm' : '0' }};">{{ milestone.location }}</td>
+                            </tr>
+                            {% if milestone.description is defined %}
+                                <tr><td>{{ milestone.description }}</td></tr>
+                            {% endif %}
+                        </table>
+
+                        {# One rail for all roles of an employer, not one per
+                           role: the line is what says "these belong to the
+                           company above", and a line with gaps in it says the
+                           opposite. So the roles stack inside a single bordered
+                           cell instead of each carrying its own. #}
+                        {% if milestone.roles is defined %}
+                            <table width="100%" cellpadding="0" cellspacing="0" style="margin-top: 3mm;">
+                                <tr>
+                                    <td class="rail" width="5mm">&nbsp;</td>
+                                    <td valign="top">
+                                        <table width="100%" cellpadding="0" cellspacing="0">
+                                            {% for role in milestone.roles %}
+                                                <tr>
+                                                    <td style="padding-bottom: {{ loop.last ? '0' : '3mm' }};">
+                                                        <table width="100%" cellpadding="0" cellspacing="0">
+                                                            <tr><td><span class="position">Als {{ role.position }}</span></td></tr>
+                                                            <tr><td class="years" style="padding-bottom: {{ role.description is defined ? '3mm' : '0' }};">{{ role.years }}</td></tr>
+                                                            {% if role.description is defined %}
+                                                                <tr><td>{{ role.description }}</td></tr>
+                                                            {% endif %}
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                        {% endif %}
+                    </td>
+                </tr>
+            </table>
+        {% endfor %}
+    {% endif %}
+{% endfor %}
+
+{# ── Kompetenzen ───────────────────────────────────────────────────────── #}
+<div style="height: 9mm;"></div>
+{{ parts.eyebrow('Kompetenzen', markerPath) }}
+<div class="rule"></div>
+
+<table width="100%" cellpadding="0" cellspacing="0" style="page-break-inside: avoid;">
+    {% for group in skills %}
+        <tr>
+            <td width="30.5mm" valign="top" style="padding-bottom: 3mm;">
+                <p class="label">{{ group.group }}</p>
+            </td>
+            <td valign="top" style="padding-bottom: 3mm;">
+                <p class="tags">
+                    {%- for entry in group.entries -%}
+                        {{ entry.name }}{% if loop.last == false %}  ·  {% endif %}
+                    {%- endfor -%}
+                </p>
+            </td>
+        </tr>
+    {% endfor %}
+    <tr>
+        <td width="30.5mm" valign="top"><p class="label">Fremdsprachen</p></td>
+        <td valign="top"><p class="tags">{{ languages }}</p></td>
+    </tr>
+</table>
+

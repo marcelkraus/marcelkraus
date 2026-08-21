@@ -4,14 +4,18 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Content\ContentRepository;
 use App\Dto\ContactRequest;
+use App\Pdf\CurriculumVitaeRenderer;
 use App\Service\AvailabilityCalculator;
+use App\Service\GermanDateFormatter;
 use DateTimeImmutable;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
@@ -24,12 +28,13 @@ final class DefaultController extends AbstractController
 {
     public function __construct(
         private readonly AvailabilityCalculator $availabilityCalculator,
+        private readonly ContentRepository $content,
+        private readonly CurriculumVitaeRenderer $curriculumVitaeRenderer,
+        private readonly GermanDateFormatter $dateFormatter,
         private readonly MailerInterface $mailer,
         private readonly ValidatorInterface $validator,
         #[Autowire('%kernel.secret%')]
         private readonly string $appSecret,
-        #[Autowire('%kernel.project_dir%')]
-        private readonly string $projectDir,
         #[Autowire('%env(CONTACT_TO)%')]
         private readonly string $contactTo,
         #[Autowire('%env(CONTACT_FROM)%')]
@@ -145,6 +150,80 @@ final class DefaultController extends AbstractController
         return $this->redirect($this->getParameter('app.whats_app_url'));
     }
 
+    /**
+     * The printed curriculum vitae, generated on request from the same content
+     * files the page renders. Not a second document: a hand-kept PDF drifts
+     * against the site, and then there are two truths about one career.
+     *
+     * `noindex` because the file duplicates the homepage and carries the
+     * postal address — the indexed truth stays the page. A `Disallow` in
+     * robots.txt would be worse than useless here: it stops a crawler from
+     * ever reading the header that tells it not to index.
+     */
+    #[Route('/lebenslauf', name: 'app_curriculum_vitae_pdf', methods: ['GET'])]
+    public function curriculumVitaePdf(): Response
+    {
+        $today = new DateTimeImmutable();
+
+        $milestones = $this->content->load('milestones');
+
+        $bySection = static fn (callable $matches): array => array_values(
+            array_filter($milestones, static fn (array $milestone): bool => $matches($milestone['marker'] ?? null)),
+        );
+
+        $context = [
+            'claim' => 'Nicht nur mit Hut. Mit Köpfchen.',
+            'profile' => $this->getParameter('app.curriculum_vitae_profile'),
+            // No LinkedIn row and no second QR code: the homepage links the
+            // profile anyway, and two codes side by side are indistinguishable
+            // without reading their labels.
+            'contact' => [
+                ['label' => 'Datum', 'value' => $this->dateFormatter->dayMonthAndYear($today)],
+                ['label' => 'Anschrift', 'value' => 'Bonner Straße 88<br>50374 Erftstadt'],
+                ['label' => 'Telefon', 'value' => $this->getParameter('app.phone_number')],
+                ['label' => 'Verfügbar', 'value' => $this->availabilityCalculator->availabilityLabel($today)],
+                ['label' => 'E-Mail', 'value' => $this->getParameter('app.contact_email_address')],
+                ['label' => 'Portfolio & Profile', 'value' => 'www.marcelkraus.de'],
+            ],
+            'sections' => [
+                [
+                    'title' => 'Berufserfahrung',
+                    'milestones' => $bySection(static fn (?string $marker): bool => $marker === null),
+                ],
+                [
+                    'title' => 'Selbstständigkeit',
+                    'milestones' => $bySection(static fn (?string $marker): bool => $marker !== null && $marker !== 'secondary'),
+                ],
+                [
+                    'title' => 'Ausbildung',
+                    'milestones' => $bySection(static fn (?string $marker): bool => $marker === 'secondary'),
+                ],
+            ],
+            'markerPath' => $this->getParameter('kernel.project_dir') . '/public/images/marker-accent.svg',
+            'qrCodePath' => $this->getParameter('kernel.project_dir') . '/public/images/qr-code.svg',
+            'skills' => $this->content->load('skills'),
+            'languages' => 'Englisch (B2)',
+        ];
+
+        $response = new Response($this->curriculumVitaeRenderer->render($context));
+        $response->headers->set('Content-Type', 'application/pdf');
+        $response->headers->set(
+            'Content-Disposition',
+            // Inline, not an attachment: the document is meant to be read in
+            // the browser first. The file name still travels with it, so
+            // saving it produces the right name anyway.
+            $response->headers->makeDisposition(
+                ResponseHeaderBag::DISPOSITION_INLINE,
+                'Lebenslauf-Marcel-Kraus.pdf',
+            ),
+        );
+        $response->headers->set('X-Robots-Tag', 'noindex');
+        $response->setPublic();
+        $response->setMaxAge(3600);
+
+        return $response;
+    }
+
     #[Route('/impressum', name: 'app_imprint', methods: ['GET'])]
     public function imprint(): Response
     {
@@ -221,15 +300,15 @@ final class DefaultController extends AbstractController
     private function renderHomepage(array $formState = [], int $status = Response::HTTP_OK): Response
     {
         $timestamp = (string) time();
-        $hobbies = $this->loadContent('hobbies');
-        $skills = $this->loadContent('skills');
+        $hobbies = $this->content->load('hobbies');
+        $skills = $this->content->load('skills');
 
         $response = $this->render('default/homepage.html.twig', array_merge([
             'availability' => $this->availabilityCalculator->availabilityLabel(new DateTimeImmutable()),
-            'brands' => $this->loadContent('brands'),
+            'brands' => $this->content->load('brands'),
             'hobbies' => $hobbies,
             'knowsAbout' => $this->knowsAbout($skills, $hobbies),
-            'milestones' => $this->loadContent('milestones'),
+            'milestones' => $this->content->load('milestones'),
             'skills' => $skills,
             'contact_ts' => $timestamp,
             'contact_ts_sig' => $this->signTimestamp($timestamp),
@@ -313,24 +392,6 @@ final class DefaultController extends AbstractController
         sort($terms);
 
         return $terms;
-    }
-
-    /**
-     * Loads a content file from config/content and decodes it to an array.
-     * Missing or malformed files degrade to an empty list.
-     *
-     * @return array<int, array<string, mixed>>
-     */
-    private function loadContent(string $name): array
-    {
-        $path = $this->projectDir . '/config/content/' . $name . '.json';
-        if (is_file($path) === false) {
-            return [];
-        }
-
-        $decoded = json_decode((string) file_get_contents($path), true);
-
-        return is_array($decoded) ? $decoded : [];
     }
 
     private function signTimestamp(string $timestamp): string

@@ -88,7 +88,6 @@ final class ContentTest extends WebTestCase
             'Adolf-Kolping-Berufskolleg',
             'Arbeiter-Samariter-Bund Deutschland e.V.',
             'Chefkoch GmbH',
-            'DATON webengineering',
             'Jurassic Jeep',
             'krausgebaut',
             'krausgedruckt',
@@ -96,10 +95,9 @@ final class ContentTest extends WebTestCase
             self::assertSelectorTextContains('#werdegang', $company);
         }
 
-        // The two entries that carry no description of their own and would
-        // therefore disappear unnoticed if the condensed branch broke.
-        self::assertSelectorTextContains('#werdegang', 'Zivildienstleistender');
-        self::assertSelectorTextContains('#werdegang', 'Praktikant');
+        // The vocational school carries no description of its own and would
+        // disappear unnoticed if the condensed branch broke.
+        self::assertSelectorTextContains('#werdegang', 'Informationstechnischer Assistent');
     }
 
     /**

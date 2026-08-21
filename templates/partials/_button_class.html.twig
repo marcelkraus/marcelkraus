@@ -4,12 +4,23 @@
    accent fill with a white label, and a hover that DARKENS — the purple is a
    dark brand, so lightening would drop the label below AA.
 
+   The secondary tone is the fact chip of the hero grown to button size:
+   white on a hairline, the same shape and the same measurements. It exists so
+   two calls to action can stand side by side without competing — one filled,
+   one outlined. Its label is neutral-900 on white (17.4:1), its hairline
+   darkens on hover rather than lightening.
+
    Emits no markup. Pull it with include(), assign it, hand it to `class`.
-   Params: size ('default' or 'compact'). Compact is the header, where the
-   bar is 80 pixels high and the button shares the row with the burger; it
-   holds 44 pixels so a thumb still finds it on a phone. #}
+   Params: size ('default' or 'compact') and tone ('primary' or 'secondary').
+   Compact is the header, where the bar is 80 pixels high and the button
+   shares the row with the burger; it holds 44 pixels so a thumb still finds
+   it on a phone. #}
 {%- set size = size|default('default') -%}
-{%- set base = 'inline-flex items-center gap-2 rounded-lg bg-accent font-mono font-semibold uppercase tracking-[0.15em] text-white transition-colors hover:bg-accent-hover' -%}
+{%- set tone = tone|default('primary') -%}
+{%- set skin = tone == 'secondary'
+    ? 'border border-neutral-200 bg-white text-neutral-900 hover:border-neutral-300 hover:bg-neutral-50'
+    : 'bg-accent text-white hover:bg-accent-hover' -%}
+{%- set base = 'inline-flex items-center gap-2 rounded-lg font-mono font-semibold uppercase tracking-[0.15em] transition-colors ' ~ skin -%}
 {%- set measures = size == 'compact'
     ? 'h-11 px-4 text-xs sm:px-5'
     : 'px-6 py-3.5 text-sm' -%}

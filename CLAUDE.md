@@ -33,6 +33,7 @@ Identical to krausgebaut — that identity is a requirement, not a coincidence.
 - **Logging:** symfony/monolog-bundle (rotating file in prod)
 - **Tests:** PHPUnit (`phpunit/phpunit`) with `symfony/browser-kit` and
   `symfony/css-selector`
+- **Document:** mpdf/mpdf for the printed curriculum vitae
 - **Development:** ddev (apache-fpm, Node 22)
 
 **There is no database at all** — `omit_containers: [db]` in the ddev config,
@@ -44,9 +45,15 @@ Deliberately **not** included: Doctrine, symfony/form, symfony/serializer,
 symfony/translation, AssetMapper/Encore/Vite, Leaflet, a print stylesheet and a
 custom error page.
 
-- **No print stylesheet.** The site prints with the browser defaults. A printed
-  curriculum vitae is Marcel's own document; the site does not generate it and
-  nothing here should try to.
+- **mPDF is the one deliberate break with the sibling's stack.** The identity
+  with krausgebaut is otherwise a requirement, and this dependency ends it —
+  justified, because krausgebaut has no curriculum vitae to print. It is a
+  production dependency: the document is generated per request, so it cannot
+  fall out of step with the page.
+- **No print stylesheet, still.** The document is generated, not printed from
+  the browser: a stylesheet cannot hold a letterhead grid to the millimetre,
+  and every browser decides its own margins and running heads. `/lebenslauf`
+  is the printed version; the browser's own print output is not supported.
 - **No custom error page**, so a 404 or a 405 renders the plain Symfony page.
   All three sites are in that state.
 - **The typography plugin is loaded but unused** (no `prose` in the templates).
@@ -93,7 +100,12 @@ config/content/     milestones.json, skills.json, hobbies.json, brands.json
 src/Controller/     DefaultController – all routes, form handling, JSON loading
 src/Dto/            ContactRequest – form DTO with validation constraints
 src/EventListener/  SecurityHeadersListener
+src/Content/        ContentRepository – the JSON files, one reader for both outputs
+src/Pdf/            CurriculumVitaeRenderer – page geometry, fonts, the header
 src/Service/        AvailabilityCalculator – the availability month, computed
+                    GermanDateFormatter – twelve month names, in one place
+assets/fonts/       static JetBrains Mono, derived; never served, only embedded
+templates/pdf/      curriculum-vitae.html.twig
 templates/          base.html.twig, default/, partials/
 public/             css/, fonts/, images/, favicon.*, apple-touch-icon.png
 ```
@@ -101,8 +113,9 @@ public/             css/, fonts/, images/, favicon.*, apple-touch-icon.png
 Each partial is the single source for its pattern: `_logo` (brand lockup),
 `_eyebrow` (mono label with square marker and optional section number),
 `_icons` (line-icon macro), `_button_class` (the button skin as a bare class
-string, in two sizes), `_contact_form`, `_tags` (the technology tags of a
-career station, shared by a station and by the roles nested inside one).
+string, in two sizes and two tones), `_contact_form`, `_tags` (the technology
+tags of a career station, shared by a station and by the roles nested inside
+one).
 
 `_icons` keeps **no stock**: every name in it has a caller, and the names are
 alphabetical. Most come from Heroicons v2 outline, `remote` and `wheel` are
@@ -117,6 +130,7 @@ necessarily missing here.
 | `POST /kontakt` | `app_contact` | Form handling (PRG) |
 | `GET /kontakt-per-email` | `app_contact_email` | Redirect to `mailto:` |
 | `GET /kontakt-per-whats-app` | `app_contact_whats_app` | Redirect to WhatsApp |
+| `GET /lebenslauf` | `app_curriculum_vitae_pdf` | The printed curriculum vitae, generated |
 | `GET /impressum` | `app_imprint` | Imprint (`noindex,follow`) |
 | `GET /datenschutz` | `app_data_privacy` | Privacy policy (`noindex,follow`) |
 | `GET /robots.txt` | `app_robots` | robots (absolute sitemap URL) |
@@ -249,6 +263,11 @@ here, and the `=== false` spelling now holds in all three.
   users without a signal. The menu deliberately carries **no** contact button:
   the navigation already has that item, and with the icon button in the bar the
   word stood three times in one open panel.
+- **The hero carries two buttons**, the document filled and Kontakt outlined
+  beside it. `_button_class` grew a second tone for that rather than a second
+  copy of the skin. The document opens in a new tab — the one case besides an
+  external link where the site does that, because it is served inline and
+  would otherwise replace the page; the accessible name announces it.
 - **Four navigation items** — Werdegang, Kompetenzen, Leidenschaft, Kontakt.
   The closing band is not in the navigation, as on both siblings. **Label and
   eyebrow must match word for word**, otherwise a link sends the visitor to a
@@ -371,10 +390,16 @@ or malformed → empty list). Editing content needs no code change.
 The rendered order is the file order. **Employment runs newest first; each of
 the businesses sits directly below the employment it started under.**
 krausgedruckt (11/2023) and Jurassic Jeep (05/2021) therefore follow the
-Chefkoch station, krausgebaut (01/2002) follows the internship of 07/2002.
-Sorting purely by date would push the current employment below a business that
-started in 2002, and the first line of a curriculum vitae has to be the current
-job.
+Chefkoch station, and krausgebaut (01/2002) follows the ASB. Sorting purely by
+date would push the current employment below a business that started in 2002,
+and the first line of a curriculum vitae has to be the current job.
+
+**Six stations, and the list is not a chronicle.** The community service and
+the 2002 internship were both here and are gone from the page as well as from
+the document: they are the two entries a reader skips, and the vocational
+school already says where the career started. The gaps they leave — 07 to
+10/2002 and 10/2003 to 07/2004 — are covered by krausgebaut, which runs
+through the whole timeline from 01/2002.
 
 **Every period is month-precise.** Month precision exists so that gaps are
 visible, which means the dates have to be right rather than merely plausible:
@@ -387,17 +412,17 @@ Fields: `years` (the printed label, e.g. `05/2017 – 11/2026`), `company`,
 `location`, and optionally `position`, `description`, `division`, `tags[]`,
 `marker`, `url` and `roles[]`.
 
-**`location` reads `Ort · Zusatz`**, the second part optional: `Köln`,
-`Köln · Poststelle und Versand`, `Erftstadt · selbstständig`. The field is
+**`location` reads `Ort · Zusatz`**, the second part optional: `In Köln`,
+`In Kerpen · Abschluss mit Fachhochschulreife`, `In Erftstadt · selbstständig`.
+The place is always spelled `In <Ort>`. The field is
 mono without `uppercase`, so it prints exactly as it stands in the file, and
 the addition stays lowercase where German asks for it (`selbstständig`).
 
 **It carries no duration.** Durations were tried here and removed: the period
 already stands in the date column to the left, so a second figure only invites
-the reader to check one against the other — and at `07/2002 – 10/2002` next to
-"drei Monate" the two do not agree, because counting whole months and counting
-elapsed time give different answers. One statement of the period, in one
-place.
+the reader to check one against the other — and the two rarely agree, because
+counting whole months and counting elapsed time give different answers. One
+statement of the period, in one place.
 
 - **`division`** is a second line under the company name, for an organizational
   unit such as `Bundesverband`.
@@ -405,10 +430,10 @@ place.
   `secondary` and selects the station's color from the literal map in the
   template; without it the station takes the accent. The three trades carry
   their own color, the employments share the accent, and `secondary` sets a
-  station back into `neutral-500` — education, community service and the
-  internship, so the accent belongs to the working life alone. `secondary`
-  also greys the position line, which is the only place a marker value reaches
-  beyond its square.
+  station back into `neutral-500` — today only the vocational school, so the
+  accent belongs to the working life alone. `secondary` also greys the
+  position line, which is the only place a marker value reaches beyond its
+  square.
 - **`neutral-500` is the floor for a set-back station, not `neutral-400`.**
   The calmer step measures 2.58:1 on this ground and misses the 3:1 that WCAG
   1.4.11 asks of an indicator; `neutral-500` measures 4.74:1 and therefore
@@ -424,12 +449,8 @@ place.
   entry a `roles[]` — would spare the branch in the template and inflate six
   single-role entries instead.
 - An entry **without `description`** renders as a condensed one-liner. That is
-  how the internship, the community service and the vocational school are kept
-  from taking as much room as twelve years at the ASB.
-- **Community service and employment at the ASB are two entries, not one.**
-  Merging them would put eleven months of mail room under a heading that says
-  "Projektleiter Online-Dienste". The month between them is covered by
-  krausgebaut, which runs through the whole timeline.
+  how the vocational school is kept from taking as much room as twelve years
+  at the ASB.
 - **No employment entry carries an open end.** The only statement about
   availability lives in the hero and is computed there. The businesses are open
   by design (`seit 11/2023`, `seit 05/2021`, `seit 01/2002`).
@@ -537,6 +558,114 @@ function and signature of a named third party; publishing it publishes someone
 else's data, and once indexed it stays indexed. Instead one sentence in the
 contact section says they are sent on request. No protected area, no signed
 links, no checkbox in the form.
+
+## The printed curriculum vitae
+
+`GET /lebenslauf` renders the document from the same content files the page
+reads. **Not a second document** — a hand-kept PDF drifts against the site, and
+then there are two truths about one career. `ContentRepository` is what makes
+that structural: one reader, two outputs.
+
+Delivered **inline**, so it opens in the browser; the file name travels along
+for whoever saves it. `X-Robots-Tag: noindex`, because the file duplicates the
+homepage and carries the postal address — the indexed truth stays the page. A
+`Disallow` would be worse than useless: a path never fetched is a header never
+read.
+
+**Two pages is a requirement, not a preference**, and a test asserts it. The
+layout sits close enough to the limit that one longer station description
+pushes it over, and nothing else would notice.
+
+### The page geometry is the measured stationery
+
+| | |
+| --- | --- |
+| Top, every page | 55 mm — 20 mm paper edge + 15 mm logo + 20 mm clearance |
+| Left / right | 20 mm |
+| Bottom | 20 mm — the stationery fixes only the top and the sides |
+| First column | 30.5 mm, half the logo width (61.03 ÷ 2) |
+| Text column | starts at 50.5 mm, in every section |
+| Right column of the head | starts at 129 mm, under the left edge of the logo |
+
+The lockup lives in the page header, which is what makes it repeat without the
+body knowing about it.
+
+### Two scales, and nothing outside them
+
+**Type**, five steps: 24 pt title, 12 pt byline, 10 pt names, 9 pt running
+text and the contact values, 8 pt the technical layer. The fifth step earns its place — names
+and running text shared 10 pt for a while, and the document ran to three pages.
+
+**Spacing**, four steps, all multiples of 1.5 mm: 0 inside an entry (the lines
+sit flush, as on the page), 1.5 mm between contact rows, 3 mm between siblings,
+9 mm between blocks. The one value outside both scales is 0.5 mm above the
+period column — an optical nudge, not a distance between things.
+
+### The head, and what it deliberately leaves out
+
+The right column carries Datum, Anschrift, Telefon, Verfügbar, E-Mail and
+`Portfolio & Profile`, then the QR code. That last label is doing real work:
+it says the one address behind it is where the projects and the other profiles
+are, which is why there is **no LinkedIn row and no second QR**. The homepage
+links the profile anyway, and two codes side by side cannot be told apart
+without reading their labels — a reader who scans the wrong one blames the
+document. One code is a device; two are a pattern that invites a third.
+
+**No photograph.** It was weighed and left out: the page carries the portrait
+one scan away, and a 4:5 image at any usable size costs 40 to 60 mm of a first
+page that has 23 mm to spare. Adding it means a third page or a shorter
+profile, and the profile is the only part of the document that says in
+Marcel's own words who he is.
+
+A quiet page number closes each page, centred in the bottom margin — the band
+runs 277 to 297 mm, so the figure sits at 287 mm. Two pages do not need it to
+find their way back together; a sheet that falls out of a folder does.
+
+### What the document does differently from the page, and why
+
+- **No section numbers.** On the page they structure one long scroll with no
+  table of contents. Here there are four headings on two numbered pages, and
+  the ordinal would collide: `02` is Kompetenzen on the page and
+  Selbstständigkeit in the document.
+- **No technology tags.** They are a device of the page.
+- **No years in the competences.** The document is read in one sitting; the
+  figures only crowd a line that is already dense.
+- **Three blocks instead of one timeline** — Berufserfahrung, Selbstständigkeit,
+  Ausbildung — grouped on the `marker` field, which needs no extra data.
+- **A short profile** that exists nowhere on the page: the hero carries a
+  tagline, which is a different thing. It lives in `config/services.yaml`
+  because a content file would only be ignored by the page.
+
+### mPDF has two rules that shape the whole template
+
+1. **Every distance is cell padding or a spacer element.** Block margins inside
+   a table cell are dropped, and an empty spacer renders only sometimes.
+2. **Every area is an image.** Neither a background nor a border on a block
+   inside a cell is drawn. The square before an eyebrow is
+   `marker-accent.svg`; the rail beside the nested roles is a cell border.
+
+`shrink_tables_to_fit` is **off**. It silently rescaled individual tables that
+mPDF thought too wide, which produced two different body sizes on one page —
+the long stations came out smaller than the short ones. Every column here has
+an explicit width, so nothing needs rescuing.
+
+### Assets
+
+`logo.svg`, `qr-code.svg` and `marker-accent.svg` under `public/images/` carry
+literal hex, as `favicon.svg` does: mPDF parses its own stylesheet and never
+sees the theme, so there is no token to bind to. The values are the ones the
+tokens resolve to and have to move with them.
+
+**The QR code has no quiet zone of its own** — the view box is cropped to the
+25 data modules, because the white paper around it is the quiet zone and the
+built-in border only pushed the ink off the column edge. It carries
+`width`/`height`, for the same reason `favicon.svg` must: without an intrinsic
+size the renderer invents a box.
+
+**JetBrains Mono is embedded from `assets/fonts/`**, two static instances
+derived from the variable web font — mPDF can read neither a variable font nor
+Brotli. They are never served; `assets/README.md` carries the command that
+rebuilds them.
 
 ## SEO / meta
 

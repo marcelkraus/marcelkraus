@@ -18,6 +18,34 @@ parameters:
     # cannot fall out of date between two edits.
     app.employment_end_date: '2026-11-30'
 
+    # Printed on the curriculum vitae and nowhere else. The page keeps the
+    # number out of its markup, as it does the mail address.
+    app.phone_number: '0163 6938184'
+
+    # The short profile of the printed curriculum vitae, one entry per
+    # paragraph. It exists nowhere on the page — the hero carries a tagline,
+    # which is a different thing — so it lives here rather than in a content
+    # file the page would then have to ignore.
+    app.curriculum_vitae_profile:
+        - >-
+            Ich bin Senior Software-Entwickler mit über zwanzig Jahren
+            Berufserfahrung. Die letzten zehn Jahre war ich bei der Chefkoch
+            GmbH in Bonn tätig, seit 2020 remote.
+        - >-
+            Dort gestartet als PHP-Entwickler, habe ich später als
+            Mitverantwortlicher für die iOS- und iPadOS-App an einer Plattform
+            mitgearbeitet, die insgesamt rund 20 Millionen Nutzer im Monat
+            erreicht.
+        - >-
+            Meine Schwerpunkte sind die eigenständige Gestaltung und Umsetzung
+            von Produktideen sowie die technische Modernisierung gewachsener
+            Systeme – zum Beispiel Objective-C auf Swift, UIKit auf SwiftUI
+            oder Drupal 8 auf ein neues Content-Management-System.
+        - >-
+            Neben meinen Festanstellungen bin ich seit 2002 selbstständig, in
+            den Bereichen der Internet-, IT- & 3D-Druck-Dienstleistungen sowie
+            der Vermietung eines Filmfahrzeugs.
+
 services:
     # default configuration for services in *this* file
     _defaults:

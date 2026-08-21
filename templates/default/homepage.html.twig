@@ -50,7 +50,7 @@
                         { label: 'Standort', value: 'Erftstadt bei Köln' },
                         { label: 'iOS', value: 'seit 2017' },
                         { label: 'Web', value: 'seit 2002' },
-                        { label: 'Sprachen', value: 'Deutsch, Englisch (B2)' },
+                        { label: 'Fremdsprachen', value: 'Englisch (B2)' },
                         { label: 'Modell', value: 'Bevorzugt Remote' }
                     ] %}
                         {% set highlight = fact.highlight|default(false) %}
@@ -60,6 +60,25 @@
                         </div>
                     {% endfor %}
                 </dl>
+
+                {# The document, one click from the first screen. A recruiter
+                   who opens this page wants the file, and asking them to scroll
+                   for it is asking them to leave. It repeats down in the
+                   contact section, where the sentence about references stands.
+
+                   A new tab, which the rest of the site reserves for links that
+                   leave it: the document is served inline, so without one the
+                   viewer replaces this page and the visitor has to navigate
+                   back. The accessible name says so, because a link that opens
+                   a window has to announce it. #}
+                <div class="mt-8 flex flex-wrap gap-3">
+                    <a class="{{ include('partials/_button_class.html.twig') }}" href="{{ path('app_curriculum_vitae_pdf') }}" target="_blank" rel="noopener" aria-label="Lebenslauf als PDF öffnen, in einem neuen Tab">
+                        {{ icons.icon('document', 'h-4 w-4') }}Lebenslauf als PDF
+                    </a>
+                    <a class="{{ include('partials/_button_class.html.twig', { tone: 'secondary' }) }}" href="#kontakt">
+                        {{ icons.icon('mail', 'h-4 w-4') }}Kontakt
+                    </a>
+                </div>
             </div>
 
             {# Above the name on a phone, filling the right column from `lg`.
@@ -257,6 +276,12 @@
             {{ include('partials/_eyebrow.html.twig', { number: '04', text: 'Kontakt' }) }}
             <h2 class="mt-5 font-display text-3xl font-bold tracking-tight text-neutral-900 sm:text-4xl">Lassen Sie uns sprechen</h2>
             <p class="mt-5 max-w-3xl leading-relaxed text-neutral-600">Erstkontakt am besten über das nachfolgende Formular. Zeugnisse und Referenzen schicke ich gerne auf Anfrage zu.</p>
+
+            <p class="mt-7">
+                <a class="{{ include('partials/_button_class.html.twig') }}" href="{{ path('app_curriculum_vitae_pdf') }}" target="_blank" rel="noopener" aria-label="Lebenslauf als PDF öffnen, in einem neuen Tab">
+                    {{ icons.icon('document', 'h-4 w-4') }}Lebenslauf als PDF
+                </a>
+            </p>
 
             {# Channels on the left, the form on the right — the same layout as
                on both sibling sites, down to the divided list, the icons and
