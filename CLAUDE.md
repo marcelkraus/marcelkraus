@@ -549,9 +549,13 @@ both sibling sites, so a submission takes one path through the family.
   (`contact_focus`); inline JS focuses it.
 - **The address never appears in the markup.** E-Mail and WhatsApp are offered
   as links, but both point at a route that answers with a redirect; the
-  `mailto:` never reaches the page. The imprint and the privacy policy show
-  `mail(at)marcelkraus(dot)de` as plain, unlinked text. Do not reintroduce a
-  `mailto:` written into the markup — a test asserts its absence.
+  `mailto:` never reaches the page. The imprint and the privacy policy render
+  `partials/_legal_mail_address.html.twig`: the plus-addressed mailbox
+  `mail+legal@marcelkraus.de` in plain, unlinked text, followed by a decoy hidden
+  with an inline style, so a harvester reading the markup carries off an
+  address that does not exist. The plus tag appears on those two pages only –
+  what arrives on it came from a legal page and can be filtered on its own.
+  Do not reintroduce a `mailto:` written into the markup — a test asserts its absence.
 
 **No downloadable references.** An Arbeitszeugnis carries the letterhead,
 function and signature of a named third party; publishing it publishes someone
