@@ -112,7 +112,7 @@ final class DefaultController extends AbstractController
                     ->to($this->contactTo)
                     ->replyTo(new Address($data->email, $data->name))
                     ->subject(sprintf('Nachricht von %s', $data->name))
-                    ->textTemplate('default/contact.txt.twig')
+                    ->textTemplate('content/contact.txt.twig')
                     ->context([
                         'company' => $data->company,
                         'emailAddress' => $data->email,
@@ -227,13 +227,13 @@ final class DefaultController extends AbstractController
     #[Route('/impressum', name: 'app_imprint', methods: ['GET'])]
     public function imprint(): Response
     {
-        return $this->render('default/imprint.html.twig');
+        return $this->render('content/imprint.html.twig');
     }
 
     #[Route('/datenschutz', name: 'app_data_privacy', methods: ['GET'])]
     public function privacy(): Response
     {
-        return $this->render('default/data-privacy.html.twig');
+        return $this->render('content/data-privacy.html.twig');
     }
 
     /**
@@ -303,7 +303,7 @@ final class DefaultController extends AbstractController
         $hobbies = $this->content->load('hobbies');
         $skills = $this->content->load('skills');
 
-        $response = $this->render('default/homepage.html.twig', array_merge([
+        $response = $this->render('content/homepage.html.twig', array_merge([
             'availability' => $this->availabilityCalculator->availabilityLabel(new DateTimeImmutable()),
             'brands' => $this->content->load('brands'),
             'hobbies' => $hobbies,
