@@ -781,6 +781,19 @@ around in the DSN below and both cost the sibling project a release:
 MAILER_DSN="sendmail://default?command=%2Fusr%2Fsbin%2Fsendmail%20-t%20-i"
 ```
 
+**Never add marcelkraus.de as a mail domain on this host.** This is the one
+site whose website and mailbox sit on different Uberspace accounts: the site
+runs on `menkar`, while the MX still points at `deimos`. Sending works anyway,
+because the SPF record authorises every Uberspace host — but the moment the
+domain is registered for mail *here*, qmail treats it as local and drops
+`mail@marcelkraus.de` into a mailbox on `menkar` that nobody reads, instead of
+handing it to the MX. The contact form would then answer with its confirmation
+page while every enquiry quietly piles up on the wrong machine.
+
+All three sites use this transport, so the family delivers mail through one
+path. An SMTP transport pointed at the other account is the wrong shape here:
+it ties the form to credentials and to a machine this site does not own.
+
 **Headers.** Uberspace adds `Strict-Transport-Security` and forces
 `X-Frame-Options: SAMEORIGIN`, overriding the `DENY` that
 `SecurityHeadersListener` sets. The server has the last word.
