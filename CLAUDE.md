@@ -717,8 +717,9 @@ alongside both sibling projects. The server directory is `~/html/marcelkraus`.
 
 **A push to `main` rolls out by itself.** The workflow runs the gates first
 and starts `bin/deploy` over SSH only if they pass, so nothing reaches the
-server that has not been linted, tested and built. This project is the only
-one of the three that does it; the siblings are still rolled out by hand.
+server that has not been linted, tested and built. krausgebaut runs the same
+job; krausgedruckt is the one still rolled out by hand, because it carries a
+database and an unattended migration is the one step a rollback cannot undo.
 
 The key GitHub authenticates with is restricted in the server's
 `authorized_keys` to exactly one command — `cd ~/html/marcelkraus &&
