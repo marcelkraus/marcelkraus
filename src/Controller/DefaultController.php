@@ -310,8 +310,8 @@ final class DefaultController extends AbstractController
             'knowsAbout' => $this->knowsAbout($skills, $hobbies),
             'milestones' => $this->content->load('milestones'),
             'skills' => $skills,
-            'contact_ts' => $timestamp,
-            'contact_ts_sig' => $this->signTimestamp($timestamp),
+            'contact_timestamp' => $timestamp,
+            'contact_timestamp_signature' => $this->signTimestamp($timestamp),
             'contact_errors' => [],
             'contact_old' => [],
             'contact_focus' => null,
@@ -352,8 +352,8 @@ final class DefaultController extends AbstractController
             && hash_equals($this->signTimestamp($submittedTimestamp), $submittedSignature)
             && time() - (int) $submittedTimestamp <= 7200
         ) {
-            $formState['contact_ts'] = $submittedTimestamp;
-            $formState['contact_ts_sig'] = $submittedSignature;
+            $formState['contact_timestamp'] = $submittedTimestamp;
+            $formState['contact_timestamp_signature'] = $submittedSignature;
         }
 
         return $this->renderHomepage($formState, Response::HTTP_UNPROCESSABLE_ENTITY);
