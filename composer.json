@@ -2,7 +2,7 @@
     "name": "marcelkraus/marcelkraus",
     "type": "project",
     "license": "proprietary",
-    "description": "marcelkraus - personal website and curriculum vitae of Marcel Kraus",
+    "description": "My personal CV and hub for my business sites",
     "minimum-stability": "stable",
     "prefer-stable": true,
     "require": {
