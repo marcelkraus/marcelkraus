@@ -12,7 +12,7 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * Pure logic, so a plain TestCase: no kernel, no request. The cases that
- * matter are the boundaries, because they move with the length of the month —
+ * matter are the boundaries, because they move with the length of the month –
  * the 17th in a 31-day month, the 16th in a 30-day one. A fixed boundary would
  * pass a naive test and give away a whole month twice a year.
  */

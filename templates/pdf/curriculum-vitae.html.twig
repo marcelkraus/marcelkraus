@@ -1,7 +1,7 @@
 {# Only the narrow left column breaks a period over two lines. In the wide
    content column a period stays on one line, exactly as on the page. #}
 {# The eyebrow of a section: the square marker and the label in grey
-   capitals. The square is a drawn image, not a glyph and not a coloured cell —
+   capitals. The square is a drawn image, not a glyph and not a coloured cell –
    no embedded font is guaranteed to carry a filled square, and mPDF ignores a
    background on a block inside a table cell.
 
@@ -30,20 +30,20 @@
 {% endmacro %}
 {% import _self as parts %}
 {# The printed curriculum vitae. Same content files as the page, different
-   rendering — mPDF knows neither flexbox nor grid, so every column is a table
+   rendering – mPDF knows neither flexbox nor grid, so every column is a table
    cell and the rail beside the nested roles is a cell with one border.
 
    THE GRID, and everything lines up on it:
 
      20.0 mm   left margin
-     30.5 mm   first column — half the logo width (61.03 ÷ 2)
+     30.5 mm   first column – half the logo width (61.03 ÷ 2)
      50.5 mm   text column starts here, in every section
-    109.0 mm   the left column ends here — 20 mm of clearance follow
+    109.0 mm   the left column ends here – 20 mm of clearance follow
     129.0 mm   right column of the head, under the left edge of the logo
     190.0 mm   right margin
 
    Two typefaces, each with one job. Aller carries names, headings and every
-   sentence; JetBrains Mono carries the technical layer — eyebrows, periods,
+   sentence; JetBrains Mono carries the technical layer – eyebrows, periods,
    locations, tags, labels and the dateline. Nothing mixes.
 
    This template holds literal hex values, which the interface templates must
@@ -51,16 +51,16 @@
    there is no token to bind to. Same exception as `favicon.svg`. The values
    are the ones the tokens resolve to and have to move with them. #}
 <style>
-    /* TWO SCALES — five steps of type, four of spacing. Nothing in this
+    /* TWO SCALES – five steps of type, four of spacing. Nothing in this
        document gets a size or a distance of its own; everything picks a step.
 
        TYPE
          24 pt  the title
          12 pt  the byline
-         10 pt  names — a company, a role, a position
-          9 pt  running text and values — the profile, the station
+         10 pt  names – a company, a role, a position
+          9 pt  running text and values – the profile, the station
                 descriptions, the contact column
-          8 pt  the technical layer — periods, locations, competences and
+          8 pt  the technical layer – periods, locations, competences and
                 the labels in capitals
 
        The fifth type step earns its place. Names and running text shared one
@@ -69,15 +69,15 @@
        beside the head. Nine point for the descriptions alone brings it back
        to two pages, so the extra step buys a whole page.
 
-       SPACING — four steps, every distance a multiple of 1.5 mm
-          0 mm  inside an entry, the lines sit flush — company, division,
+       SPACING – four steps, every distance a multiple of 1.5 mm
+          0 mm  inside an entry, the lines sit flush – company, division,
                 position, location; role and period. They are one unit, and
                 the line height alone separates them, exactly as on the page.
         1.5 mm  between the rows of the contact column
-        3.0 mm  between siblings — contact rows, profile paragraphs, stations
+        3.0 mm  between siblings – contact rows, profile paragraphs, stations
                 within a section, roles under one employer, and a description
                 under the line introducing it
-        9.0 mm  between blocks — the title down to the profile, the head down
+        9.0 mm  between blocks – the title down to the profile, the head down
                 to the first section, one section down to the next
 
        The one value off the scales is 0.5 mm above the period column: an

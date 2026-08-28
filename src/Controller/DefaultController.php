@@ -55,7 +55,7 @@ final class DefaultController extends AbstractController
     {
         $timestampState = $this->timestampState($request);
 
-        // Silent drop only for clear bot signals — a filled honeypot, a
+        // Silent drop only for clear bot signals – a filled honeypot, a
         // missing/tampered signature, or an inhumanly fast submission. These
         // get a fake "success" so bots learn nothing; nothing is sent.
         $honeypot = trim((string) $request->request->get('website', ''));
@@ -85,7 +85,7 @@ final class DefaultController extends AbstractController
         }
 
         // A valid but stale signature is a real user whose form sat open too
-        // long — never silently drop it, ask them to resend instead.
+        // long – never silently drop it, ask them to resend instead.
         if ($timestampState === 'expired') {
             $errors['form'] = 'Das Formular war zu lange geöffnet. Bitte senden Sie das Formular erneut ab.';
         }
@@ -133,7 +133,7 @@ final class DefaultController extends AbstractController
     }
 
     /**
-     * The address never appears in the markup — the link points at a route
+     * The address never appears in the markup – the link points at a route
      * and the route redirects. That keeps the mailto out of a shape that is
      * trivial to scrape, which is the same reason the legal pages spell the
      * address out in words.
@@ -156,7 +156,7 @@ final class DefaultController extends AbstractController
      * against the site, and then there are two truths about one career.
      *
      * `noindex` because the file duplicates the homepage and carries the
-     * postal address — the indexed truth stays the page. A `Disallow` in
+     * postal address – the indexed truth stays the page. A `Disallow` in
      * robots.txt would be worse than useless here: it stops a crawler from
      * ever reading the header that tells it not to index.
      */
@@ -238,8 +238,8 @@ final class DefaultController extends AbstractController
 
     /**
      * The site that stood here until 2026 carried an English translation under
-     * /en, and that path is in the old sitemap. It is gone with the rebuild —
-     * one language now — so the old address is sent to the homepage rather
+     * /en, and that path is in the old sitemap. It is gone with the rebuild –
+     * one language now – so the old address is sent to the homepage rather
      * than answered with a 404.
      */
     #[Route('/en', name: 'app_legacy_english', methods: ['GET'])]
@@ -254,7 +254,7 @@ final class DefaultController extends AbstractController
     {
         $sitemap = $this->generateUrl('app_sitemap', [], UrlGeneratorInterface::ABSOLUTE_URL);
 
-        // The redirect routes carry no document, only a Location header — and
+        // The redirect routes carry no document, only a Location header – and
         // for the two contact routes that header holds the address. A
         // well-behaved crawler follows it and takes the address into its
         // corpus, and those corpora are where address lists come from.

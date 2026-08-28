@@ -11,7 +11,7 @@ use Symfony\Component\DependencyInjection\Attribute\Autowire;
  * Turns the notice period into the month Marcel can actually start, so the
  * statement on the page can never go stale. A hand-maintained "available
  * immediately" is wrong the day the contract situation moves; a computed month
- * answers the only question a recruiter has — when? — and answers it on every
+ * answers the only question a recruiter has – when? – and answers it on every
  * request.
  *
  * Two weeks' notice to the end of a month means the notice has to arrive by

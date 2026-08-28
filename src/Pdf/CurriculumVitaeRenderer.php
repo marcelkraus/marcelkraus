@@ -17,7 +17,7 @@ use Twig\Environment;
  *
  * The page geometry is the measured stationery, not a guess: the logo sits at
  * 20 mm from the top edge and is 15 mm tall, so the text block starts at
- * 55 mm — on every page, because the header repeats itself. Left and right
+ * 55 mm – on every page, because the header repeats itself. Left and right
  * are 20 mm, and the bottom is 20 mm as well. The stationery only fixes the
  * top and the sides; the foot is free, and ten millimetres more paper per page
  * is what keeps this document at two.
@@ -25,7 +25,7 @@ use Twig\Environment;
  * Two fonts are embedded. Aller is already a static TrueType file and comes
  * straight from the web font directory. JetBrains Mono is only published as a
  * variable woff2, which mPDF can neither read nor subset, so `assets/fonts`
- * carries two static instances derived from it — see `assets/README.md`.
+ * carries two static instances derived from it – see `assets/README.md`.
  */
 final class CurriculumVitaeRenderer
 {
@@ -66,7 +66,7 @@ final class CurriculumVitaeRenderer
 
         // A quiet page number, centred, in the mono voice the technical
         // layer uses everywhere else. Two pages do not need it to find their
-        // way back together — but a sheet that falls out of a folder does.
+        // way back together – but a sheet that falls out of a folder does.
         $document->SetHTMLFooter(
             '<div style="text-align: center; font-family: jetbrainsmono; font-size: 8pt;'
             . ' color: #737373;">&#8211; {PAGENO} &#8211;</div>'
@@ -108,7 +108,7 @@ final class CurriculumVitaeRenderer
             'default_font_size' => 9,
             // mPDF shrinks a table whose content it believes will not fit,
             // silently and per table. That produced two different body sizes
-            // on one page — the long stations came out smaller than the short
+            // on one page – the long stations came out smaller than the short
             // ones. Every column here has an explicit width, so nothing needs
             // rescuing and the type stays the size it was set at.
             'shrink_tables_to_fit' => 0,

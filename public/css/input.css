@@ -6,7 +6,7 @@
 @plugin "@tailwindcss/typography";
 @source "../../templates/**/*.html.twig";
 
-/* Self-hosted fonts — no external requests. Aller carries the wordmark,
+/* Self-hosted fonts – no external requests. Aller carries the wordmark,
    headlines and body (ties the type to the logo); JetBrains Mono is the
    technical voice for eyebrows, labels and spec data. Latin covers the
    German umlauts (ä ö ü ß). */
@@ -46,14 +46,14 @@
        difference between the sites falls into the values and not into the
        naming.
 
-         accent                 the brand itself — surfaces, borders, markers,
+         accent                 the brand itself – surfaces, borders, markers,
                                 the mark. Never type without a checked step.
          accent-on-light        type on a light ground
          accent-on-dark         type on a dark ground
          accent-hover           hover of a filled surface
          accent-on-light-hover  hover of type on a light ground
 
-       The accent is Tailwind's purple-700 — the palette color of the left
+       The accent is Tailwind's purple-700 – the palette color of the left
        square in the master logo, which stands for the employment career.
        Bound to the token rather than a copied hex so it cannot drift from
        the palette.
@@ -62,7 +62,7 @@
        light ground as it is (7.07:1) and misses AA as type on a dark one
        (2.54:1), where it needs a brighter step (purple-400, 6.42:1). The
        hover of a filled surface moves in whichever direction keeps its label
-       readable — here the label is white, so the fill DARKENS. */
+       readable – here the label is white, so the fill DARKENS. */
     --color-accent: var(--color-purple-700);
     --color-accent-on-light: var(--color-purple-700);
     --color-accent-on-dark: var(--color-purple-400);
@@ -80,7 +80,7 @@
     --color-brand-krausgebaut-on-dark: var(--color-cyan-600);
     --color-brand-krausgedruckt: var(--color-orange-600);
 
-    /* Jurassic Jeep is a trade, not a brand of the family — it has no square
+    /* Jurassic Jeep is a trade, not a brand of the family – it has no square
        in the logo and no tile in the closing band, only a marker in the
        career. red-700 is the closest palette step to that site's own
        Performance Red, at a perceptual distance of 0.0155 in oklab and

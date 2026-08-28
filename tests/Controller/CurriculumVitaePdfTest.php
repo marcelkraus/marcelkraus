@@ -8,7 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 /**
  * The printed curriculum vitae is generated from the same content files the
- * page renders, so the failure worth guarding against is not a wrong pixel —
+ * page renders, so the failure worth guarding against is not a wrong pixel –
  * it is the document silently losing a station, gaining a third page, or
  * turning up in a search index.
  */
@@ -26,7 +26,7 @@ final class CurriculumVitaePdfTest extends WebTestCase
     }
 
     /**
-     * Inline, so the document opens in the browser — but the file name still
+     * Inline, so the document opens in the browser – but the file name still
      * travels with it, so saving it produces something recognisable rather
      * than "lebenslauf".
      */
@@ -66,7 +66,7 @@ final class CurriculumVitaePdfTest extends WebTestCase
 
         $pages = preg_match_all('#/Type\s*/Page[^s]#', (string) $client->getResponse()->getContent());
 
-        self::assertGreaterThan(0, $pages, 'No page objects found — the parser, not the document, is wrong.');
+        self::assertGreaterThan(0, $pages, 'No page objects found – the parser, not the document, is wrong.');
         self::assertLessThanOrEqual(2, $pages);
     }
 

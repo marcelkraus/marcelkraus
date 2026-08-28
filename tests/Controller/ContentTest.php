@@ -8,7 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 /**
  * The homepage is driven entirely by config/content. These tests pin that the
- * files are readable and reach the page — a typo in one of them degrades to an
+ * files are readable and reach the page – a typo in one of them degrades to an
  * empty list rather than an error, which is exactly the failure that goes
  * unnoticed.
  */
@@ -65,7 +65,7 @@ final class ContentTest extends WebTestCase
 
         // Deliberately not a term the career carries as well: 'Swift' also
         // sits in a milestone tag, so it stayed in the document while
-        // skills.json degraded to an empty list — which is the one failure
+        // skills.json degraded to an empty list – which is the one failure
         // this test is here to catch. 'CAN-Bus' and 'Anforderungsanalyse'
         // exist in skills.json alone, and the visible section is asserted
         // next to the structured data.
@@ -103,7 +103,7 @@ final class ContentTest extends WebTestCase
     /**
      * Chefkoch is one employer with two roles. Both role labels and both
      * periods have to render, otherwise the nesting has swallowed one of them
-     * — which is invisible in a passing "Chefkoch GmbH" assertion.
+     * – which is invisible in a passing "Chefkoch GmbH" assertion.
      */
     public function testChefkochRendersBothRolesUnderOneEmployer(): void
     {

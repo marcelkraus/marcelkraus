@@ -12,7 +12,7 @@ use Symfony\Component\DependencyInjection\Attribute\Autowire;
  * would be two chances for the page and the document to drift apart, and the
  * whole point of generating the document is that they cannot.
  *
- * A missing or malformed file degrades to an empty list rather than an error —
+ * A missing or malformed file degrades to an empty list rather than an error –
  * the failure that goes unnoticed is the one worth designing for.
  */
 final class ContentRepository

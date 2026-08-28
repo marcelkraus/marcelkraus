@@ -9,7 +9,7 @@ use DateTimeImmutable;
 /**
  * German month names, in one place. The project deliberately carries no
  * translation component and no intl dependency, and two callers now need the
- * same twelve words — the availability statement on the page and the dateline
+ * same twelve words – the availability statement on the page and the dateline
  * of the printed curriculum vitae. A second copy would be a second chance to
  * misspell one.
  */
