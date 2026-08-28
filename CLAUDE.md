@@ -200,7 +200,7 @@ which runs through the whole timeline from 01/2002.
 
 **Every period is month-precise**, which exists so that gaps are visible – so
 the dates have to be right rather than merely plausible. krausgebaut starts on
-the date of the trade licence, 01/2002. The ASB employment starts 10/2004, with
+the date of the trade license, 01/2002. The ASB employment starts 10/2004, with
 the freelance work from 04/2004 named in the text rather than folded into the
 dates.
 
@@ -226,7 +226,7 @@ give different answers.
   template; without it the station takes the accent. The three trades carry
   their own color, the employments share the accent, and `secondary` sets a
   station back into `neutral-500` – today only the vocational school, so the
-  accent belongs to the working life alone. `secondary` also greys the position
+  accent belongs to the working life alone. `secondary` also grays the position
   line, the only place a marker value reaches beyond its square.
 * **`neutral-500` is the floor for a set-back station, not `neutral-400`.** The
   calmer step measures 2.58:1 on this ground and misses the 3:1 WCAG 1.4.11 asks
@@ -370,7 +370,7 @@ at any usable size costs 40 to 60 mm of a first page that has 23 mm to spare.
 Adding it means a third page or a shorter profile, and the profile is the only
 part of the document that says in Marcel's own words who he is.
 
-A quiet page number closes each page, centred in the bottom margin – the band
+A quiet page number closes each page, centered in the bottom margin – the band
 runs 277 to 297 mm, so the figure sits at 287 mm. Two pages do not need it to
 find their way back together; a sheet that falls out of a folder does.
 
