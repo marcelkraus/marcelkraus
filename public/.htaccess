@@ -28,11 +28,21 @@ Options -Indexes
 
     RewriteEngine On
 
-    # Canonical host: the site lives on www.marcelkraus.de, so the bare apex is
-    # sent there permanently, carrying path and query string along. Host-scoped,
-    # so ddev and any other host stay untouched. Has to run before the rewriting
-    # below, otherwise it would fire on the already rewritten request.
-    RewriteCond %{HTTP_HOST} ^marcelkraus\.de$ [NC]
+    # Canonical host: the site lives on www.marcelkraus.de, so every other host
+    # is sent there permanently, carrying path and query string along.
+    # Host-scoped rather than a catch-all, so ddev and any host not named here
+    # stay untouched. Has to run before the rewriting below, otherwise it would
+    # fire on the already rewritten request.
+    #
+    # Three hosts land here: the bare apex, and marcel-kraus.de with and
+    # without www. The hyphenated spelling is the one somebody types who has
+    # only heard the name; it is not a second site and never answers with
+    # content of its own, so it forwards the path too.
+    #
+    # HTTPS is not forced here: the host redirects to it before Apache sees the
+    # request, and a second rule would only add a hop.
+    RewriteCond %{HTTP_HOST} ^marcelkraus\.de$ [NC,OR]
+    RewriteCond %{HTTP_HOST} ^(www\.)?marcel-kraus\.de$ [NC]
     RewriteRule ^ https://www.marcelkraus.de%{REQUEST_URI} [R=301,L]
 
     # Determine the RewriteBase automatically and set it as environment variable.
