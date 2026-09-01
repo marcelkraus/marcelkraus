@@ -438,10 +438,11 @@ page `<title>` keep the precise job description („Senior Software-Entwickler�
 
 ## Deployment
 
-Server directory `~/html/marcelkraus`, on the account `kraus`, host `menkar`.
-Mechanism, deploy keys and the mailer are in `../docs/DEPLOYMENT.md`, including
-the rule that **`marcelkraus.de` must never be registered as a mail domain on
-this account** – its MX points at `deimos` while the site runs on `menkar`.
+Server directory `~/www/html/marcelkraus`, on the account `krswrk`, host
+`nix`. Mechanism, deploy keys and the mailer are in `../docs/DEPLOYMENT.md`,
+including the rule that **`marcelkraus.de` must never be registered as a mail
+domain on this account** – its MX points at `deimos` while the site runs on
+`nix`.
 
 | # | | |
 | --- | --- | --- |
