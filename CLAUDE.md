@@ -335,6 +335,15 @@ read.
 layout sits close enough to the limit that one longer station description pushes
 it over, and nothing else would notice.
 
+**Merge with `pdfunite`, never with Preview.** An application is the cover
+letter plus this document in one file. Preview rewrites the embedded fonts when
+it saves and loses the character map of the mPDF subsets: the pages still look
+right and print right, but the text extracts as garbage, so search, copying the
+address and an applicant tracking system all fail. Dragging the PDF into Pages
+is worse still – Pages fits the page into its text column and scales it to
+93 %. `pdfunite anschreiben.pdf lebenslauf.pdf bewerbung.pdf` keeps the fonts,
+the text and the logo position untouched.
+
 ### Page geometry, the measured stationery
 
 | # | | |
