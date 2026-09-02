@@ -1,8 +1,12 @@
 # marcelkraus
 
-Shared rules that apply here: `../docs/WEB_STACK.md`, `../docs/DEPLOYMENT.md`,
-`../docs/BRAND_FAMILY.md`. This document carries only what is true of this
-project alone.
+This project lives in the krauswerk, in the group Brand Family, and this
+document is not complete on its own. The rules it follows stand a level up –
+`../../docs/WEB_STACK.md`, `../../docs/DEPLOYMENT.md` and the group's
+`../docs/BRAND_FAMILY.md` – and a session inside the workspace has the
+`CLAUDE.md` of the workspace and of the group loaded. Read alone, in a
+repository cloned elsewhere, it lacks that context. This document carries only
+what is true of this project alone.
 
 ## Overview
 
@@ -296,7 +300,7 @@ and deduplicated, so reordering a content file does not change the output.
 
 ## Contact form
 
-The mechanism is in `../docs/WEB_STACK.md`. Specific here:
+The mechanism is in `../../docs/WEB_STACK.md`. Specific here:
 
 * Fields: name, e-mail, company, phone, message; required are name, e-mail and
   message. **`Firma` means the sender's employer.**
@@ -439,7 +443,7 @@ page `<title>` keep the precise job description („Senior Software-Entwickler�
 ## Deployment
 
 Server directory `~/www/html/marcelkraus`, on the account `krswrk`, host
-`nix`. Mechanism, deploy keys and the mailer are in `../docs/DEPLOYMENT.md`,
+`nix`. Mechanism, deploy keys and the mailer are in `../../docs/DEPLOYMENT.md`,
 including the rule that **`marcelkraus.de` must never be registered as a mail
 domain on this account** – its MX points at `deimos` while the site runs on
 `nix`.
