@@ -94,7 +94,7 @@ Route names carry no locale segment: the site is single-language.
 
 ## Design
 
-The light "spec-sheet" look of the family with the curriculum-vitae additions
+The light „spec-sheet“ look of the family with the curriculum-vitae additions
 below. No dark mode. Tokens, contrast rules and the family bracket are in
 `../docs/BRAND_FAMILY.md`.
 

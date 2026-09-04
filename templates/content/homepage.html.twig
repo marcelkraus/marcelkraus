@@ -116,7 +116,7 @@
 
             {# The accent is reserved for the professional stations. Education,
                community service and the internship are set back into the same
-               grey their year already carries, so the eye finds the working
+               gray their year already carries, so the eye finds the working
                life first. `neutral-500` measures 4.74:1 on this ground and
                therefore carries both the marker and its line of type;
                `neutral-400` would look calmer and misses the 3:1 that WCAG
@@ -137,7 +137,7 @@
                         <p class="font-mono text-[0.8125rem] text-neutral-500">{{ milestone.years }}</p>
                         <div>
                             {# A station carries either its own role or a list of
-                               them. Both shapes are "detailed" and take the larger
+                               them. Both shapes are „detailed“ and take the larger
                                company line; only the condensed one-liners stay
                                small. #}
                             {% set detailed = milestone.description is defined or milestone.roles is defined %}
@@ -149,7 +149,7 @@
                                rather than as a button: it is a side note, not the
                                point of the station. The label is identical on all
                                three, so the accessible name names the business –
-                               otherwise a screen reader announces "Homepage"
+                               otherwise a screen reader announces „Homepage“
                                three times without a subject. No
                                underline: the arrow glyph is what marks the link,
                                and it is a shape rather than a color, so WCAG
@@ -168,7 +168,7 @@
                                 <div class="mt-6 space-y-6 border-l border-neutral-200 pl-6">
                                     {% for role in milestone.roles %}
                                         <div>
-                                            {# "Als" leads in the muted grey: it marks the
+                                            {# „Als“ leads in the muted gray: it marks the
                                                line as a capacity held at the employer above
                                                rather than as a station of its own, which is
                                                the whole reason these are nested. #}
@@ -218,9 +218,9 @@
 
     {# ── 03 Leidenschaft ────────────────────────────────────────────
        Two of the three cards point at software that came out of the hobby.
-       That is the one deliberate exception to "no projects on this site",
+       That is the one deliberate exception to „no projects on this site“,
        and it carries because it says something else than a portfolio tile:
-       not "I built this for a client" but "for this problem I write the
+       not „I built this for a client“ but „for this problem I write the
        software myself". #}
     <section id="leidenschaft" class="py-24 lg:py-32">
         <div class="mx-auto max-w-6xl px-6 lg:px-8">
