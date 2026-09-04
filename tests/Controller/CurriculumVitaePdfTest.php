@@ -27,7 +27,7 @@ final class CurriculumVitaePdfTest extends WebTestCase
 
     /**
      * Inline, so the document opens in the browser – but the file name still
-     * travels with it, so saving it produces something recognisable rather
+     * travels with it, so saving it produces something recognizable rather
      * than "lebenslauf".
      */
     public function testTheDocumentIsShownInTheBrowserAndKeepsItsFileName(): void

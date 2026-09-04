@@ -1,13 +1,13 @@
 {# Only the narrow left column breaks a period over two lines. In the wide
    content column a period stays on one line, exactly as on the page. #}
-{# The eyebrow of a section: the square marker and the label in grey
-   capitals. The square is a drawn image, not a glyph and not a coloured cell –
+{# The eyebrow of a section: the square marker and the label in gray
+   capitals. The square is a drawn image, not a glyph and not a colored cell –
    no embedded font is guaranteed to carry a filled square, and mPDF ignores a
    background on a block inside a table cell.
 
    NO SECTION NUMBER, unlike the page. Online the numbers structure one long
    scroll that has no table of contents; here there are four headings on two
-   numbered pages and the ordinal earns nothing. It would also collide: "02"
+   numbered pages and the ordinal earns nothing. It would also collide: `02`
    is Kompetenzen on the page and Selbstständigkeit in this document, so the
    same figure would mean two things across two documents that are meant to
    say the same. #}
@@ -130,7 +130,7 @@
         <td width="89mm" valign="top">
             {# The whole left column is one table, one row per block. mPDF
                drops block margins inside a table cell and renders an empty
-               spacer only sometimes; cell padding is the one thing it honours
+               spacer only sometimes; cell padding is the one thing it honors
                every time, so every vertical distance in this column is
                padding on a row. #}
             <table width="100%" cellpadding="0" cellspacing="0">

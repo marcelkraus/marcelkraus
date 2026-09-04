@@ -64,7 +64,7 @@ final class CurriculumVitaeRenderer
             self::LOGO_HEIGHT_IN_MILLIMETRES,
         ));
 
-        // A quiet page number, centred, in the mono voice the technical
+        // A quiet page number, centered, in the mono voice the technical
         // layer uses everywhere else. Two pages do not need it to find their
         // way back together – but a sheet that falls out of a folder does.
         $document->SetHTMLFooter(
@@ -90,7 +90,7 @@ final class CurriculumVitaeRenderer
             'margin_right' => self::MARGIN_SIDE_IN_MILLIMETRES,
             'margin_bottom' => self::MARGIN_BOTTOM_IN_MILLIMETRES,
             // The page number sits in the middle of the bottom margin: the
-            // band runs 277 to 297 mm, so its centre is 287 mm. Measured at
+            // band runs 277 to 297 mm, so its center is 287 mm. Measured at
             // 285.0 mm with a footer margin of 10, hence 8.
             'margin_footer' => 8,
             'fontDir' => array_merge($directories, [
