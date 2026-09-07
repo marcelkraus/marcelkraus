@@ -26,6 +26,6 @@ final class AvailabilityStatement
     {
         $firstDayAfterEmployment = (new DateTimeImmutable($this->employmentEndDate))->modify('+1 day');
 
-        return sprintf('Spätestens ab %s', $this->germanDateFormatter->monthAndYear($firstDayAfterEmployment));
+        return sprintf('Spätestens ab %s', $this->germanDateFormatter->month($firstDayAfterEmployment));
     }
 }

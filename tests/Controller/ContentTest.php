@@ -138,7 +138,7 @@ final class ContentTest extends WebTestCase
 
         self::assertCount(1, $chips);
         self::assertMatchesRegularExpression(
-            '/^Spätestens ab \w+ \d{4}$/u',
+            '/^Spätestens ab \w+$/u',
             trim((string) $chips->filter('dd')->text()),
         );
     }

@@ -143,12 +143,14 @@ dark, the one dark block being the closing brand band.
   stations next to each other read as two jobs rather than one development. The
   employer line carries the whole span, the roles sit indented below it on their
   own hairline. Chefkoch is the only case.
-* **The availability names one month.** „Spätestens ab Dezember 2026“ is the
-  outer bound rather than a negotiation position, and `AvailabilityStatement`
-  renders it from `app.employment_end_date`, which the page and the printed
-  document read alike. The word *freigestellt* deliberately appears nowhere: it
-  answers a question the reader did not ask and raises one they did not have. A
-  date answers the only question there is – when?
+* **The availability names one month.** „Spätestens ab Dezember“ is the outer
+  bound rather than a negotiation position, and `AvailabilityStatement` renders
+  it from `app.employment_end_date`, which the page and the printed document
+  read alike. **No year:** the document carries its own date two rows above the
+  line, and the page is read the day it is served. The word *freigestellt*
+  deliberately appears nowhere: it answers a question the reader did not ask and
+  raises one they did not have. A date answers the only question there is –
+  when?
 * **Competences carry a year where a year says something, and never a rating.**
   A year is checkable; self-awarded scales are an anti-pattern.
 * **Voice:** first person singular („ich“), the visitor addressed formally

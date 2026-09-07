@@ -35,9 +35,9 @@ final class GermanDateFormatter
         12 => 'Dezember',
     ];
 
-    public function monthAndYear(DateTimeImmutable $date): string
+    public function month(DateTimeImmutable $date): string
     {
-        return sprintf('%s %s', self::MONTH_NAMES[(int) $date->format('n')], $date->format('Y'));
+        return self::MONTH_NAMES[(int) $date->format('n')];
     }
 
     public function dayMonthAndYear(DateTimeImmutable $date): string
