@@ -18,8 +18,8 @@ parameters:
     app.whats_app_url: 'https://wa.me/message/TKVKBR7RPHA7B1'
 
     # Last day of the current employment. The availability stated on the
-    # page is derived from it rather than written out, so the sentence
-    # cannot fall out of date between two edits.
+    # page and on the printed curriculum vitae is rendered from it, so the
+    # month is written down once instead of in both outputs.
     app.employment_end_date: '2026-11-30'
 
     # Printed on the curriculum vitae and nowhere else. The page keeps the

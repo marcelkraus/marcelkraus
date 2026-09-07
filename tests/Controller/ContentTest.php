@@ -122,10 +122,10 @@ final class ContentTest extends WebTestCase
     }
 
     /**
-     * The availability is computed from the notice period rather than written
-     * out. Asserted as a shape, not as a value: the value moves with the
-     * calendar, and a test pinned to one month would fail on its own the next
-     * time the boundary passes.
+     * The availability chip renders, and it renders a month. An empty value
+     * would still produce a chip and would go unnoticed – the label alone
+     * looks intact. Asserted as a shape rather than as a value, so moving the
+     * end date does not fail a test that is about the markup.
      */
     public function testAvailabilityIsStatedAsAMonth(): void
     {
@@ -138,7 +138,7 @@ final class ContentTest extends WebTestCase
 
         self::assertCount(1, $chips);
         self::assertMatchesRegularExpression(
-            '/^(Ab \w+ \d{4}|Sofort)$/u',
+            '/^Spätestens ab \w+ \d{4}$/u',
             trim((string) $chips->filter('dd')->text()),
         );
     }

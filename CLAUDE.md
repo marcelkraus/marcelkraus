@@ -57,18 +57,19 @@ src/Dto/            ContactRequest
 src/EventListener/  SecurityHeadersListener
 src/Content/        ContentRepository – the JSON files, one reader for both outputs
 src/Pdf/            CurriculumVitaeRenderer – page geometry, fonts, the header
-src/Service/        AvailabilityCalculator – the availability month, computed
+src/Service/        AvailabilityStatement – the availability line, from the end date
                     GermanDateFormatter – twelve month names, in one place
 assets/fonts/       static JetBrains Mono, derived; never served, only embedded
 templates/pdf/      curriculum-vitae.html.twig
-templates/          base.html.twig, default/, partials/
+templates/          base.html.twig, content/, partials/
 public/             css/, fonts/, images/, favicon.*, apple-touch-icon.png
 ```
 
 Partials: `_logo`, `_eyebrow` (mono label with square marker and optional
 section number), `_icons`, `_button_class` (two sizes, two tones),
-`_contact_form`, `_tags` (technology tags of a career station, shared by a
-station and by the roles nested inside one).
+`_contact_form`, `_legal_mail_address` (the mailbox of the two legal pages,
+plain text with a hidden decoy, never a link), `_tags` (technology tags of a
+career station, shared by a station and by the roles nested inside one).
 
 `_icons` keeps **no stock**: every name has a caller, and the names are
 alphabetical. Most come from Heroicons v2 outline; `remote` and `wheel` are
@@ -142,11 +143,12 @@ dark, the one dark block being the closing brand band.
   stations next to each other read as two jobs rather than one development. The
   employer line carries the whole span, the roles sit indented below it on their
   own hairline. Chefkoch is the only case.
-* **The availability is computed, never written out.** `AvailabilityCalculator`
-  derives the month from the notice period, so the statement in the hero cannot
-  fall out of date between two edits. The word *freigestellt* deliberately
-  appears nowhere: it answers a question the reader did not ask and raises one
-  they did not have. A date answers the only question there is – when?
+* **The availability names one month.** „Spätestens ab Dezember 2026“ is the
+  outer bound rather than a negotiation position, and `AvailabilityStatement`
+  renders it from `app.employment_end_date`, which the page and the printed
+  document read alike. The word *freigestellt* deliberately appears nowhere: it
+  answers a question the reader did not ask and raises one they did not have. A
+  date answers the only question there is – when?
 * **Competences carry a year where a year says something, and never a rating.**
   A year is checkable; self-awarded scales are an anti-pattern.
 * **Voice:** first person singular („ich“), the visitor addressed formally
@@ -249,8 +251,8 @@ give different answers.
   what keeps the vocational school from taking as much room as twelve years at
   the ASB.
 * **No employment entry carries an open end.** The only statement about
-  availability lives in the hero and is computed there. The businesses are open
-  by design (`seit 11/2023`, `seit 05/2021`, `seit 01/2002`).
+  availability lives in the hero. The businesses are open by design
+  (`seit 11/2023`, `seit 05/2021`, `seit 01/2002`).
 
 ### skills.json
 
