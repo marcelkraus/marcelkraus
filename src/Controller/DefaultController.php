@@ -254,11 +254,11 @@ final class DefaultController extends AbstractController
     {
         $sitemap = $this->generateUrl('app_sitemap', [], UrlGeneratorInterface::ABSOLUTE_URL);
 
-        // The redirect routes carry no document, only a Location header – and
-        // for the two contact routes that header holds the address. A
-        // well-behaved crawler follows it and takes the address into its
-        // corpus, and those corpora are where address lists come from.
-        // Harvesters ignore robots.txt, but the corpora do not.
+        // The two contact routes carry no document, only a Location header,
+        // and that header holds the address. A well-behaved crawler follows
+        // it and takes the address into its corpus, and those corpora are
+        // where address lists come from. Harvesters ignore robots.txt, but
+        // the corpora do not.
         $disallowed = [
             '/kontakt-per-email',
             '/kontakt-per-whats-app',
