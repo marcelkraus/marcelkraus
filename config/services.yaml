@@ -33,8 +33,9 @@ parameters:
     app.curriculum_vitae_profile:
         - >-
             Ich bin Senior Software-Entwickler mit über zwanzig Jahren
-            Berufserfahrung. Die letzten zehn Jahre war ich bei der Chefkoch
-            GmbH in Bonn tätig, seit 2020 remote.
+            Berufserfahrung. Seit zehn Jahren bin ich bei der Chefkoch GmbH in
+            Bonn tätig, seit 2020 remote; Ende November 2026 verlasse ich das
+            Unternehmen.
         - >-
             Dort gestartet als PHP-Entwickler, habe ich später als
             Mitverantwortlicher für die iOS- und iPadOS-App an einer Plattform
@@ -47,8 +48,8 @@ parameters:
             oder Drupal 8 auf ein neues Content-Management-System.
         - >-
             Neben meinen Festanstellungen bin ich seit 2002 selbstständig, in
-            den Bereichen der Internet-, IT- & 3D-Druck-Dienstleistungen sowie
-            der Vermietung eines Filmfahrzeugs.
+            den Bereichen Internet-, IT- & 3D-Druck-Dienstleistungen sowie der
+            Vermietung eines Filmfahrzeugs.
 
 services:
     # default configuration for services in *this* file
