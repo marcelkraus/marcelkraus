@@ -120,26 +120,4 @@ final class ContentTest extends WebTestCase
             static fn ($node): bool => trim((string) $node->text()) === 'Chefkoch GmbH',
         )->count());
     }
-
-    /**
-     * The availability chip renders, and it renders a month. An empty value
-     * would still produce a chip and would go unnoticed – the label alone
-     * looks intact. Asserted as a shape rather than as a value, so moving the
-     * end date does not fail a test that is about the markup.
-     */
-    public function testAvailabilityIsStatedAsAMonth(): void
-    {
-        $client = static::createClient();
-        $crawler = $client->request('GET', '/');
-
-        $chips = $crawler->filter('dl div')->reduce(
-            static fn ($node): bool => trim((string) $node->filter('dt')->text()) === 'Verfügbarkeit',
-        );
-
-        self::assertCount(1, $chips);
-        self::assertMatchesRegularExpression(
-            '/^Spätestens ab \w+$/u',
-            trim((string) $chips->filter('dd')->text()),
-        );
-    }
 }

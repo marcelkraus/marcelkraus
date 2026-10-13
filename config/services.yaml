@@ -17,11 +17,6 @@ parameters:
     app.legal_email_address: 'mail+legal@marcelkraus.de'
     app.whats_app_url: 'https://wa.me/message/TKVKBR7RPHA7B1'
 
-    # Last day of the current employment. The availability stated on the
-    # page and on the printed curriculum vitae is rendered from it, so the
-    # month is written down once instead of in both outputs.
-    app.employment_end_date: '2026-11-30'
-
     # Printed on the curriculum vitae and nowhere else. The page keeps the
     # number out of its markup, as it does the mail address.
     app.phone_number: '0163 6938184'
@@ -32,7 +27,7 @@ parameters:
     # file the page would then have to ignore.
     app.curriculum_vitae_profile:
         - >-
-            Ich bin Senior Software-Entwickler mit über zwanzig Jahren
+            Ich bin Senior Softwareentwickler mit über zwanzig Jahren
             Berufserfahrung. Seit zehn Jahren bin ich bei der Chefkoch GmbH in
             Bonn tätig, seit 2020 remote; Ende November 2026 verlasse ich das
             Unternehmen.

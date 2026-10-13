@@ -7,7 +7,7 @@
             "@context": "https://schema.org",
             "@type": "Person",
             "name": "Marcel Kraus",
-            "jobTitle": "Senior Software-Entwickler",
+            "jobTitle": "Senior Softwareentwickler",
             "url": "https://www.marcelkraus.de",
             "image": "{{ app.request.schemeAndHttpHost ~ asset('images/portrait.jpg') }}",
             "address": {
@@ -36,7 +36,7 @@
             <div>
                 {{ include('partials/_eyebrow.html.twig', { text: 'Lebenslauf' }) }}
                 <h1 class="mt-6 font-display text-5xl font-bold leading-[1.03] tracking-tight text-neutral-900 sm:text-6xl lg:text-[4.25rem]">Marcel Kraus</h1>
-                <p class="mt-4 font-display text-2xl font-bold tracking-tight text-accent-on-light">Senior Software-Entwickler · iOS &amp; Web</p>
+                <p class="mt-4 font-display text-2xl font-bold tracking-tight text-accent-on-light">Senior Softwareentwickler iOS/Web</p>
                 <p class="mt-7 font-display text-lg font-bold text-neutral-900">Nicht nur mit Hut. Mit Köpfchen.</p>
                 <p class="mt-5 max-w-2xl leading-relaxed text-neutral-600">Der Herd ist nicht aus – nur die Küche wechselt. Nach zehn Jahren bei Chefkoch habe ich Lust auf ein neues Rezept. iOS und das Web sind mein Handwerk, zuhause bin ich in Erftstadt bei Köln.</p>
 
@@ -46,7 +46,7 @@
                    at 390 pixels. #}
                 <dl class="mt-10 flex flex-wrap gap-2.5">
                     {% for fact in [
-                        { label: 'Verfügbarkeit', value: availability, highlight: true },
+                        { label: 'Verfügbarkeit', value: 'Ab Dezember', highlight: true },
                         { label: 'Standort', value: 'Erftstadt bei Köln' },
                         { label: 'iOS', value: 'seit 2017' },
                         { label: 'Web', value: 'seit 2002' },
@@ -98,7 +98,7 @@
         <div class="mx-auto max-w-6xl px-6 lg:px-8">
             {{ include('partials/_eyebrow.html.twig', { number: '01', text: 'Werdegang' }) }}
             <h2 class="mt-5 font-display text-3xl font-bold tracking-tight text-neutral-900 sm:text-4xl">Berufliche Stationen</h2>
-            <p class="mt-5 max-w-3xl leading-relaxed text-neutral-600">Vom ersten Ausflug in die Berufswelt über meine Selbstständigkeit als Internet- und IT-Dienstleister bis zum Senior Software-Entwickler: die wichtigen Meilensteine meiner beruflichen Laufbahn.</p>
+            <p class="mt-5 max-w-3xl leading-relaxed text-neutral-600">Vom ersten Ausflug in die Berufswelt über meine Selbstständigkeit als Internet- und IT-Dienstleister bis zum Senior Softwareentwickler: die wichtigen Meilensteine meiner beruflichen Laufbahn.</p>
 
             {# The marker classes are written out per value, never assembled from
                the content field: Tailwind scans the templates as text, so a

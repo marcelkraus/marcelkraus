@@ -7,11 +7,8 @@ namespace App\Service;
 use DateTimeImmutable;
 
 /**
- * German month names, in one place. The project deliberately carries no
- * translation component and no intl dependency, and two callers now need the
- * same twelve words – the availability line, which both outputs carry, and the
- * dateline of the printed curriculum vitae. A second copy would be a second
- * chance to misspell one.
+ * German month names for the dateline of the printed curriculum vitae. The
+ * project deliberately carries no translation component and no intl dependency.
  */
 final class GermanDateFormatter
 {
@@ -34,11 +31,6 @@ final class GermanDateFormatter
         11 => 'November',
         12 => 'Dezember',
     ];
-
-    public function month(DateTimeImmutable $date): string
-    {
-        return self::MONTH_NAMES[(int) $date->format('n')];
-    }
 
     public function dayMonthAndYear(DateTimeImmutable $date): string
     {

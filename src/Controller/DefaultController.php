@@ -7,7 +7,6 @@ namespace App\Controller;
 use App\Content\ContentRepository;
 use App\Dto\ContactRequest;
 use App\Pdf\CurriculumVitaeRenderer;
-use App\Service\AvailabilityStatement;
 use App\Service\GermanDateFormatter;
 use DateTimeImmutable;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
@@ -27,7 +26,6 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 final class DefaultController extends AbstractController
 {
     public function __construct(
-        private readonly AvailabilityStatement $availabilityStatement,
         private readonly ContentRepository $content,
         private readonly CurriculumVitaeRenderer $curriculumVitaeRenderer,
         private readonly GermanDateFormatter $germanDateFormatter,
@@ -181,7 +179,7 @@ final class DefaultController extends AbstractController
                 ['label' => 'Datum', 'value' => $this->germanDateFormatter->dayMonthAndYear($today)],
                 ['label' => 'Anschrift', 'value' => 'Bonner Straße 88<br>50374 Erftstadt'],
                 ['label' => 'Telefon', 'value' => $this->getParameter('app.phone_number')],
-                ['label' => 'Verfügbar', 'value' => $this->availabilityStatement->line()],
+                ['label' => 'Verfügbar', 'value' => 'Ab Dezember'],
                 ['label' => 'E-Mail', 'value' => $this->getParameter('app.contact_email_address')],
                 ['label' => 'Portfolio & Profile', 'value' => 'www.marcelkraus.de'],
             ],
@@ -304,7 +302,6 @@ final class DefaultController extends AbstractController
         $skills = $this->content->load('skills');
 
         $response = $this->render('content/homepage.html.twig', array_merge([
-            'availability' => $this->availabilityStatement->line(),
             'brands' => $this->content->load('brands'),
             'hobbies' => $hobbies,
             'knowsAbout' => $this->knowsAbout($skills, $hobbies),

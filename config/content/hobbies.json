@@ -3,9 +3,9 @@
         "title": "Hobbyschrauber",
         "icon": "wrench",
         "description": "Ob Karosserie, Antrieb oder Elektrik: Mein Herz schlägt für das Schrauben an altem Blech. So begleiten mich unter anderem ein „Jurassic Park“-Jeep und K.I.T.T. aus „Knight Rider“ bereits seit vielen Jahren.",
-        "url": "https://www.ownyard.app",
-        "urlLabel": "OwnYard",
-        "urlNote": "Eigenentwicklung zur Verwaltung von Fahrzeugen, Autoteilen, Ausgaben, Lagerorten & mehr",
+        "url": "https://schrauberfuchs.app",
+        "urlLabel": "Schrauberfuchs",
+        "urlNote": "Eigenentwicklung zur Planung & Dokumentation der Arbeit an Fahrzeugen: Aufgaben, Arbeitszeit, Teile, Ausgaben & mehr",
         "knowsAbout": [
             "Oldtimer Restoration"
         ]
