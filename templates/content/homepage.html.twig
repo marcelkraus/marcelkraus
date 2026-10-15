@@ -104,7 +104,7 @@
                the content field: Tailwind scans the templates as text, so a
                class built from a variable never reaches the build. A station of
                the self-employment carries the color of its brand, everything
-               else the accent – the timeline then says at a glance which line
+               else the accent—the timeline then says at a glance which line
                of the career a station belongs to. #}
             {% set stationMarkers = {
                 'accent': 'bg-accent',
@@ -129,7 +129,7 @@
                 {% for milestone in milestones %}
                     <div class="relative grid gap-1.5 pb-11 pl-7 last:pb-0 md:grid-cols-[7rem_1fr] md:gap-8 md:pl-10">
                         {# The rail is a hairline with one square marker per
-                           station – the same marker shape as in the eyebrow,
+                           station—the same marker shape as in the eyebrow,
                            the footer lists and the brand band. #}
                         <span class="absolute left-0 top-0 bottom-0 w-px bg-neutral-200 {{ loop.last ? 'hidden' : '' }}" aria-hidden="true"></span>
                         <span class="absolute -left-[0.3rem] top-1.5 h-2.5 w-2.5 rounded-[2px] {{ stationMarkers[milestone.marker|default('accent')]|default('bg-accent') }}" aria-hidden="true"></span>
@@ -137,7 +137,7 @@
                         <p class="font-mono text-[0.8125rem] text-neutral-500">{{ milestone.years }}</p>
                         <div>
                             {# A station carries either its own role or a list of
-                               them. Both shapes are „detailed“ and take the larger
+                               them. Both shapes are “detailed” and take the larger
                                company line; only the condensed one-liners stay
                                small. #}
                             {% set detailed = milestone.description is defined or milestone.roles is defined %}
@@ -148,8 +148,8 @@
                             {# The homepage of a business hangs in the muted line
                                rather than as a button: it is a side note, not the
                                point of the station. The label is identical on all
-                               three, so the accessible name names the business –
-                               otherwise a screen reader announces „Homepage“
+                               three, so the accessible name names the business—
+                               otherwise a screen reader announces “Homepage”
                                three times without a subject. No
                                underline: the arrow glyph is what marks the link,
                                and it is a shape rather than a color, so WCAG
@@ -214,10 +214,10 @@
 
     {# ── 03 Leidenschaft ────────────────────────────────────────────
        Two of the three cards point at software that came out of the hobby.
-       That is the one deliberate exception to „no projects on this site“,
+       That is the one deliberate exception to “no projects on this site”,
        and it carries because it says something else than a portfolio tile:
-       not „I built this for a client“ but „for this problem I write the
-       software myself". #}
+       not “I built this for a client” but “for this problem I write the
+       software myself.” #}
     <section id="leidenschaft" class="py-24 lg:py-32">
         <div class="mx-auto max-w-6xl px-6 lg:px-8">
             {{ include('partials/_eyebrow.html.twig', { number: '03', text: 'Leidenschaft' }) }}
@@ -228,7 +228,7 @@
             {# The cards share the section grid's rows from lg up, where all four
                    stand side by side and a common divider line is worth having. A
                    subgrid inherits the parent's row gap, so it would put that gap
-                   between icon, heading and text as well – below lg the cards
+                   between icon, heading and text as well—below lg the cards
                    therefore fall back to a flex column that pushes its link block
                    down with mt-auto. The row count is spelled out for four cards;
                    a fifth means adjusting this line. Padding sits on the children
@@ -265,7 +265,7 @@
 
     {# ── 04 Kontakt ─────────────────────────────────────────────────
        Two columns: the form on the left, address and channels on the right.
-       The address never appears in the markup – e-mail and WhatsApp are
+       The address never appears in the markup—e-mail and WhatsApp are
        redirect routes, exactly as on both sibling sites. #}
     <section id="kontakt" class="bg-neutral-100 py-24 lg:py-32">
         <div class="mx-auto max-w-6xl px-6 lg:px-8">
@@ -279,7 +279,7 @@
                 </a>
             </p>
 
-            {# Channels on the left, the form on the right – the same layout as
+            {# Channels on the left, the form on the right—the same layout as
                on both sibling sites, down to the divided list, the icons and
                the column ratio, so a visitor coming from there reaches for the
                input in the same place. What differs is the content of the rows:
@@ -340,7 +340,7 @@
     {# ── 05 Selbstständigkeit ───────────────────────────────────────
        The brand band closes the page, where both sibling sites carry theirs.
        Between the competences and the passion it would have been read as a
-       third piece of evidence, while it actually says something else –
+       third piece of evidence, while it actually says something else—
        that time is bound elsewhere. #}
     <section id="selbststaendigkeit" class="bg-neutral-950 py-24 lg:py-32">
         <div class="mx-auto max-w-6xl px-6 lg:px-8">
