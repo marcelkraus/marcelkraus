@@ -8,7 +8,7 @@ Every link with an arrow goes through `_link.html.twig`, so `↗`, `→` and `�
 
 ## The design system
 
-**marcelkraus stands in front of the family, not inside it**, with a design system of its own; what it still shares with the two siblings is in `../../docs/BRAND_FAMILY.md`. No dark mode.
+**marcelkraus stands in front of the family, not inside it**, with a design system of its own; what it still shares with the two siblings is in `../../../docs/BRAND_FAMILY.md`. No dark mode.
 
 * **Tokens and scales live in the Tailwind theme, the layout measures in `:root`; the recurring parts are component classes**—frame, card, cells, cover card, tabs, tower, work, button, link—used by the partials. A utility is for the single case. No `!important`.
 * **Nothing outside the scales.** The frame is 1104 px on twelve columns of 48 with a gutter of 48; spacing runs on 8, 16, 24, 48 and 96 only; type on four steps of Aller and two of mono. The spacing scale binds distances, not the size of a thing—a portrait, the logo, a field. The one type size outside the scales is a tower's name, which shrinks with its tower below the full frame; the two optical values outside them are the station marker, centered on its hairline, and the button's 1.5 px border, a step heavier than a card's hairline. **One breakpoint**, at 1000 px, where the page margin, the gutter and the padding drop from 48 to 24 and the four Aller steps shrink.
@@ -53,7 +53,7 @@ The cover card without a button, then one card: the channels on the left—addre
 
 `_logo.html.twig` is the three squares and the wordmark as one lockup, the squares running left to right in the order the brands came into being. Colors come from `fill-*` classes.
 
-The favicons are the three brand squares on a white tile with a `neutral-300` hairline, because at 16 px `neutral-200` disappears. The squares carry the verbatim master colors, which are exactly what the tokens resolve to; the values are in `../../docs/BRAND_FAMILY.md`.
+The favicons are the three brand squares on a white tile with a `neutral-300` hairline, because at 16 px `neutral-200` disappears. The squares carry the verbatim master colors, which are exactly what the tokens resolve to; the values are in `../../../docs/BRAND_FAMILY.md`.
 
 **`tridents-hanging.svg` and `tridents-standing.svg` carry the hex of the `hair` token as a literal**, as `favicon.svg` carries the brand colors: a background image never sees the theme. They move with the token.
 
