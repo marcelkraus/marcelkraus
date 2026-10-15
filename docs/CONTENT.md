@@ -10,7 +10,7 @@ The rendered order is the file order. **Employment runs newest first; each busin
 
 **Every period is month-precise**, which exists so that gaps are visible—so the dates have to be right rather than merely plausible. krausgebaut starts on the date of the trade license, 01/2002. The ASB employment starts 10/2004, with the freelance work from 04/2004 named in the text rather than folded into the dates.
 
-**`location` reads `Ort · Zusatz`**, the second part optional: `In Köln`, `In Kerpen · Abschluss mit Fachhochschulreife`, `In Erftstadt · selbstständig`. The place is always spelled `In <Ort>`. The field is mono without `uppercase`, so it prints exactly as it stands and the addition stays lowercase where German asks for it.
+**`location` reads `Ort · Zusatz`**, the second part optional: `Köln`, `Kerpen · Abschluss mit Fachhochschulreife`, `Erftstadt · selbstständig`. The place stands bare, without a preposition. The field is mono without `uppercase`, so it prints exactly as it stands and the addition stays lowercase where German asks for it.
 
 **It carries no duration.** The period already stands in the date column to the left; a second figure only invites the reader to check one against the other, and the two rarely agree because counting whole months and counting elapsed time give different answers.
 

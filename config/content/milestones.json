@@ -2,7 +2,7 @@
     {
         "years": "07/2016 – 11/2026",
         "company": "Chefkoch GmbH",
-        "location": "In Bonn · seit 2020 remote",
+        "location": "Bonn · seit 2020 remote",
         "roles": [
             {
                 "years": "05/2017 – 11/2026 · Senior seit 01/2023",
@@ -34,7 +34,7 @@
         "years": "seit 11/2023",
         "company": "krausgedruckt",
         "position": "3D-Druck-Dienstleister",
-        "location": "In Erftstadt · selbstständig",
+        "location": "Erftstadt · selbstständig",
         "description": "Additive Fertigung individueller Teile im FDM-Verfahren: Prototypen, Werkzeuge, Ersatzteile und Dekoration, als Einzelstück ebenso wie als Kleinserie. Dazu 3D-Modellierung und Prototypentwicklung direkt am Objekt sowie ein Onlineshop.",
         "tags": [
             "3D-Druck",
@@ -50,7 +50,7 @@
         "years": "seit 05/2021",
         "company": "Jurassic Jeep",
         "position": "Vermieter eines Filmfahrzeugs",
-        "location": "In Erftstadt · selbstständig",
+        "location": "Erftstadt · selbstständig",
         "description": "Vermietung meines ersten fertigen Filmfahrzeugs. Der Jeep Wrangler Sahara von 1993 gleicht dem markanten Jeep aus „Jurassic Park“ und „Jurassic World“ wie ein Ei dem anderen und steht als Fotopoint für Veranstaltungen aller Art zur Verfügung.",
         "tags": [
             "Fahrzeugvermietung",
@@ -64,7 +64,7 @@
         "company": "Arbeiter-Samariter-Bund Deutschland e.V.",
         "division": "Bundesverband",
         "position": "Projektleiter Online-Dienste",
-        "location": "In Köln",
+        "location": "Köln",
         "description": "Verantwortlich für die verbandsweit eingesetzten Online-Dienste, genutzt von allen Gliederungen – von den 16 Landesverbänden bis hinunter zu mehreren Dutzend Ortsverbänden. Als Projektleiter steuerte ich drei bis fünf Vorhaben, darunter die zentrale Verbands-Homepage asb.de und ein neues Intranet; daneben entwickelte ich etwa 10 bis 15 Anwendungen eigenverantwortlich. Begonnen habe ich als freier Mitarbeiter, ab Oktober 2004 fest angestellt.",
         "tags": [
             "PHP",
@@ -77,7 +77,7 @@
         "years": "seit 01/2002",
         "company": "krausgebaut",
         "position": "Internet- & IT-Dienstleister",
-        "location": "In Erftstadt · selbstständig",
+        "location": "Erftstadt · selbstständig",
         "description": "Gestartet als reiner Webdesigner, 24 Jahre später Internet- und IT-Dienstleister mit App- und Web-Entwicklung, Workshops und IT-Unterstützung – seit 2004 durchgehend als Nebengewerbe parallel zur Anstellung.",
         "tags": [
             "iOS-App",
@@ -93,7 +93,7 @@
         "years": "08/2000 – 06/2003",
         "company": "Adolf-Kolping-Berufskolleg",
         "position": "Informationstechnischer Assistent (ITA)",
-        "location": "In Kerpen · Abschluss mit Fachhochschulreife",
+        "location": "Kerpen · Abschluss mit Fachhochschulreife",
         "marker": "secondary"
     }
 ]
