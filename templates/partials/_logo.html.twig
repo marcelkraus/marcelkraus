@@ -1,12 +1,4 @@
-{# Brand logo—three squares and the wordmark as one lockup, generated from
-   the master artwork with the wordmark converted to outlines (no font
-   dependency). The squares are the brand family, left to right in the order
-   the brands came into being: purple for the employment career (this site),
-   petrol for krausgebaut, papaya for krausgedruckt.
-   Params: class (sizing), mono (single color via currentColor), aria_label.
-
-   The wordmark binds to neutral-900, the squares to the brand tokens, so the
-   lockup cannot drift from the palette. #}
+{# Params: class, mono (single color via currentColor), aria_label. #}
 {% set mono = mono|default(false) %}
 {% set marcelkraus_fill = mono ? 'fill-current' : 'fill-accent' %}
 {% set krausgebaut_fill = mono ? 'fill-current' : 'fill-brand-krausgebaut' %}

@@ -1,11 +1,7 @@
 #!/usr/bin/env bash
 #
-# Renders `public/images/sharing.jpg` from the page at `/sharing-image`,
-# which embeds the real cover card in the real stylesheet and fonts. Run it
-# on the Mac with ddev up; the image is a finished asset and gets committed.
-#
-# Nothing to install: Chrome takes the screenshot headless and `sips`, which
-# ships with macOS, turns it into a JPEG.
+# Renders `public/images/sharing.jpg` from `/sharing-image`. Run it on the Mac
+# with ddev up and commit the image.
 set -euo pipefail
 
 chrome="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
@@ -16,8 +12,6 @@ trap 'rm -rf "$workspace"' EXIT
 screenshot="$workspace/sharing.png"
 
 # The window is the template's stage times its zoom; change both together.
-# The virtual time budget lets the web fonts arrive before the shot; ddev's
-# certificate is its own, hence the ignored certificate errors.
 "$chrome" --headless --hide-scrollbars --ignore-certificate-errors \
     --force-device-scale-factor=1 --window-size=1200,630 \
     --virtual-time-budget=5000 --screenshot="$screenshot" "$url" 2>/dev/null

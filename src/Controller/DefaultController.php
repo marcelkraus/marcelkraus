@@ -76,9 +76,7 @@ final class DefaultController extends AbstractController
     {
         $timestampState = $this->timestampState($request);
 
-        // Silent drop only for clear bot signals—a filled honeypot, a
-        // missing/tampered signature, or an inhumanly fast submission. These
-        // get a fake "success" so bots learn nothing; nothing is sent.
+        // A clear bot signal gets a fake success, so the bot learns nothing.
         $honeypot = trim((string) $request->request->get('website', ''));
         if ($honeypot !== '' || $timestampState === 'invalid' || $timestampState === 'too_fast') {
             $this->addFlash('contact_success', true);
@@ -93,9 +91,7 @@ final class DefaultController extends AbstractController
         $data->phone = trim((string) $request->request->get('phone', ''));
         $data->message = trim((string) $request->request->get('message', ''));
 
-        // Keep the first violation per field: the constraints are written in
-        // order of relevance, so an empty message must report NotBlank rather
-        // than the minimum-length rule that fires alongside it.
+        // The constraints are written in order of relevance; the first one wins.
         $errors = [];
         foreach ($this->validator->validate($data) as $violation) {
             $errors[$violation->getPropertyPath()] ??= $violation->getMessage();
@@ -105,8 +101,7 @@ final class DefaultController extends AbstractController
             $errors['form'] = 'Ihre Sitzung ist abgelaufen. Bitte senden Sie das Formular erneut ab.';
         }
 
-        // A valid but stale signature is a real user whose form sat open too
-        // long—never silently drop it, ask them to resend instead.
+        // A stale signature is a real visitor whose form sat open too long.
         if ($timestampState === 'expired') {
             $errors['form'] = 'Das Formular war zu lange geöffnet. Bitte senden Sie das Formular erneut ab.';
         }
@@ -115,17 +110,12 @@ final class DefaultController extends AbstractController
             return $this->renderContactErrors($request, $errors);
         }
 
-        // Throttle per IP so a scraped token cannot be replayed into a flood.
         if ($this->contactFormLimiter->create($request->getClientIp() ?? 'anonymous')->consume(1)->isAccepted() === false) {
             return $this->renderContactErrors($request, [
                 'form' => 'Es sind zu viele Nachrichten eingegangen. Bitte versuchen Sie es später noch einmal.',
             ]);
         }
 
-        // A transport failure must not cost the message and must not hand a
-        // visitor a bare error page: the sibling project has the two ways an
-        // Uberspace sendmail DSN can be wrong on record, and this form is the
-        // only reason the site exists.
         try {
             $this->mailer->send(
                 (new TemplatedEmail())
@@ -153,12 +143,6 @@ final class DefaultController extends AbstractController
         return $this->redirect($this->generateUrl('app_contact_page'));
     }
 
-    /**
-     * The address never appears in the markup—the link points at a route
-     * and the route redirects. That keeps the mailto out of a shape that is
-     * trivial to scrape, which is the same reason the legal pages spell the
-     * address out in words.
-     */
     #[Route('/kontakt-per-email', name: 'app_contact_email', methods: ['GET'])]
     public function contactByEmail(): Response
     {
@@ -171,16 +155,6 @@ final class DefaultController extends AbstractController
         return $this->redirect($this->getParameter('app.whats_app_url'));
     }
 
-    /**
-     * The printed curriculum vitae, generated on request from the same content
-     * files the page renders. Not a second document: a hand-kept PDF drifts
-     * against the site, and then there are two truths about one career.
-     *
-     * `noindex` because the file duplicates the homepage and carries the
-     * postal address—the indexed truth stays the page. A `Disallow` in
-     * robots.txt would be worse than useless here: it stops a crawler from
-     * ever reading the header that tells it not to index.
-     */
     #[Route('/lebenslauf', name: 'app_curriculum_vitae_pdf', methods: ['GET'])]
     public function curriculumVitaePdf(): Response
     {
@@ -193,12 +167,8 @@ final class DefaultController extends AbstractController
         );
 
         $context = [
-            // One line per sentence, broken as the cover card breaks it.
             'claim' => ['Nicht nur mit Hut.', 'Mit Köpfchen.'],
             'profile' => $this->getParameter('app.curriculum_vitae_profile'),
-            // No LinkedIn row and no second QR code: the homepage links the
-            // profile anyway, and two codes side by side are indistinguishable
-            // without reading their labels.
             'contact' => [
                 ['label' => 'Datum', 'value' => $this->germanDateFormatter->dayMonthAndYear($today)],
                 ['label' => 'Anschrift', 'value' => 'Bonner Str. 88<br>50374 Erftstadt'],
@@ -231,9 +201,6 @@ final class DefaultController extends AbstractController
         $response->headers->set('Content-Type', 'application/pdf');
         $response->headers->set(
             'Content-Disposition',
-            // Inline, not an attachment: the document is meant to be read in
-            // the browser first. The file name still travels with it, so
-            // saving it produces the right name anyway.
             $response->headers->makeDisposition(
                 ResponseHeaderBag::DISPOSITION_INLINE,
                 'Lebenslauf-Marcel-Kraus.pdf',
@@ -258,12 +225,7 @@ final class DefaultController extends AbstractController
         return $this->render('content/data-privacy.html.twig');
     }
 
-    /**
-     * The site that stood here until 2026 carried an English translation under
-     * /en, and that path is in the old sitemap. It is gone with the rebuild—
-     * one language now—so the old address is sent to the homepage rather
-     * than answered with a 404.
-     */
+    // The former English pages still stand in old links.
     #[Route('/en', name: 'app_legacy_english', methods: ['GET'])]
     #[Route('/en/{path}', name: 'app_legacy_english_path', requirements: ['path' => '.*'], methods: ['GET'])]
     public function legacyEnglish(): Response
@@ -276,8 +238,6 @@ final class DefaultController extends AbstractController
     {
         $sitemap = $this->generateUrl('app_sitemap', [], UrlGeneratorInterface::ABSOLUTE_URL);
 
-        // Which routes are disallowed, and why: see `BRAND_FAMILY.md`,
-        // “robots.txt”.
         $disallowed = [
             '/kontakt-per-email',
             '/kontakt-per-whats-app',
@@ -298,7 +258,6 @@ final class DefaultController extends AbstractController
     #[Route('/sitemap.xml', name: 'app_sitemap', methods: ['GET'])]
     public function sitemap(): Response
     {
-        // The legal pages are noindex and stay out.
         $entries = '';
         foreach ($this->getParameter('app.pages') as $page) {
             $location = $this->generateUrl($page['route'], [], UrlGeneratorInterface::ABSOLUTE_URL);
@@ -314,9 +273,6 @@ final class DefaultController extends AbstractController
     }
 
     /**
-     * Renders the contact page, seeding a fresh anti-spam timestamp unless
-     * the form state brings a reusable one.
-     *
      * @param array<string, mixed> $formState
      */
     private function renderContactPage(array $formState = [], int $status = Response::HTTP_OK): Response
@@ -336,9 +292,6 @@ final class DefaultController extends AbstractController
     }
 
     /**
-     * Re-renders the contact page with contact-form errors, the submitted values
-     * and the first errored field name so the client can focus it.
-     *
      * @param array<string, string> $errors
      */
     private function renderContactErrors(Request $request, array $errors): Response
@@ -357,9 +310,7 @@ final class DefaultController extends AbstractController
             'contact_focus' => $focus,
         ];
 
-        // Reuse the visitor's still-valid timestamp on re-render so a quick
-        // fix-and-resend is not misclassified as a bot ("too_fast"). Only seed
-        // a fresh timestamp when none is reusable (missing, tampered, expired).
+        // A fresh timestamp would make a quick fix-and-resend look too fast.
         $submittedTimestamp = (string) $request->request->get('ts', '');
         $submittedSignature = (string) $request->request->get('ts_sig', '');
         if ($submittedTimestamp !== ''
@@ -374,11 +325,6 @@ final class DefaultController extends AbstractController
     }
 
     /**
-     * Builds the JSON-LD `knowsAbout` list from the content files instead of
-     * a hardcoded copy in the template: the skills carry the professional
-     * terms, the hobbies the private ones. Sorted and deduplicated, so the
-     * output does not shift when a content file is reordered.
-     *
      * @param array<int, array<string, mixed>> $skills
      * @param array<int, array<string, mixed>> $hobbies
      *
@@ -413,11 +359,6 @@ final class DefaultController extends AbstractController
         return hash_hmac('sha256', $timestamp, $this->appSecret);
     }
 
-    /**
-     * Classifies the signed anti-spam timestamp: 'invalid' (missing or
-     * tampered signature), 'too_fast' (submitted within 3 s), 'expired'
-     * (older than two hours) or 'valid'.
-     */
     private function timestampState(Request $request): string
     {
         $timestamp = (string) $request->request->get('ts', '');

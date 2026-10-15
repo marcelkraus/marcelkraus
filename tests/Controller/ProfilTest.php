@@ -6,19 +6,8 @@ namespace App\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-/**
- * Profil, the curriculum vitae at the start address, is driven by
- * config/content. A typo in one of those files degrades to an empty list
- * rather than an error, so what breaks silently is a station, a competence
- * or a passion that no longer reaches the page—or a trade whose marker no
- * longer says it is one.
- */
 final class ProfilTest extends WebTestCase
 {
-    /**
-     * The marker is what the stylesheet colors a trade's station by; a
-     * station that loses it turns gray without anyone noticing.
-     */
     public function testEveryCareerStationReachesThePageWithItsMarker(): void
     {
         $milestones = $this->content('milestones');
@@ -51,10 +40,7 @@ final class ProfilTest extends WebTestCase
         }
     }
 
-    /**
-     * Chefkoch is one employer with two roles: one company line, both
-     * periods. Two company lines would read as two jobs.
-     */
+    // Two company lines would read as two jobs.
     public function testSeveralRolesStandUnderOneEmployer(): void
     {
         $client = static::createClient();
@@ -122,17 +108,11 @@ final class ProfilTest extends WebTestCase
         $body = (string) $client->getResponse()->getContent();
         self::assertStringContainsString('"@type": "Person"', $body);
 
-        // Terms that exist in skills.json and hobbies.json alone: a term the
-        // career carries as well stays on the page when a content file
-        // degrades to an empty list.
+        // Terms only these two files carry, so a degraded file shows.
         self::assertStringContainsString('CAN-Bus', $body);
         self::assertStringContainsString('Sim Racing', $body);
     }
 
-    /**
-     * Beside each offer of the document stands the way to a message; the
-     * form itself lives on Kontakt.
-     */
     public function testTheDocumentOpensInANewTabAndTheMessageLeadsToKontakt(): void
     {
         $client = static::createClient();

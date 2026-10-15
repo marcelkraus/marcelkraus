@@ -1,20 +1,5 @@
-{# The person card under the tabs, the same on every page: portrait, name,
-   job title and claim, so a visitor knows whose site this is before reading
-   anything else.
-
-   Embed it, and fill `more` for an introduction that runs on the name's
-   column; the card then carries no right column. Without `more` the card
-   closes on the right with “Nachricht schreiben”, unless `reach` is false.
-
-   The portrait is shown in black and white by the stylesheet, never by
-   editing the photograph, and is never mirrored. The soft hyphen lets
-   “Softwareentwickler” break on a phone; “Senior” has none and stays whole.
-   The claim breaks after its first sentence at every width, so the punch
-   line stands on its own. Where even the first sentence is too wide—beside
-   the phone portrait below 360 pixels—“mit Hut.” moves down together rather
-   than leaving “Hut.” alone.
-
-   Params: reach (default true). Block: more. #}
+{# Params: reach (default true). Block: more, an introduction on the name's
+   column instead of the right column. #}
 {%- set reach = reach ?? true -%}
 {%- set more -%}{% block more %}{% endblock %}{%- endset -%}
 <section class="card cover{% if more|trim is not empty %} cover-has-more{% endif %}" aria-label="Marcel Kraus">

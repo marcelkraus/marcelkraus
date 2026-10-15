@@ -6,10 +6,6 @@ namespace App\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-/**
- * Every route answers, the legal pages stay out of the index and the two
- * contact routes redirect instead of carrying the address in a document.
- */
 final class RoutingTest extends WebTestCase
 {
     /**
@@ -57,11 +53,7 @@ final class RoutingTest extends WebTestCase
         }
     }
 
-    /**
-     * The page the sharing image is photographed from lives in dev alone.
-     * Outside it the route does not exist, so it can never be indexed as a
-     * fourth page that carries nothing but the cover card.
-     */
+    // Outside dev the route must not exist, or it would be indexed as a fourth page.
     public function testTheSharingImagePageIsNotServedOutsideDev(): void
     {
         $client = static::createClient();
@@ -85,10 +77,7 @@ final class RoutingTest extends WebTestCase
     {
         $client = static::createClient();
 
-        // '/en/' takes two hops: Symfony strips the trailing slash first, and
-        // the redirect below answers the result. What matters is where the
-        // visitor ends up, so the chain is followed rather than the first step
-        // asserted.
+        // '/en/' takes two hops, so the chain is followed.
         foreach (['/en', '/en/imprint'] as $path) {
             $client->request('GET', $path);
 
@@ -106,8 +95,7 @@ final class RoutingTest extends WebTestCase
     {
         $client = static::createClient();
 
-        // The legal pages are the ones that actually show the address, so
-        // checking the homepage alone leaves the risk untested.
+        // The legal pages are the ones that show the address.
         foreach (['/', '/impressum', '/datenschutz'] as $path) {
             $client->request('GET', $path);
             $body = (string) $client->getResponse()->getContent();
@@ -117,12 +105,7 @@ final class RoutingTest extends WebTestCase
         }
     }
 
-    /**
-     * The mailbox is a mandatory disclosure, so it has to be readable—and it
-     * is hidden from a harvester by a decoy that only the markup carries. Both
-     * halves are asserted: drop the decoy and the obfuscation is gone, drop
-     * the plain address and the disclosure is.
-     */
+    // Both halves: the readable disclosure and the decoy only the markup carries.
     public function testTheLegalPagesSpellTheMailboxOutBehindADecoy(): void
     {
         $client = static::createClient();
@@ -140,10 +123,6 @@ final class RoutingTest extends WebTestCase
         }
     }
 
-    /**
-     * Exactly the three pages worth finding: a legal page in the sitemap
-     * contradicts its own `noindex`, and a page missing from it is found late.
-     */
     public function testSitemapNamesExactlyProfilPortfolioAndKontakt(): void
     {
         $client = static::createClient();

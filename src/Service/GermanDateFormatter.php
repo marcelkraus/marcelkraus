@@ -7,14 +7,11 @@ namespace App\Service;
 use DateTimeImmutable;
 
 /**
- * German month names for the dateline of the printed curriculum vitae. The
- * project deliberately carries no translation component and no intl dependency.
+ * The project carries no translation component and no intl dependency.
  */
 final class GermanDateFormatter
 {
     /**
-     * Calendar order, not alphabetical: the index is the month number.
-     *
      * @var array<int, string>
      */
     private const MONTH_NAMES = [

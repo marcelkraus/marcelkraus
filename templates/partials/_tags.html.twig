@@ -1,6 +1,4 @@
-{# The technology tags of a career station or of one role inside it: what
-   that station worked with, not what Marcel can do today.
-   Params: tags (list of strings). #}
+{# Params: tags (list of strings). #}
 {% if tags is not empty %}
     <p class="tags">{% for tag in tags %}<span>{{ tag }}</span>{% endfor %}</p>
 {% endif %}

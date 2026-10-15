@@ -1,11 +1,3 @@
-{# Kontakt, the one page with the contact form; its cover card carries no
-   button, being the place the button leads to.
-
-   The channels stand to the left of the form, so a visitor picks the one
-   that suits. The address never appears in the markup—e-mail and WhatsApp
-   are redirect routes, exactly as on both sibling sites. On success the form
-   is replaced by the confirmation instead of being repeated below a flash
-   message. #}
 {% extends 'base.html.twig' %}
 
 {% block title %}Kontakt · Marcel Kraus{% endblock %}
@@ -57,8 +49,7 @@
 {% block javascript %}
     {{ parent() }}
     <script>
-        // Focus the first field the server rejected, so a corrected submission
-        // starts where the error is rather than at the top of the page.
+        // A corrected submission starts where the error is.
         (function () {
             const form = document.querySelector('form[data-error-focus]');
             if (form === null) {

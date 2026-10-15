@@ -9,8 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 /**
- * The page `bin/render-sharing-image` photographs into the sharing image,
- * registered in dev alone—see `docs/DESIGN.md` › SEO / meta.
+ * Registered in dev alone; see docs/DESIGN.md › SEO / meta.
  */
 final class SharingImageController extends AbstractController
 {

@@ -6,11 +6,6 @@ namespace App\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-/**
- * The frame every page stands in: the tabs that say where a visitor is, and
- * the cover card that says whose site it is. What breaks silently here is a
- * tab that marks the wrong page or a legal page that suddenly claims one.
- */
 final class ShellTest extends WebTestCase
 {
     /**
@@ -60,10 +55,6 @@ final class ShellTest extends WebTestCase
         }
     }
 
-    /**
-     * The cover card on Portfolio carries the way to the form; on Kontakt it
-     * does not, because the form is already the page.
-     */
     public function testTheCoverCardPointsAtTheContactPageExceptOnIt(): void
     {
         $client = static::createClient();
@@ -77,10 +68,6 @@ final class ShellTest extends WebTestCase
         self::assertCount(0, $crawler->filter('main a[href="/kontakt"]'));
     }
 
-    /**
-     * A link that opens a new tab says so to a screen reader. Nobody sees the
-     * notice, so nobody would notice it missing.
-     */
     public function testTheDocumentLinkOpensANewTabAndAnnouncesIt(): void
     {
         $client = static::createClient();
@@ -92,10 +79,6 @@ final class ShellTest extends WebTestCase
         self::assertStringContainsString('öffnet in neuem Tab', $document->text());
     }
 
-    /**
-     * The footer carries the legal links and no contact rows: the channels
-     * stand on Kontakt and nowhere else.
-     */
     #[\PHPUnit\Framework\Attributes\DataProvider('pages')]
     public function testTheFooterCarriesTheLegalLinksAndNothingElse(string $path): void
     {

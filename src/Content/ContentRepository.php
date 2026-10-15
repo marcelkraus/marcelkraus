@@ -7,13 +7,8 @@ namespace App\Content;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 /**
- * Reads the JSON content files. Extracted from the controller once the printed
- * curriculum vitae needed the same data: two readers on the same files
- * would be two chances for the page and the document to drift apart, and the
- * whole point of generating the document is that they cannot.
- *
- * A missing or malformed file degrades to an empty list rather than an error—
- * the failure that goes unnoticed is the one worth designing for.
+ * The one reader of the content files, for the page and the printed document
+ * alike. A missing or malformed file reads as an empty list.
  */
 final class ContentRepository
 {

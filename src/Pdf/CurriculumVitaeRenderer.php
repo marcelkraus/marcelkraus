@@ -12,20 +12,8 @@ use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Twig\Environment;
 
 /**
- * Renders the printed curriculum vitae. The controller hands over the content
- * and receives bytes; nothing outside this class knows that mPDF exists.
- *
- * The page geometry is the measured stationery, not a guess: the logo sits at
- * 20 mm from the top edge and is 15 mm tall, so the text block starts at
- * 55 mm—on every page, because the header repeats itself. Left and right
- * are 20 mm, and the bottom is 20 mm as well. The stationery only fixes the
- * top and the sides; the foot is free, and ten millimeters more paper per page
- * is what keeps this document at two.
- *
- * Two fonts are embedded. Aller is already a static TrueType file and comes
- * straight from the web font directory. JetBrains Mono is only published as a
- * variable woff2, which mPDF can neither read nor subset, so `assets/fonts`
- * carries two static instances derived from it—see `assets/README.md`.
+ * Renders the printed curriculum vitae; nothing outside this class knows mPDF.
+ * The geometry and the fonts are in docs/CURRICULUM_VITAE.md.
  */
 final class CurriculumVitaeRenderer
 {
@@ -54,19 +42,12 @@ final class CurriculumVitaeRenderer
         $document->SetTitle('Lebenslauf Marcel Kraus');
         $document->SetAuthor('Marcel Kraus');
         $document->SetCreator('marcelkraus.de');
-
-        // The lockup lives in the page header, which is what makes it repeat
-        // without the body having to know about it.
         $document->SetHTMLHeader(sprintf(
             '<div style="text-align: right;"><img src="%s" style="width: %s; height: %s;"></div>',
             $this->projectDir . '/public/images/logo.svg',
             self::LOGO_WIDTH_IN_MILLIMETRES,
             self::LOGO_HEIGHT_IN_MILLIMETRES,
         ));
-
-        // A quiet page number, centered, in the mono voice the technical
-        // layer uses everywhere else. Two pages do not need it to find their
-        // way back together—but a sheet that falls out of a folder does.
         $document->SetHTMLFooter(
             '<div style="text-align: center; font-family: jetbrainsmono; font-size: 8pt;'
             . ' color: #737373;">&#8211; {PAGENO} &#8211;</div>'
@@ -89,9 +70,7 @@ final class CurriculumVitaeRenderer
             'margin_left' => self::MARGIN_SIDE_IN_MILLIMETRES,
             'margin_right' => self::MARGIN_SIDE_IN_MILLIMETRES,
             'margin_bottom' => self::MARGIN_BOTTOM_IN_MILLIMETRES,
-            // The page number sits in the middle of the bottom margin: the
-            // band runs 277 to 297 mm, so its center is 287 mm. Measured at
-            // 285.0 mm with a footer margin of 10, hence 8.
+            // Centered in the bottom margin at 287 mm; measured, hence 8.
             'margin_footer' => 8,
             'fontDir' => array_merge($directories, [
                 $this->projectDir . '/public/fonts',
@@ -106,11 +85,7 @@ final class CurriculumVitaeRenderer
             ],
             'default_font' => 'aller',
             'default_font_size' => 9,
-            // mPDF shrinks a table whose content it believes will not fit,
-            // silently and per table. That produced two different body sizes
-            // on one page—the long stations came out smaller than the short
-            // ones. Every column here has an explicit width, so nothing needs
-            // rescuing and the type stays the size it was set at.
+            // Off: mPDF would rescale single tables and mix body sizes on one page.
             'shrink_tables_to_fit' => 0,
             'tempDir' => $this->projectDir . '/var/mpdf',
         ]);

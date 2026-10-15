@@ -1,12 +1,4 @@
-{# One cell of “Außerdem von mir”: a framed screenshot, the name, the kind,
-   one sentence and a link naming its destination. The link stretches over
-   the whole cell, so the cell is the click target.
-
-   The screenshot is stored under public/images/works and never fetched from
-   the work itself; it is hidden from assistive technology, the name beside
-   it saying the same.
-
-   Params: work (an entry of works.json). #}
+{# Params: work (an entry of works.json). #}
 <article class="work">
     <span class="work-shot" aria-hidden="true"><img src="{{ asset('images/works/' ~ work.image) }}" alt="" width="640" height="640" loading="lazy"></span>
     <div class="work-text">

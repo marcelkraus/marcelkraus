@@ -6,12 +6,6 @@ namespace App\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-/**
- * Portfolio, the hub: the two towers lead to the businesses, the works card
- * to everything else. What breaks silently is an entry that drops out of its
- * content file, a link that leads nowhere, a new tab nobody announces, or a
- * screenshot fetched from someone else's server.
- */
 final class PortfolioTest extends WebTestCase
 {
     public function testEveryBrandStandsAsATowerLinkingToItsDomainInANewTab(): void
@@ -65,10 +59,6 @@ final class PortfolioTest extends WebTestCase
         }
     }
 
-    /**
-     * The screenshots are stored with the site; a remote source would fetch
-     * a third party's page on every visit.
-     */
     public function testNoScreenshotIsFetchedFromElsewhere(): void
     {
         $client = static::createClient();

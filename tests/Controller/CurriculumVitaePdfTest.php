@@ -6,12 +6,6 @@ namespace App\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-/**
- * The printed curriculum vitae is generated from the same content files the
- * page renders, so the failure worth guarding against is not a wrong pixel—
- * it is the document silently losing a station, gaining a third page, or
- * turning up in a search index.
- */
 final class CurriculumVitaePdfTest extends WebTestCase
 {
     public function testTheRouteAnswersWithAPdf(): void
@@ -25,11 +19,6 @@ final class CurriculumVitaePdfTest extends WebTestCase
         self::assertStringStartsWith('%PDF-', (string) $response->getContent());
     }
 
-    /**
-     * Inline, so the document opens in the browser—but the file name still
-     * travels with it, so saving it produces something recognizable rather
-     * than "lebenslauf".
-     */
     public function testTheDocumentIsShownInTheBrowserAndKeepsItsFileName(): void
     {
         $client = static::createClient();
@@ -40,12 +29,6 @@ final class CurriculumVitaePdfTest extends WebTestCase
         self::assertStringContainsString('Lebenslauf-Marcel-Kraus.pdf', $disposition);
     }
 
-    /**
-     * The file duplicates the homepage and carries the postal address, so the
-     * indexed truth stays the page. Asserted as a header rather than as a
-     * robots.txt rule: a disallowed path is never fetched, and a crawler that
-     * never fetches never reads the header telling it not to index.
-     */
     public function testTheDocumentIsKeptOutOfSearchIndexes(): void
     {
         $client = static::createClient();
@@ -54,12 +37,7 @@ final class CurriculumVitaePdfTest extends WebTestCase
         self::assertSame('noindex', $client->getResponse()->headers->get('X-Robots-Tag'));
     }
 
-    /**
-     * Two pages is a requirement, not a preference. The layout sits close
-     * enough to the limit that a longer station description pushes it over,
-     * and nothing else would notice. One page would mean a section went
-     * missing; none, that the parser rather than the document is wrong.
-     */
+    // One longer station description pushes the layout to a third page.
     public function testTheDocumentIsExactlyTwoPages(): void
     {
         $client = static::createClient();
@@ -70,12 +48,7 @@ final class CurriculumVitaePdfTest extends WebTestCase
         self::assertSame(2, $pages);
     }
 
-    /**
-     * The purple belongs to the logo and nowhere else in the document. The
-     * logo is the one drawing that also carries the colors of both sibling
-     * brands, so any stream painting in purple without them is the byline, a
-     * position or a section marker turning purple again.
-     */
+    // Only the logo paints purple, and it is the one drawing with both sibling colors.
     public function testPurpleAppearsInTheLogoAlone(): void
     {
         $client = static::createClient();
@@ -98,10 +71,6 @@ final class CurriculumVitaePdfTest extends WebTestCase
         self::assertCount(0, $outsideTheLogo, 'Purple outside the logo.');
     }
 
-    /**
-     * A document nobody can reach is the same as no document. Profil offers
-     * it twice: in the cover card and in the closing card.
-     */
     public function testThePageLinksToTheDocument(): void
     {
         $client = static::createClient();

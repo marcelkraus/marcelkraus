@@ -1,7 +1,4 @@
-/* source(none) switches off Tailwind's automatic project scan. Without it
-   every file in the tree is a candidate source, so a stray word in a
-   Markdown file can end up as a CSS rule in the build. The templates are
-   the only place utilities are written. */
+/* source(none): only the templates below may produce utilities. */
 @import "tailwindcss" source(none);
 @plugin "@tailwindcss/typography";
 @source "../../templates/**/*.html.twig";
@@ -9,10 +6,6 @@
    rules of its own, and its words must not turn into rules here. */
 @source not "../../templates/sharing-image.html.twig";
 
-/* Self-hosted fonts—no external requests. Aller carries the wordmark,
-   headlines and body (ties the type to the logo); JetBrains Mono is the
-   technical voice for lead-ins, labels and spec data. Latin covers the
-   German umlauts (ä ö ü ß). */
 @font-face {
     font-family: "Aller";
     src: url("../fonts/aller_regular.ttf") format("truetype");
@@ -37,25 +30,20 @@
     font-display: swap;
 }
 
-/* Design tokens: a template takes a token or a component class below; a
-   utility class is for the single case. */
 @theme {
     --font-sans: "Aller", ui-sans-serif, system-ui, sans-serif;
     --font-display: "Aller", ui-sans-serif, system-ui, sans-serif;
     --font-mono: "JetBrains Mono Variable", ui-monospace, monospace;
 
-    /* Hair draws cards and the facade, line the quieter rules inside a card;
-       muted measures 6.0:1 on paper. */
+    /* muted measures 6.0:1 on paper. */
     --color-hair: #d9dce1;
     --color-ink: #0f1115;
     --color-line: #e6e8ec;
     --color-muted: #5d6470;
     --color-paper: var(--color-white);
-    /* The marker of every career station that is not a trade. */
     --color-station: var(--color-neutral-700);
     --color-tab: var(--color-gray-100);
 
-    /* Four steps of Aller, two of mono; a phone shrinks the four below. */
     --text-t1: 4rem;
     --text-t1--line-height: 0.95;
     --text-t1--letter-spacing: -0.04em;
@@ -71,46 +59,25 @@
     --text-m2: 0.6875rem;
     --text-m2--line-height: 1.6;
 
-    /* The purple of the left square in the logo, which stands for the
-       employment career; the logo is the one place it appears. */
     --color-accent: var(--color-purple-700);
 
-    /* The two sibling brands: the other two squares in the logo, the
-       towers on Portfolio and the markers of their stations. */
     --color-brand-krausgebaut: var(--color-cyan-800);
-    /* The deep step is the tone-on-tone mark on a Portfolio tower: the
-       master color darkened by a fifth, fixed by the spec as a value. */
+    /* The master color darkened by a fifth, fixed by the spec. */
     --color-brand-krausgebaut-deep: #004c60;
     --color-brand-krausgedruckt: var(--color-orange-600);
     --color-brand-krausgedruckt-deep: #c43a00;
 
-    /* Jurassic Jeep is a trade, not a brand of the family—it has no square
-       in the logo, only a marker in the career. red-700 is the closest
-       palette step to that site's own Performance Red, at a perceptual
-       distance of 0.0155 in oklab and roughly three times closer than
-       orange-700; the value itself lives in jurassic-jeep, which owns it.
-       6.42:1 on white, so the marker clears the 3:1 of WCAG
-       1.4.11 with room to spare.
-       The same palette step also backs --color-error-on-surface; the two
-       never meet on a page, and the role names keep them apart. */
+    /* The nearest palette step to jurassic-jeep's own Performance Red; 6.42:1 on
+       white. */
     --color-brand-jurassic-jeep: var(--color-red-700);
-    /* Error is the second semantic color of the interface and gets the same
-       role treatment as the accent, so its contrast is checkable by name.
-
-         error             type on a light ground (4.77:1 on white)
-         error-surface     the tinted panel behind a form-level message
-         error-on-surface  type on that panel (5.87:1)
-         error-border      the outline of an invalid field and of the panel
-                           (3.81:1 on white, 3.48:1 on the panel, above
-                           the 3:1 WCAG 1.4.11 asks of a state indicator) */
+    /* error 4.77:1 on white, error-on-surface 5.87:1 on the panel, error-border
+       3.48:1 on the panel. */
     --color-error: var(--color-red-600);
     --color-error-surface: var(--color-red-50);
     --color-error-on-surface: var(--color-red-700);
     --color-error-border: var(--color-red-500);
 }
 
-/* 1104 pixels are twelve columns of 48 with gutters of 48; spacing runs on
-   8, 16, 24, 48 and 96 only. */
 :root {
     --frame: 69rem;
     --edge: --spacing(12);
@@ -119,7 +86,6 @@
     --head: 75px;
 }
 
-/* The one breakpoint of the site. */
 @media (width <= 1000px) {
     :root {
         --edge: --spacing(6);
@@ -194,7 +160,6 @@
         transform: none;
     }
 
-    /* The active tab is white and open downward into the card below it. */
     .site-head {
         position: relative;
         z-index: 1;
@@ -257,7 +222,6 @@
         flex: 1;
     }
 
-    /* One section is one card, never a card inside a card. */
     .card {
         background: var(--color-paper);
         border: 1px solid var(--color-hair);
@@ -271,13 +235,10 @@
         padding: var(--pad);
     }
 
-    /* Profil closes on the pair of its cover card, on a narrower edge. */
     .card-closing {
         padding: --spacing(6);
     }
 
-    /* The quiet mono line: a card's lead-in, the label of a field or a
-       channel. */
     .lead-in {
         font-family: var(--font-mono);
         font-size: var(--text-m1);
@@ -285,7 +246,6 @@
         color: var(--color-muted);
     }
 
-    /* A card opens on a lead-in and its title. */
     .card-head h2 {
         margin-top: --spacing(2);
     }
@@ -325,7 +285,6 @@
         grid-template-columns: repeat(4, minmax(0, 1fr));
     }
 
-    /* The arrow system lives in partials/_link. */
     .link {
         font-weight: 700;
         text-decoration: underline;
@@ -367,8 +326,6 @@
         gap: --spacing(2);
     }
 
-    /* A right column behind a hairline carries the way to the form, unless
-       the name's column carries an introduction. */
     .cover {
         display: grid;
         grid-template: "face who reach" auto "face claim reach" 1fr / 168px 1fr auto;
@@ -451,8 +408,6 @@
         margin-top: --spacing(6);
     }
 
-    /* Werdegang: the period on three columns, the station on nine beside a
-       hairline that carries the marker—gray unless the station is a trade. */
     .station {
         --marker: var(--color-station);
         display: grid;
@@ -524,8 +479,6 @@
         border: 1px solid var(--color-hair);
     }
 
-    /* Kompetenzen: one cell per group, the year to the right of its entry,
-       or below it where the cell is too narrow for both. */
     .skills h3 {
         margin-bottom: --spacing(4);
     }
@@ -541,7 +494,6 @@
         white-space: nowrap;
     }
 
-    /* Leidenschaft: what came of a passion sits at the foot of its cell. */
     .passion {
         display: flex;
         flex-direction: column;
@@ -570,8 +522,6 @@
         color: var(--color-muted);
     }
 
-    /* Portfolio: two square towers, krausgedruckt right and 144 of a 528
-       column higher than krausgebaut. Type stays white on either brand. */
     .towers {
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -663,7 +613,6 @@
         outline-offset: 4px;
     }
 
-    /* Außerdem von mir: one cell per work, a closing cell last. */
     .works {
         margin-top: var(--gap);
     }
@@ -713,8 +662,6 @@
         margin-top: --spacing(4);
     }
 
-    /* Kontakt: the channels on four columns, the form on eight, a hairline
-       between them. */
     .contact {
         display: grid;
         grid-template-columns: 4fr 8fr;
@@ -803,7 +750,6 @@
         margin-top: --spacing(2);
     }
 
-    /* The tridents stand on the last line. */
     .site-foot {
         position: relative;
         z-index: 1;
@@ -834,7 +780,6 @@
         color: var(--color-ink);
     }
 
-    /* Phone. */
     @media (width <= 1000px) {
         .site-head {
             flex-direction: column;
@@ -852,8 +797,7 @@
             height: 24px;
         }
 
-        /* Full width under the logo; 48 pixels high, above the 44 a thumb
-           needs. */
+        /* 48 pixels, above the 44 a thumb needs. */
         .tabs a {
             flex: 1;
             padding: 0 --spacing(2);
@@ -861,8 +805,6 @@
             white-space: nowrap;
         }
 
-        /* Name, job title and claim stay beside the portrait; the rest runs
-           below at full width. */
         .cover {
             grid-template: "face who" auto "face claim" auto "reach reach" auto / 72px 1fr;
             gap: 0 --spacing(4);
@@ -929,7 +871,6 @@
             grid-template-columns: repeat(2, minmax(0, 1fr));
         }
 
-        /* A list: the screenshot small on the left, the text beside it. */
         .work {
             display: grid;
             grid-template-columns: 88px minmax(0, 1fr);
@@ -949,7 +890,6 @@
             grid-template-columns: 1fr;
         }
 
-        /* Never larger than a tower of the full frame. */
         .tower {
             --mark-height: 0.34;
             width: min(88%, 33rem);

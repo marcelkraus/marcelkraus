@@ -1,11 +1,5 @@
-{# One tower on Portfolio: a square in the brand's color, carrying name,
-   claim and the domain as a button. The button stretches over the whole
-   tower, so the tower is the link and the button names where it leads.
-
-   The mark is a wallpaper, hidden from assistive technology; why it is
-   inlined is in assets/README.md.
-
-   Params: brand (an entry of brands.json). #}
+{# Params: brand (an entry of brands.json). The mark is inlined; see
+   assets/README.md. #}
 <article class="tower" data-brand="{{ brand.colorToken }}">
     <span class="tower-mark" aria-hidden="true">{{ source('@marks/' ~ brand.mark) }}</span>
     <h2 class="tower-name">{{ brand.name }}</h2>

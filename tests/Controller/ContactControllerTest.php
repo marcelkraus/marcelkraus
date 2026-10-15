@@ -19,9 +19,6 @@ final class ContactControllerTest extends WebTestCase
 {
     use MailerAssertionsTrait;
 
-    /**
-     * Exactly one contact form on the site, and it stands on Kontakt.
-     */
     public function testTheContactPageCarriesTheOnlyForm(): void
     {
         $client = static::createClient();
@@ -36,11 +33,6 @@ final class ContactControllerTest extends WebTestCase
         }
     }
 
-    /**
-     * The channels stand beside the form, so a visitor picks the one that
-     * suits. E-mail and WhatsApp are redirect routes; the address of either
-     * never reaches the markup.
-     */
     public function testTheContactPageOffersTheChannelsBesideTheForm(): void
     {
         $client = static::createClient();
@@ -69,9 +61,7 @@ final class ContactControllerTest extends WebTestCase
 
         $client->request('POST', '/kontakt', $payload);
 
-        // The redirect alone proves nothing: the silent spam path answers with
-        // exactly the same redirect and the same flash. Only the mail tells
-        // the two apart.
+        // The silent spam path answers with the same redirect; only the mail differs.
         self::assertResponseRedirects('/kontakt');
         self::assertEmailCount(1);
         self::assertEmailAddressContains(self::getMailerMessage(), 'To', $_SERVER['CONTACT_TO']);
@@ -122,8 +112,7 @@ final class ContactControllerTest extends WebTestCase
 
         $client->request('POST', '/kontakt', $payload);
 
-        // The riskiest of the three silent drops: it also catches real people
-        // after a rotation of APP_SECRET.
+        // It also catches real people after a rotation of APP_SECRET.
         self::assertResponseRedirects();
         self::assertEmailCount(0);
     }
@@ -202,10 +191,7 @@ final class ContactControllerTest extends WebTestCase
     {
         $client = static::createClient();
 
-        // Both lines have to come before the first request. The kernel is
-        // rebooted between requests by default, which would drop the
-        // replacement; and once the container has handed the mailer out, it
-        // refuses to replace it.
+        // Before the first request: a reboot or a handed-out mailer drops the replacement.
         $client->disableReboot();
         static::getContainer()->set(MailerInterface::class, new class implements MailerInterface {
             public function send(RawMessage $message, ?Envelope $envelope = null): void
@@ -221,10 +207,6 @@ final class ContactControllerTest extends WebTestCase
         ]);
 
         $client->request('POST', '/kontakt', $payload);
-
-        // Apache replaces the Symfony error page with its own, so an uncaught
-        // transport exception costs the message and shows a bare 500 on the
-        // one form this site exists for.
         self::assertResponseStatusCodeSame(422);
         self::assertSelectorTextContains('body', 'konnte gerade nicht zugestellt werden');
     }
@@ -233,10 +215,7 @@ final class ContactControllerTest extends WebTestCase
     {
         $client = static::createClient();
 
-        // The limiter is replaced rather than exhausted: its counter lives in
-        // the cache and outlives a single run, so a test that actually sends
-        // six messages would poison every case that follows. A factory with a
-        // limit of zero refuses on the first consume and touches nothing else.
+        // Replaced, not exhausted: the real counter lives in the cache and outlives the run.
         $client->disableReboot();
         static::getContainer()->set('limiter.contact_form', new class implements RateLimiterFactoryInterface {
             public function create(?string $key = null): LimiterInterface
@@ -274,10 +253,6 @@ final class ContactControllerTest extends WebTestCase
     }
 
     /**
-     * Builds a POST payload with a valid CSRF token (from a rendered form) and
-     * a signed timestamp aged `age` seconds—within the valid window by
-     * default, or expired when a large age is passed.
-     *
      * @param array<string, string> $fields
      *
      * @return array<string, string>
