@@ -1,6 +1,6 @@
 # marcelkraus
 
-Personal website of Marcel Kraus (https://www.marcelkraus.de), German only, light only. **Keep the site simple** – that settles every case of doubt.
+Personal website of Marcel Kraus (https://www.marcelkraus.de), German only, light only. **Keep the site simple**—that settles every case of doubt.
 
 | # | Page | Path | Job |
 | --- | --- | --- | --- |
@@ -15,9 +15,9 @@ Plus imprint and privacy policy. Client work and references live on krausgebaut.
 
 * **The content lives in `config/content/*.json`**; editing it needs no code change.
 * **The printed curriculum vitae has exactly two pages.** A test holds it; run it after any change to the content files.
-* **No print stylesheet** – `/lebenslauf` is the printed version.
+* **No print stylesheet**—`/lebenslauf` is the printed version.
 * **The typography plugin stays loaded though unused**, because both siblings carry it; it goes in all three at once or not at all.
-* **Profil speaks in the first person and addresses the reader as „Sie“**, and it sells nothing – sales copy belongs on krausgebaut.
+* **Profil speaks in the first person and addresses the reader as “Sie”**, and it sells nothing—sales copy belongs on krausgebaut.
 
 ## Documents
 

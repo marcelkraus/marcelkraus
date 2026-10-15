@@ -62,7 +62,7 @@
     --color-accent: var(--color-purple-700);
 
     --color-brand-krausgebaut: var(--color-cyan-800);
-    /* The master color darkened by a fifth, fixed by the spec. */
+    /* The master color darkened by a fifth, so the mark stands tone on tone on its tower. */
     --color-brand-krausgebaut-deep: #004c60;
     --color-brand-krausgedruckt: var(--color-orange-600);
     --color-brand-krausgedruckt-deep: #c43a00;

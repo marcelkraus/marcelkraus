@@ -110,6 +110,7 @@ final class DefaultController extends AbstractController
             return $this->renderContactErrors($request, $errors);
         }
 
+        // Per IP, so a scraped token cannot be replayed into a flood.
         if ($this->contactFormLimiter->create($request->getClientIp() ?? 'anonymous')->consume(1)->isAccepted() === false) {
             return $this->renderContactErrors($request, [
                 'form' => 'Es sind zu viele Nachrichten eingegangen. Bitte versuchen Sie es später noch einmal.',

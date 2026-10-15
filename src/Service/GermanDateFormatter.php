@@ -12,6 +12,8 @@ use DateTimeImmutable;
 final class GermanDateFormatter
 {
     /**
+     * Calendar order, not alphabetical: the index is the month number.
+     *
      * @var array<int, string>
      */
     private const MONTH_NAMES = [

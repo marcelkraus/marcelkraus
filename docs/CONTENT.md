@@ -2,7 +2,7 @@
 
 `config/content/*.json` is read by `ContentRepository` (missing or malformed → empty list), one reader for the page and the printed document. Editing content needs no code change.
 
-### milestones.json
+## milestones.json
 
 The rendered order is the file order. **Employment runs newest first; each business sits directly below the employment it started under.** krausgedruckt (11/2023) and Jurassic Jeep (05/2021) follow the Chefkoch station, krausgebaut (01/2002) follows the ASB. Sorting purely by date would push the current employment below a business that started in 2002, and the first line of a curriculum vitae has to be the current job.
 
@@ -21,7 +21,7 @@ The rendered order is the file order. **Employment runs newest first; each busin
 * An entry **without `description`** renders as a condensed one-liner, which is what keeps the vocational school from taking as much room as twelve years at the ASB.
 * **No employment entry carries an open end.** The only statement about availability lives in the cover card on Profil. The businesses are open by design (`seit 11/2023`, `seit 05/2021`, `seit 01/2002`).
 
-### skills.json
+## skills.json
 
 Groups in order of intensity—the order *is* the statement—entries alphabetical inside each group: `group`, `entries[]` with `name` and optional `since`.
 
@@ -32,17 +32,17 @@ Groups in order of intensity—the order *is* the statement—entries alphabetic
 * **A station tag is not a competence.** Tags say what a station worked with, the groups here say what Marcel can do today, so the two lists stay independent. A technology that is neither a competence nor a defining part of a station appears in neither list.
 * **A year that cannot be defended in an interview is worse than none.** No year names when a framework shipped; it names when Marcel started with it.
 
-### brands.json
+## brands.json
 
 The two towers on Portfolio, in the order the brands came into being: `name`, `claim` (one line per sentence), `url`, `domain` (the label of the button), `mark` (a file in `assets/marks/`) and `colorToken`, which the tower hands to the stylesheet as `data-brand` and which selects the brand tokens there.
 
-### works.json
+## works.json
 
 The cells of “Außerdem von mir,” in the rendered order: `name`, `kind`, `description` (one sentence), `url`, `urlLabel` and `image`.
 
 * **`urlLabel` names the destination**—the domain, or `App Store`—never an invitation such as “Zu …”.
 * **`image` is a file under `public/images/works/`**, a square screenshot of 640 × 640. The screenshots are made once and committed; the page never fetches anything from a work at runtime, and a test asserts it.
 
-### Structured data
+## Structured data
 
 `knowsAbout` in the JSON-LD is **built from the content files**, not hardcoded: the skills carry the professional terms, the hobbies the private ones. Sorted and deduplicated, so reordering a content file does not change the output.

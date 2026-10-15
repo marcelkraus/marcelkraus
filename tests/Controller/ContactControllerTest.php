@@ -191,7 +191,7 @@ final class ContactControllerTest extends WebTestCase
     {
         $client = static::createClient();
 
-        // Before the first request: a reboot or a handed-out mailer drops the replacement.
+        // Before the first request: a reboot drops the replacement, a handed-out mailer refuses it.
         $client->disableReboot();
         static::getContainer()->set(MailerInterface::class, new class implements MailerInterface {
             public function send(RawMessage $message, ?Envelope $envelope = null): void

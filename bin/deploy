@@ -2,6 +2,8 @@
 #
 # Rolls the checked-out branch out. Run it on the server, inside the
 # application directory.
+# Without -e a failed `composer install` would be followed by a cache rebuild
+# against half-installed dependencies.
 set -euo pipefail
 
 # Checked before anything on disk moves, so a refusal leaves the site as it was.
@@ -36,6 +38,7 @@ for setting in CONTACT_TO CONTACT_FROM; do
     fi
 done
 
+# Without it the auto-scripts of `composer install` build the cache for dev.
 if ! grep -qE '^APP_ENV=prod$' .env.local; then
     echo "bin/deploy: .env.local does not set APP_ENV=prod—aborting." >&2
     exit 1
