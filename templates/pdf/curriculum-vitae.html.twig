@@ -1,5 +1,3 @@
-{# Only the narrow left column breaks a period over two lines. In the wide
-   content column a period stays on one line, exactly as on the page. #}
 {# The eyebrow of a section: the square marker and the label in gray
    capitals. The square is a drawn image, not a glyph and not a colored cell—
    no embedded font is guaranteed to carry a filled square, and mPDF ignores a
@@ -21,6 +19,8 @@
         </tr>
     </table>
 {% endmacro %}
+{# Only the narrow left column breaks a period over two lines. In the wide
+   content column a period stays on one line, exactly as on the page. #}
 {% macro period(years) %}
     {%- if ' – ' in years -%}
         {{ years|split(' – ')|first }} –<br>{{ years|split(' – ')|last }}
@@ -31,7 +31,9 @@
 {% import _self as parts %}
 {# The printed curriculum vitae. Same content files as the page, different
    rendering—mPDF knows neither flexbox nor grid, so every column is a table
-   cell and the rail beside the nested roles is a cell with one border.
+   cell and the rail beside the nested roles is a cell with one border. The
+   roles share that one cell, because a rail with gaps in it would say they
+   do not belong to the company above.
 
    THE GRID, and everything lines up on it:
 
@@ -41,6 +43,9 @@
     109.0 mm   the left column ends here—20 mm of clearance follow
     129.0 mm   right column of the head, under the left edge of the logo
     190.0 mm   right margin
+
+   The claim closes the profile, broken after its first sentence as on the
+   page, and bold rather than semi-bold: Aller is embedded in two weights.
 
    Two typefaces, each with one job. Aller carries names, headings and every
    sentence; JetBrains Mono carries the technical layer—eyebrows, periods,
@@ -98,7 +103,7 @@
 
     h1 { font-family: aller; font-size: 24pt; font-weight: bold; color: #171717;
          margin: 0; letter-spacing: -0.5pt; line-height: 1.1; }
-    .byline { font-family: aller; font-size: 12pt; font-weight: bold; color: #8200DB;
+    .byline { font-family: aller; font-size: 12pt; font-weight: bold; color: #171717;
               margin: 0; }
 
     .eyebrow { font-family: jetbrainsmono; font-size: 8pt; letter-spacing: 1.6pt;
@@ -108,7 +113,7 @@
 
     .company { font-family: aller; font-size: 10pt; font-weight: bold; color: #171717;
                line-height: 1.3; }
-    .position { font-family: aller; font-size: 10pt; font-weight: bold; color: #8200DB;
+    .position { font-family: aller; font-size: 10pt; font-weight: bold; color: #171717;
                 line-height: 1.3; }
     .position-secondary { font-family: aller; font-size: 10pt; font-weight: bold;
                           color: #737373; line-height: 1.3; }
@@ -124,15 +129,9 @@
     .claim { font-family: aller; font-size: 10pt; font-weight: bold; color: #171717; }
 </style>
 
-{# ── Kopf: Profil links, Kontakt unter der Logokante ───────────────────── #}
 <table width="100%" cellpadding="0" cellspacing="0">
     <tr>
         <td width="89mm" valign="top">
-            {# The whole left column is one table, one row per block. mPDF
-               drops block margins inside a table cell and renders an empty
-               spacer only sometimes; cell padding is the one thing it honors
-               every time, so every vertical distance in this column is
-               padding on a row. #}
             <table width="100%" cellpadding="0" cellspacing="0">
                 <tr>
                     <td style="padding-bottom: 9mm;">
@@ -143,10 +142,7 @@
                 {% for paragraph in profile %}
                     <tr><td style="padding-bottom: 3mm;">{{ paragraph }}</td></tr>
                 {% endfor %}
-                {# The claim closes the profile, as it closes the hero. Bold
-                   rather than semi-bold: Aller is embedded in two weights and
-                   a middle one does not exist to pick. #}
-                <tr><td><span class="claim">{{ claim }}</span></td></tr>
+                <tr><td><span class="claim">{% for line in claim %}{{ line }}{% if not loop.last %}<br>{% endif %}{% endfor %}</span></td></tr>
             </table>
         </td>
         <td width="20mm"></td>
@@ -168,12 +164,8 @@
     </tr>
 </table>
 
-{# Every vertical distance between blocks is a spacer of the same height, so
-   the head sits as far from the first section as the sections sit from each
-   other. A table margin would be right in a browser and is dropped here. #}
 <div style="height: 9mm;"></div>
 
-{# ── Stationen ─────────────────────────────────────────────────────────── #}
 {% for section in sections %}
     {% if section.milestones is not empty %}
         {% if loop.first == false %}<div style="height: 9mm;"></div>{% endif %}
@@ -188,9 +180,6 @@
                         <p class="years">{{ parts.period(milestone.years) }}</p>
                     </td>
                     <td valign="top">
-                        {# One row per line, because a margin between them
-                           would be dropped. The head of a station is tight
-                           (1.5 mm), the description stands apart (3 mm). #}
                         <table width="100%" cellpadding="0" cellspacing="0">
                             <tr>
                                 <td><span class="company">{{ milestone.company }}</span>{% if milestone.division is defined %}<br><span class="company">{{ milestone.division }}</span>{% endif %}</td>
@@ -208,11 +197,6 @@
                             {% endif %}
                         </table>
 
-                        {# One rail for all roles of an employer, not one per
-                           role: the line is what says "these belong to the
-                           company above", and a line with gaps in it says the
-                           opposite. So the roles stack inside a single bordered
-                           cell instead of each carrying its own. #}
                         {% if milestone.roles is defined %}
                             <table width="100%" cellpadding="0" cellspacing="0" style="margin-top: 3mm;">
                                 <tr>
@@ -244,7 +228,6 @@
     {% endif %}
 {% endfor %}
 
-{# ── Kompetenzen ───────────────────────────────────────────────────────── #}
 <div style="height: 9mm;"></div>
 {{ parts.eyebrow('Kompetenzen', markerPath) }}
 <div class="rule"></div>

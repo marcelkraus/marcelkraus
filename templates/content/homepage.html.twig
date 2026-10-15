@@ -1,5 +1,16 @@
+{# Profil, the curriculum vitae at the start address: the cover card with
+   the introduction, then Werdegang, Kompetenzen and Leidenschaft, each one
+   card, and a closing card offering the document and the message once more
+   for whoever has read to the end. The availability stands on no other
+   page; the document opens in a new tab because it is served inline and
+   would otherwise replace the page.
+
+   A station hands its `marker` to the stylesheet as `data-marker`, which
+   colors the three trades and leaves every other station gray, so the
+   timeline tells the trades from the employment at a glance. The
+   homepage of a trade names the business to a screen reader, its label
+   being the same on all three. #}
 {% extends 'base.html.twig' %}
-{% import 'partials/_icons.html.twig' as icons %}
 
 {% block structured_data %}
     <script type="application/ld+json">
@@ -26,370 +37,121 @@
     </script>
 {% endblock %}
 
-{% block content %}
-    {# ── Hero ───────────────────────────────────────────────────────
-       Content-sized, not a full screen: a recruiter decides here whether to
-       read on, so the first view carries checkable facts rather than a
-       photograph and a scroll hint. #}
-    <section class="bg-neutral-50 pt-32 pb-20 lg:pt-40 lg:pb-28">
-        <div class="mx-auto grid max-w-6xl items-center gap-8 px-6 lg:grid-cols-[1fr_18rem] lg:gap-16 lg:px-8">
-            <div>
-                {{ include('partials/_eyebrow.html.twig', { text: 'Lebenslauf' }) }}
-                <h1 class="mt-6 font-display text-5xl font-bold leading-[1.03] tracking-tight text-neutral-900 sm:text-6xl lg:text-[4.25rem]">Marcel Kraus</h1>
-                <p class="mt-4 font-display text-2xl font-bold tracking-tight text-accent-on-light">Senior Softwareentwickler iOS/Web</p>
-                <p class="mt-7 font-display text-lg font-bold text-neutral-900">Nicht nur mit Hut. Mit Köpfchen.</p>
-                <p class="mt-5 max-w-2xl leading-relaxed text-neutral-600">Der Herd ist nicht aus – nur die Küche wechselt. Nach zehn Jahren bei Chefkoch habe ich Lust auf ein neues Rezept. iOS und das Web sind mein Handwerk, zuhause bin ich in Erftstadt bei Köln.</p>
+{% block cover %}
+    {% embed 'partials/_cover_card.html.twig' %}
+        {% block more %}
+            <p class="cover-lead">Der Herd ist nicht aus – nur die Küche wechselt. Nach zehn Jahren bei Chefkoch habe ich Lust auf ein neues Rezept. iOS und das Web sind mein Handwerk, zuhause bin ich in Erftstadt bei Köln.</p>
 
-                {# Small single-line chips, the same build as on krausgebaut: only
-                   as wide as their content, so they wrap cleanly at every width.
-                   Boxes with a fixed minimum width produced a ragged staircase
-                   at 390 pixels. #}
-                <dl class="mt-10 flex flex-wrap gap-2.5">
-                    {% for fact in [
-                        { label: 'Verfügbarkeit', value: 'Ab Dezember', highlight: true },
-                        { label: 'Standort', value: 'Erftstadt bei Köln' },
-                        { label: 'iOS', value: 'seit 2017' },
-                        { label: 'Web', value: 'seit 2002' },
-                        { label: 'Fremdsprachen', value: 'Englisch (B2)' },
-                        { label: 'Modell', value: 'Remote' }
-                    ] %}
-                        {% set highlight = fact.highlight|default(false) %}
-                        <div class="inline-flex items-baseline gap-2 rounded-lg border px-3.5 py-2 font-mono text-[0.6875rem] uppercase tracking-[0.15em] {{ highlight ? 'border-accent bg-accent/[0.07]' : 'border-neutral-200 bg-white' }}">
-                            <dt class="{{ highlight ? 'text-accent-on-light' : 'text-neutral-500' }}">{{ fact.label }}</dt>
-                            <dd class="font-bold {{ highlight ? 'text-accent-on-light' : 'text-neutral-900' }}">{{ fact.value }}</dd>
-                        </div>
-                    {% endfor %}
-                </dl>
-
-                {# The document, one click from the first screen. A recruiter
-                   who opens this page wants the file, and asking them to scroll
-                   for it is asking them to leave. It repeats down in the
-                   contact section, where the sentence about references stands.
-
-                   A new tab, which the rest of the site reserves for links that
-                   leave it: the document is served inline, so without one the
-                   viewer replaces this page and the visitor has to navigate
-                   back. The accessible name says so, because a link that opens
-                   a window has to announce it. #}
-                <div class="mt-8 flex flex-wrap gap-3">
-                    <a class="{{ include('partials/_button_class.html.twig') }}" href="{{ path('app_curriculum_vitae_pdf') }}" target="_blank" rel="noopener" aria-label="Lebenslauf als PDF öffnen, in einem neuen Tab">
-                        {{ icons.icon('document', 'h-4 w-4') }}Lebenslauf als PDF
-                    </a>
-                    <a class="{{ include('partials/_button_class.html.twig', { tone: 'secondary' }) }}" href="#kontakt">
-                        {{ icons.icon('mail', 'h-4 w-4') }}Kontakt
-                    </a>
-                </div>
-            </div>
-
-            {# Above the name on a phone, filling the right column from `lg`.
-               Without the photograph the claim above is a claim about a hat
-               that nobody can see. #}
-            <div class="order-first lg:order-none">
-                <img src="{{ asset('images/portrait.jpg') }}" alt="Marcel Kraus" width="576" height="720" class="aspect-[4/5] w-32 rounded-xl border border-neutral-200 object-cover sm:w-44 lg:w-full">
-            </div>
-        </div>
-    </section>
-
-    {# ── 01 Werdegang ───────────────────────────────────────────────
-       One single vertical list, on every width. The former carousel showed
-       less on the desktop than on the phone and kept hidden cards in the tab
-       order. #}
-    <section id="werdegang" class="py-24 lg:py-32">
-        <div class="mx-auto max-w-6xl px-6 lg:px-8">
-            {{ include('partials/_eyebrow.html.twig', { number: '01', text: 'Werdegang' }) }}
-            <h2 class="mt-5 font-display text-3xl font-bold tracking-tight text-neutral-900 sm:text-4xl">Berufliche Stationen</h2>
-            <p class="mt-5 max-w-3xl leading-relaxed text-neutral-600">Vom ersten Ausflug in die Berufswelt über meine Selbstständigkeit als Internet- und IT-Dienstleister bis zum Senior Softwareentwickler: die wichtigen Meilensteine meiner beruflichen Laufbahn.</p>
-
-            {# The marker classes are written out per value, never assembled from
-               the content field: Tailwind scans the templates as text, so a
-               class built from a variable never reaches the build. A station of
-               the self-employment carries the color of its brand, everything
-               else the accent—the timeline then says at a glance which line
-               of the career a station belongs to. #}
-            {% set stationMarkers = {
-                'accent': 'bg-accent',
-                'krausgebaut': 'bg-brand-krausgebaut',
-                'krausgedruckt': 'bg-brand-krausgedruckt',
-                'jurassic-jeep': 'bg-brand-jurassic-jeep',
-                'secondary': 'bg-neutral-500'
-            } %}
-
-            {# The accent is reserved for the professional stations. Education,
-               community service and the internship are set back into the same
-               gray their year already carries, so the eye finds the working
-               life first. `neutral-500` measures 4.74:1 on this ground and
-               therefore carries both the marker and its line of type;
-               `neutral-400` would look calmer and misses the 3:1 that WCAG
-               1.4.11 asks of an indicator. #}
-            {% set stationPositionTones = {
-                'secondary': 'text-neutral-500'
-            } %}
-
-            <div class="mt-14">
-                {% for milestone in milestones %}
-                    <div class="relative grid gap-1.5 pb-11 pl-7 last:pb-0 md:grid-cols-[7rem_1fr] md:gap-8 md:pl-10">
-                        {# The rail is a hairline with one square marker per
-                           station—the same marker shape as in the eyebrow,
-                           the footer lists and the brand band. #}
-                        <span class="absolute left-0 top-0 bottom-0 w-px bg-neutral-200 {{ loop.last ? 'hidden' : '' }}" aria-hidden="true"></span>
-                        <span class="absolute -left-[0.3rem] top-1.5 h-2.5 w-2.5 rounded-[2px] {{ stationMarkers[milestone.marker|default('accent')]|default('bg-accent') }}" aria-hidden="true"></span>
-
-                        <p class="font-mono text-[0.8125rem] text-neutral-500">{{ milestone.years }}</p>
-                        <div>
-                            {# A station carries either its own role or a list of
-                               them. Both shapes are “detailed” and take the larger
-                               company line; only the condensed one-liners stay
-                               small. #}
-                            {% set detailed = milestone.description is defined or milestone.roles is defined %}
-                            <p class="font-display {{ detailed ? 'text-lg' : 'text-base' }} font-bold leading-tight text-neutral-900">{{ milestone.company }}{% if milestone.division is defined %}<br>{{ milestone.division }}{% endif %}</p>
-                            {% if milestone.position is defined %}
-                                <p class="font-display text-[0.9375rem] font-bold {{ stationPositionTones[milestone.marker|default('')]|default('text-accent-on-light') }}">{{ milestone.position }}</p>
-                            {% endif %}
-                            {# The homepage of a business hangs in the muted line
-                               rather than as a button: it is a side note, not the
-                               point of the station. The label is identical on all
-                               three, so the accessible name names the business—
-                               otherwise a screen reader announces “Homepage”
-                               three times without a subject. No
-                               underline: the arrow glyph is what marks the link,
-                               and it is a shape rather than a color, so WCAG
-                               1.4.1 holds without one. #}
-                            <p class="mt-1 font-mono text-xs text-neutral-500">{{ milestone.location }}{% if milestone.url is defined %} · <a href="{{ milestone.url }}" target="_blank" rel="noopener" aria-label="Homepage von {{ milestone.company }} öffnen" class="inline-flex items-center gap-1 transition-colors hover:text-accent-on-light-hover">Homepage{{ icons.icon('external', 'h-3 w-3') }}</a>{% endif %}</p>
-                            {% if milestone.description is defined %}
-                                <p class="mt-3 text-[0.9375rem] leading-relaxed text-neutral-600">{{ milestone.description }}</p>
-                            {% endif %}
-                            {{ include('partials/_tags.html.twig', { tags: milestone.tags|default([]) }) }}
-
-                            {# Several roles at one employer are nested instead of
-                               listed as separate stations: ten years at one company
-                               is the statement, and two stations side by side read
-                               as two jobs rather than as one development. #}
-                            {% if milestone.roles is defined %}
-                                <div class="mt-6 space-y-6 border-l border-neutral-200 pl-6">
-                                    {% for role in milestone.roles %}
-                                        <div>
-                                            <p class="font-display text-[0.9375rem] font-bold text-accent-on-light">{{ role.position }}</p>
-                                            <p class="mt-1 font-mono text-xs text-neutral-500">{{ role.years }}</p>
-                                            {% if role.description is defined %}
-                                                <p class="mt-3 text-[0.9375rem] leading-relaxed text-neutral-600">{{ role.description }}</p>
-                                            {% endif %}
-                                            {{ include('partials/_tags.html.twig', { tags: role.tags|default([]) }) }}
-                                        </div>
-                                    {% endfor %}
-                                </div>
-                            {% endif %}
-                        </div>
-                    </div>
+            <dl class="cover-facts">
+                {% for fact in [
+                    { label: 'Verfügbarkeit', value: 'Ab Dezember' },
+                    { label: 'Modell', value: 'Remote' },
+                    { label: 'iOS', value: 'seit 2017' },
+                    { label: 'Web', value: 'seit 2002' },
+                    { label: 'Fremdsprachen', value: 'Englisch (B2)' }
+                ] %}
+                    <div><dt>{{ fact.label }}</dt><dd>{{ fact.value }}</dd></div>
                 {% endfor %}
-            </div>
-        </div>
-    </section>
+            </dl>
 
-    {# ── 02 Kompetenzen ─────────────────────────────────────────────
-       Grouped by intensity, alphabetical inside each group, with the year
-       instead of a self-awarded rating: a year is checkable and matches the
-       stations above. #}
-    <section id="kompetenzen" class="bg-neutral-100 py-24 lg:py-32">
-        <div class="mx-auto max-w-6xl px-6 lg:px-8">
-            {{ include('partials/_eyebrow.html.twig', { number: '02', text: 'Kompetenzen' }) }}
-            <h2 class="mt-5 font-display text-3xl font-bold tracking-tight text-neutral-900 sm:text-4xl">Wie &amp; womit ich arbeite</h2>
-            <p class="mt-5 max-w-3xl leading-relaxed text-neutral-600">Ein Auszug der Technologien, Betriebssysteme, Sprachen und Arbeitsweisen, mit denen ich arbeite.</p>
-
-            <div class="mt-12 grid gap-8 md:grid-cols-2">
-                {% for group in skills %}
-                    <div>
-                        <h3 class="font-mono text-xs uppercase tracking-[0.2em] text-neutral-600">{{ group.group }}</h3>
-                        <div class="mt-3.5 flex flex-wrap gap-2">
-                            {% for entry in group.entries %}
-                                <span class="inline-flex items-baseline gap-1.5 rounded-md border border-neutral-200 bg-white px-2.5 py-1 font-mono text-xs text-neutral-700">
-                                    {{ entry.name }}{% if entry.since is defined %} <span class="text-neutral-500">{{ entry.since }}</span>{% endif %}
-                                </span>
-                            {% endfor %}
-                        </div>
-                    </div>
-                {% endfor %}
-            </div>
-        </div>
-    </section>
-
-    {# ── 03 Leidenschaft ────────────────────────────────────────────
-       Two of the three cards point at software that came out of the hobby.
-       That is the one deliberate exception to “no projects on this site”,
-       and it carries because it says something else than a portfolio tile:
-       not “I built this for a client” but “for this problem I write the
-       software myself.” #}
-    <section id="leidenschaft" class="py-24 lg:py-32">
-        <div class="mx-auto max-w-6xl px-6 lg:px-8">
-            {{ include('partials/_eyebrow.html.twig', { number: '03', text: 'Leidenschaft' }) }}
-            <h2 class="mt-5 font-display text-3xl font-bold tracking-tight text-neutral-900 sm:text-4xl">Was mich sonst antreibt</h2>
-            <p class="mt-3 font-mono text-xs uppercase tracking-[0.15em] text-neutral-500">Hobbyschrauber · RC-Modellbauer · Maker · Sim Racer</p>
-            <p class="mt-5 max-w-3xl leading-relaxed text-neutral-600">Wenn ich nicht am Stehschreibtisch stehe, stehe ich an der Werkbank: Was mich packt, ist Automobiltechnik in jedem Maßstab, die Faszination der Nordschleife und der Reiz, eigene Dinge zu erschaffen.</p>
-
-            {# The cards share the section grid's rows from lg up, where all four
-                   stand side by side and a common divider line is worth having. A
-                   subgrid inherits the parent's row gap, so it would put that gap
-                   between icon, heading and text as well—below lg the cards
-                   therefore fall back to a flex column that pushes its link block
-                   down with mt-auto. The row count is spelled out for four cards;
-                   a fifth means adjusting this line. Padding sits on the children
-                   because a subgrid item does not shift the inherited row lines,
-                   so its last row would spill past the border. #}
-                                <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4 lg:gap-y-0 lg:grid-rows-[auto_auto_1fr_auto]">
-                {% for hobby in hobbies %}
-                    <div class="flex flex-col rounded-xl border border-neutral-200 bg-white lg:grid lg:grid-rows-subgrid lg:row-span-4">
-                        <div class="px-8 pt-8">
-                            <span class="flex h-12 w-12 items-center justify-center rounded-xl bg-accent/10 text-accent-on-light">{{ icons.icon(hobby.icon, 'h-6 w-6') }}</span>
-                        </div>
-                        <h3 class="mt-5 px-8 font-display text-lg font-bold text-neutral-900">{{ hobby.title }}</h3>
-                        <p class="mt-2.5 flex-1 px-8 pb-8 text-sm leading-relaxed text-neutral-600 lg:flex-none">{{ hobby.description }}</p>
-                        {% if hobby.url is defined and hobby.urlLabel is defined %}
-                            <div class="mt-auto px-8 pb-8 lg:mt-0">
-                                {# The rule carries its own label, so the block reads as a
-                                   reference rather than as a second paragraph. #}
-                                <div class="flex items-center gap-3">
-                                    <span class="h-px flex-1 bg-neutral-200"></span>
-                                    <span class="font-mono text-[0.6875rem] uppercase tracking-[0.15em] text-neutral-600">Daraus wurde</span>
-                                    <span class="h-px flex-1 bg-neutral-200"></span>
-                                </div>
-                                <div class="pt-5">
-                                    <a href="{{ hobby.url }}" target="_blank" rel="noopener" class="inline-flex items-center gap-1 py-1 font-mono text-xs font-semibold uppercase tracking-[0.15em] text-accent-on-light transition-colors hover:text-accent-on-light-hover">{{ hobby.urlLabel }}{{ icons.icon('external', 'h-3.5 w-3.5') }}</a>
-                                    <span class="mt-1 block text-[0.8125rem] leading-relaxed text-neutral-500">{{ hobby.urlNote|default('') }}</span>
-                                </div>
-                            </div>
-                        {% endif %}
-                    </div>
-                {% endfor %}
-            </div>
-        </div>
-    </section>
-
-    {# ── 04 Kontakt ─────────────────────────────────────────────────
-       Two columns: the form on the left, address and channels on the right.
-       The address never appears in the markup—e-mail and WhatsApp are
-       redirect routes, exactly as on both sibling sites. #}
-    <section id="kontakt" class="bg-neutral-100 py-24 lg:py-32">
-        <div class="mx-auto max-w-6xl px-6 lg:px-8">
-            {{ include('partials/_eyebrow.html.twig', { number: '04', text: 'Kontakt' }) }}
-            <h2 class="mt-5 font-display text-3xl font-bold tracking-tight text-neutral-900 sm:text-4xl">Lassen Sie uns sprechen</h2>
-            <p class="mt-5 max-w-3xl leading-relaxed text-neutral-600">Erstkontakt am besten über das nachfolgende Formular. Zeugnisse und Referenzen schicke ich gerne auf Anfrage zu.</p>
-
-            <p class="mt-7">
-                <a class="{{ include('partials/_button_class.html.twig') }}" href="{{ path('app_curriculum_vitae_pdf') }}" target="_blank" rel="noopener" aria-label="Lebenslauf als PDF öffnen, in einem neuen Tab">
-                    {{ icons.icon('document', 'h-4 w-4') }}Lebenslauf als PDF
-                </a>
-            </p>
-
-            {# Channels on the left, the form on the right—the same layout as
-               on both sibling sites, down to the divided list, the icons and
-               the column ratio, so a visitor coming from there reaches for the
-               input in the same place. What differs is the content of the rows:
-               no on-site service here, but a postal address and LinkedIn. On
-               success the form is replaced by a confirmation instead of being
-               repeated below a flash message. #}
-            <div class="mt-14 grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
-                <div>
-                    <dl class="divide-y divide-neutral-200 border-y border-neutral-200">
-                        <div class="flex items-start gap-4 py-5">
-                            <span class="mt-0.5 text-accent-on-light">{{ icons.icon('pin', 'h-5 w-5') }}</span>
-                            <div><dt class="font-mono text-xs uppercase tracking-[0.15em] text-neutral-600">Anschrift</dt><dd class="mt-1.5 text-sm text-neutral-800"><address class="not-italic">Bonner Straße 88 · 50374 Erftstadt</address></dd></div>
-                        </div>
-                        <div class="flex items-start gap-4 py-5">
-                            <span class="mt-0.5 text-accent-on-light">{{ icons.icon('mail', 'h-5 w-5') }}</span>
-                            <div><dt class="font-mono text-xs uppercase tracking-[0.15em] text-neutral-600">E-Mail</dt><dd class="mt-1.5 text-sm"><a class="inline-block py-1 font-semibold text-accent-on-light transition-colors hover:text-accent-on-light-hover" href="{{ path('app_contact_email') }}">Schreiben Sie mir eine E-Mail</a></dd></div>
-                        </div>
-                        <div class="flex items-start gap-4 py-5">
-                            <span class="mt-0.5 text-accent-on-light">{{ icons.icon('external', 'h-5 w-5') }}</span>
-                            <div><dt class="font-mono text-xs uppercase tracking-[0.15em] text-neutral-600">LinkedIn</dt><dd class="mt-1.5 text-sm"><a class="inline-block py-1 font-semibold text-accent-on-light transition-colors hover:text-accent-on-light-hover" href="https://www.linkedin.com/in/kraus-marcel" target="_blank" rel="noopener">Schreiben Sie mir über LinkedIn</a></dd></div>
-                        </div>
-                        <div class="flex items-start gap-4 py-5">
-                            <span class="mt-0.5 text-accent-on-light">{{ icons.icon('chat', 'h-5 w-5') }}</span>
-                            <div><dt class="font-mono text-xs uppercase tracking-[0.15em] text-neutral-600">WhatsApp</dt><dd class="mt-1.5 text-sm"><a class="inline-block py-1 font-semibold text-accent-on-light transition-colors hover:text-accent-on-light-hover" href="{{ path('app_contact_whats_app') }}">Schreiben Sie mir per WhatsApp</a></dd></div>
-                        </div>
-                        <div class="flex items-start gap-4 py-5">
-                            <span class="mt-0.5 text-accent-on-light">{{ icons.icon('info', 'h-5 w-5') }}</span>
-                            <div><dt class="font-mono text-xs uppercase tracking-[0.15em] text-neutral-600">Reaktionszeit</dt><dd class="mt-1.5 text-sm text-neutral-800">In der Regel innerhalb eines Werktags</dd></div>
-                        </div>
-                    </dl>
-                </div>
-
-                <div>
-                    {% if app.flashes('contact_success') %}
-                        <div class="flex items-start gap-4 rounded-xl border border-neutral-900 bg-white p-8" role="status">
-                            <span class="mt-0.5 text-accent-on-light">{{ icons.icon('check', 'h-7 w-7') }}</span>
-                            <div>
-                                <h3 class="font-display text-xl font-bold text-neutral-900">Vielen Dank für Ihre Nachricht!</h3>
-                                <p class="mt-2 text-sm leading-relaxed text-neutral-600">Sie ist eingegangen. Ich melde mich bei Ihnen.</p>
-                            </div>
-                        </div>
-                    {% else %}
-                        <div class="rounded-xl border border-neutral-200 bg-white p-8 sm:p-10">
-                            {{ include('partials/_contact_form.html.twig', {
-                                errors: contact_errors,
-                                old: contact_old,
-                                focus: contact_focus,
-                                contact_timestamp: contact_timestamp,
-                                contact_timestamp_signature: contact_timestamp_signature
-                            }) }}
-                        </div>
-                    {% endif %}
-                </div>
-            </div>
-        </div>
-    </section>
-
-    {# ── 05 Selbstständigkeit ───────────────────────────────────────
-       The brand band closes the page, where both sibling sites carry theirs.
-       Between the competences and the passion it would have been read as a
-       third piece of evidence, while it actually says something else—
-       that time is bound elsewhere. #}
-    <section id="selbststaendigkeit" class="bg-neutral-950 py-24 lg:py-32">
-        <div class="mx-auto max-w-6xl px-6 lg:px-8">
-            {{ include('partials/_eyebrow.html.twig', { number: '05', text: 'Selbstständigkeit', tone: 'dark' }) }}
-            <h2 class="mt-5 font-display text-3xl font-bold tracking-tight text-white sm:text-4xl">Zwei Marken, seit 2002 selbstständig</h2>
-            <p class="mt-5 max-w-3xl leading-relaxed text-neutral-400">Seit 2002 bin ich selbstständig. Meine Erfahrungen in Themen wie Kundenkontakt, Anforderungsanalyse, Angebotserstellung, Abnahmen, Support, Betrieb und Wartung bringe ich daher in jede Festanstellung mit.</p>
-
-            <div class="mt-12 grid gap-6 md:grid-cols-2">
-                {# The marker classes are written out per brand, never assembled
-                   from the token: Tailwind scans the templates as text, so a
-                   class built from a variable never reaches the build. On the
-                   dark band the petrol needs its brighter step (2.74:1 → 5.47:1),
-                   the papaya passes as it is (5.50:1). #}
-                {% set brandMarkers = {
-                    'krausgebaut': { text: 'text-brand-krausgebaut-on-dark', background: 'bg-brand-krausgebaut-on-dark' },
-                    'krausgedruckt': { text: 'text-brand-krausgedruckt', background: 'bg-brand-krausgedruckt' }
-                } %}
-                {% for brand in brands %}
-                    {% set marker = brandMarkers[brand.colorToken|default('')]|default({ text: 'text-neutral-400', background: 'bg-neutral-400' }) %}
-                    <a href="{{ brand.url }}" target="_blank" rel="noopener" class="block rounded-xl border border-neutral-800 bg-white/[0.02] p-7 transition-colors hover:border-neutral-700 hover:bg-white/[0.04]">
-                        <span class="flex items-center gap-2.5 font-mono text-xs uppercase tracking-[0.15em] {{ marker.text }}">
-                            <span class="inline-block h-2.5 w-2.5 shrink-0 rounded-[2px] {{ marker.background }}" aria-hidden="true"></span>{{ brand.name }}
-                        </span>
-                        <h3 class="mt-4 font-display text-lg font-bold text-white">{{ brand.title }}</h3>
-                        <p class="mt-0.5 font-mono text-xs text-neutral-400">{{ brand.since }}</p>
-                        <p class="mt-3 text-sm leading-relaxed text-neutral-400">{{ brand.description }}</p>
-                        <span class="mt-4 inline-flex items-center gap-1.5 font-mono text-xs uppercase tracking-[0.15em] {{ marker.text }}">Zur Website{{ icons.icon('external', 'h-3.5 w-3.5') }}</span>
-                    </a>
-                {% endfor %}
-            </div>
-        </div>
-    </section>
+            {{ include('partials/_next_steps.html.twig', with_context = false) }}
+        {% endblock %}
+    {% endembed %}
 {% endblock %}
 
-{% block javascript %}
-    {{ parent() }}
-    <script>
-        // Focus the first field the server rejected, so a corrected submission
-        // starts where the error is rather than at the top of the page.
-        (function () {
-            const form = document.querySelector('form[data-error-focus]');
-            if (form === null) {
-                return;
-            }
+{% block content %}
+    <section id="werdegang" class="card card-padded" aria-labelledby="werdegang-title">
+        <header class="card-head">
+            <p class="lead-in">Werdegang</p>
+            <h2 id="werdegang-title" class="text-t2 font-bold">Berufliche Stationen</h2>
+            <p class="card-intro text-muted">Vom ersten Ausflug in die Berufswelt über meine Selbstständigkeit als Internet- und IT-Dienstleister bis zum Senior Softwareentwickler: die wichtigen Meilensteine meiner beruflichen Laufbahn. Meine Erfahrungen aus der Selbstständigkeit in Themen wie Kundenkontakt, Anforderungsanalyse, Angebotserstellung, Abnahmen, Support, Betrieb und Wartung bringe ich in jede Festanstellung mit.</p>
+        </header>
 
-            const field = document.getElementById('f_' + form.dataset.errorFocus);
-            if (field !== null) {
-                field.focus({ preventScroll: false });
-            }
-        }());
-    </script>
+        <ol class="card-body">
+            {% for milestone in milestones %}
+                <li class="station"{% if milestone.marker is defined %} data-marker="{{ milestone.marker }}"{% endif %}>
+                    <p class="station-when lead-in">{{ milestone.years }}</p>
+                    <div class="station-what">
+                        <h3 class="text-t3 font-bold">{{ milestone.company }}</h3>
+                        <p class="lead-in">
+                            {{- milestone.division is defined ? milestone.division ~ ' · ' -}}
+                            {{- milestone.location -}}
+                            {%- if milestone.url is defined %} · {{ include('partials/_link.html.twig', { href: milestone.url, label: 'Homepage', subject: 'von ' ~ milestone.company, to: 'out' }, with_context = false) }}{% endif -%}
+                        </p>
+                        {% if milestone.roles is defined %}
+                            <ul class="station-roles">
+                                {% for role in milestone.roles %}
+                                    <li>
+                                        <p class="station-role font-bold">{{ role.position }}</p>
+                                        <p class="lead-in">{{ role.years }}</p>
+                                        {% if role.description is defined %}
+                                            <p class="station-text">{{ role.description }}</p>
+                                        {% endif %}
+                                        {{ include('partials/_tags.html.twig', { tags: role.tags|default([]) }, with_context = false) }}
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        {% else %}
+                            <p class="station-role font-bold">{{ milestone.position }}</p>
+                            {% if milestone.description is defined %}
+                                <p class="station-text">{{ milestone.description }}</p>
+                            {% endif %}
+                            {{ include('partials/_tags.html.twig', { tags: milestone.tags|default([]) }, with_context = false) }}
+                        {% endif %}
+                    </div>
+                </li>
+            {% endfor %}
+        </ol>
+    </section>
+
+    <section id="kompetenzen" class="card card-padded" aria-labelledby="kompetenzen-title">
+        <header class="card-head">
+            <p class="lead-in">Kompetenzen</p>
+            <h2 id="kompetenzen-title" class="text-t2 font-bold">Wie &amp; womit ich arbeite</h2>
+            <p class="card-intro text-muted">Ein Auszug der Technologien, Betriebssysteme, Sprachen und Arbeitsweisen, mit denen ich arbeite.</p>
+        </header>
+
+        <div class="card-body cells cells-4">
+            {% for group in skills %}
+                <div class="skills">
+                    <h3 class="lead-in">{{ group.group }}</h3>
+                    <ul>
+                        {% for entry in group.entries %}
+                            <li><span>{{ entry.name }}</span>{% if entry.since is defined %}<span class="lead-in">{{ entry.since }}</span>{% endif %}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section id="leidenschaft" class="card card-padded" aria-labelledby="leidenschaft-title">
+        <header class="card-head">
+            <p class="lead-in">Leidenschaft</p>
+            <h2 id="leidenschaft-title" class="text-t2 font-bold">Was mich sonst antreibt</h2>
+            <p class="card-intro text-muted">Wenn ich nicht am Stehschreibtisch stehe, stehe ich an der Werkbank: Was mich packt, ist Automobiltechnik in jedem Maßstab, die Faszination der Nordschleife und der Reiz, eigene Dinge zu erschaffen.</p>
+        </header>
+
+        <div class="card-body cells cells-2">
+            {% for hobby in hobbies %}
+                <article class="passion">
+                    <h3 class="text-t3 font-bold">{{ hobby.title }}</h3>
+                    <p class="text-muted">{{ hobby.description }}</p>
+                    {% if hobby.url is defined and hobby.urlLabel is defined %}
+                        <div class="passion-ref">
+                            <p class="passion-from">Daraus wurde</p>
+                            {{ include('partials/_link.html.twig', { href: hobby.url, label: hobby.urlLabel, to: 'out' }, with_context = false) }}
+                            {% if hobby.urlNote is defined %}
+                                <p class="lead-in">{{ hobby.urlNote }}</p>
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                </article>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section class="card card-closing" aria-label="Lebenslauf und Kontakt">
+        {{ include('partials/_next_steps.html.twig', with_context = false) }}
+    </section>
 {% endblock %}

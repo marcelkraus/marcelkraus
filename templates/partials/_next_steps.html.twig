@@ -1,0 +1,6 @@
+{# The two next steps of a reader of the curriculum vitae side by side: the
+   document, solid, and the message. #}
+<div class="buttons">
+    {{ include('partials/_link.html.twig', { href: path('app_curriculum_vitae_pdf'), label: 'Lebenslauf als PDF', to: 'out', class: 'button button-solid' }, with_context = false) }}
+    {{ include('partials/_link.html.twig', { href: path('app_contact_page'), label: 'Nachricht schreiben', to: 'page', class: 'button' }, with_context = false) }}
+</div>

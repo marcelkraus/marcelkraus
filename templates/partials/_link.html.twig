@@ -1,0 +1,19 @@
+{# Every link with an arrow is this partial, so the arrow means the same on
+   every page:
+
+     out   ↗  opens a new tab and says so to a screen reader—another
+              website, or the document, which is served inline
+     page  →  another page of this site
+     down  ↓  further down the same page
+
+   The arrow is hidden from assistive technology, being a picture of a word;
+   the notice of the new tab is the word itself, for a screen reader only.
+   A sighted visitor reads the same thing from the arrow. `subject` is read
+   after the label by a screen reader only, for a label that repeats on the
+   page and names its destination nowhere else.
+
+   Params: href, label, to ('out', 'page' or 'down'), class (default 'link';
+   'button', 'button button-solid' or a component's own link class),
+   subject (optional). #}
+{%- set arrows = { down: '↓', out: '↗', page: '→' } -%}
+<a class="{{ class|default('link') }}" href="{{ href }}"{% if to == 'out' %} target="_blank" rel="noopener"{% endif %}>{{ label }}{% if subject is defined %}<span class="sr-only"> {{ subject }}</span>{% endif %} <span class="link-arrow" aria-hidden="true">{{ arrows[to] }}</span>{% if to == 'out' %}<span class="sr-only"> – öffnet in neuem Tab</span>{% endif %}</a>

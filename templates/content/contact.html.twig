@@ -1,0 +1,74 @@
+{# Kontakt, the one page with the contact form; its cover card carries no
+   button, being the place the button leads to.
+
+   The channels stand to the left of the form, so a visitor picks the one
+   that suits. The address never appears in the markup—e-mail and WhatsApp
+   are redirect routes, exactly as on both sibling sites. On success the form
+   is replaced by the confirmation instead of being repeated below a flash
+   message. #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Kontakt · Marcel Kraus{% endblock %}
+{% block meta_description %}Kontakt zu Marcel Kraus, Senior Softwareentwickler iOS/Web aus Erftstadt bei Köln und dem Menschen hinter krausgebaut und krausgedruckt.{% endblock %}
+
+{% block cover %}
+    {{ include('partials/_cover_card.html.twig', { reach: false }) }}
+{% endblock %}
+
+{% block content %}
+    <section class="card card-padded" aria-labelledby="kontakt-title">
+        <header class="card-head">
+            <p class="lead-in">Kontakt</p>
+            <h2 id="kontakt-title" class="text-t2 font-bold">Lassen Sie uns sprechen</h2>
+        </header>
+
+        <div class="card-body contact">
+            <div class="contact-side">
+                <p class="text-muted">Erstkontakt am besten über das nachfolgende Formular. Zeugnisse und Referenzen schicke ich gerne auf Anfrage zu.</p>
+                <dl class="ways">
+                    <div><dt class="lead-in">Anschrift</dt><dd><address>Bonner Str. 88 · 50374 Erftstadt</address></dd></div>
+                    <div><dt class="lead-in">E-Mail</dt><dd><a class="link" href="{{ path('app_contact_email') }}">Schreiben Sie mir eine E-Mail</a></dd></div>
+                    <div><dt class="lead-in">LinkedIn</dt><dd>{{ include('partials/_link.html.twig', { href: 'https://www.linkedin.com/in/kraus-marcel', label: 'Schreiben Sie mir über LinkedIn', to: 'out' }, with_context = false) }}</dd></div>
+                    <div><dt class="lead-in">WhatsApp</dt><dd>{{ include('partials/_link.html.twig', { href: path('app_contact_whats_app'), label: 'Schreiben Sie mir per WhatsApp', to: 'out' }, with_context = false) }}</dd></div>
+                    <div><dt class="lead-in">Reaktionszeit</dt><dd>In der Regel innerhalb eines Werktags</dd></div>
+                </dl>
+            </div>
+
+            <div class="contact-main">
+                {% if app.flashes('contact_success') %}
+                    <div class="contact-confirmation" role="status">
+                        <h3 class="text-t3 font-bold">Vielen Dank für Ihre Nachricht!</h3>
+                        <p class="text-muted">Sie ist eingegangen. Ich melde mich bei Ihnen.</p>
+                    </div>
+                {% else %}
+                    {{ include('partials/_contact_form.html.twig', {
+                        errors: contact_errors,
+                        old: contact_old,
+                        focus: contact_focus,
+                        contact_timestamp: contact_timestamp,
+                        contact_timestamp_signature: contact_timestamp_signature
+                    }) }}
+                {% endif %}
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block javascript %}
+    {{ parent() }}
+    <script>
+        // Focus the first field the server rejected, so a corrected submission
+        // starts where the error is rather than at the top of the page.
+        (function () {
+            const form = document.querySelector('form[data-error-focus]');
+            if (form === null) {
+                return;
+            }
+
+            const field = document.getElementById('f_' + form.dataset.errorFocus);
+            if (field !== null) {
+                field.focus({ preventScroll: false });
+            }
+        }());
+    </script>
+{% endblock %}

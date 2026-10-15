@@ -19,13 +19,43 @@ final class ContactControllerTest extends WebTestCase
 {
     use MailerAssertionsTrait;
 
-    public function testHomepageRendersTheForm(): void
+    /**
+     * Exactly one contact form on the site, and it stands on Kontakt.
+     */
+    public function testTheContactPageCarriesTheOnlyForm(): void
     {
         $client = static::createClient();
-        $client->request('GET', '/');
 
+        $client->request('GET', '/kontakt');
         self::assertResponseIsSuccessful();
         self::assertSelectorExists('form[action="/kontakt"]');
+
+        foreach (['/', '/portfolio'] as $path) {
+            $client->request('GET', $path);
+            self::assertSelectorNotExists('form', $path);
+        }
+    }
+
+    /**
+     * The channels stand beside the form, so a visitor picks the one that
+     * suits. E-mail and WhatsApp are redirect routes; the address of either
+     * never reaches the markup.
+     */
+    public function testTheContactPageOffersTheChannelsBesideTheForm(): void
+    {
+        $client = static::createClient();
+        $crawler = $client->request('GET', '/kontakt');
+
+        self::assertSelectorTextContains('.contact', 'Bonner Str. 88 · 50374 Erftstadt');
+        self::assertSelectorTextContains('.contact', 'In der Regel innerhalb eines Werktags');
+        self::assertSelectorExists('.contact a[href="/kontakt-per-email"]');
+        self::assertSelectorExists('.contact a[href="/kontakt-per-whats-app"]');
+
+        $linkedIn = $crawler->filter('.contact a[href="https://www.linkedin.com/in/kraus-marcel"]');
+        self::assertSame('_blank', $linkedIn->attr('target'));
+        self::assertStringContainsString('öffnet in neuem Tab', $linkedIn->text());
+
+        self::assertStringNotContainsString('mailto:', (string) $client->getResponse()->getContent());
     }
 
     public function testValidSubmissionRedirects(): void
@@ -42,7 +72,7 @@ final class ContactControllerTest extends WebTestCase
         // The redirect alone proves nothing: the silent spam path answers with
         // exactly the same redirect and the same flash. Only the mail tells
         // the two apart.
-        self::assertResponseRedirects();
+        self::assertResponseRedirects('/kontakt');
         self::assertEmailCount(1);
         self::assertEmailAddressContains(self::getMailerMessage(), 'To', $_SERVER['CONTACT_TO']);
         self::assertEmailAddressContains(self::getMailerMessage(), 'Reply-To', 'max@example.com');
@@ -61,7 +91,7 @@ final class ContactControllerTest extends WebTestCase
         $client->request('POST', '/kontakt', $payload);
 
         // A bot must learn nothing, so the answer is a fake success.
-        self::assertResponseRedirects();
+        self::assertResponseRedirects('/kontakt');
         self::assertEmailCount(0);
     }
 
@@ -110,7 +140,8 @@ final class ContactControllerTest extends WebTestCase
         $client->request('POST', '/kontakt', $payload);
         $client->followRedirect();
 
-        self::assertSelectorTextContains('#kontakt', 'Vielen Dank');
+        self::assertSame('/kontakt', $client->getRequest()->getPathInfo());
+        self::assertSelectorTextContains('.contact', 'Vielen Dank');
         self::assertSelectorNotExists('form[action="/kontakt"]');
     }
 
@@ -131,19 +162,25 @@ final class ContactControllerTest extends WebTestCase
         self::assertSelectorTextContains('body', 'Sitzung ist abgelaufen');
     }
 
-    public function testInvalidSubmissionReRendersWithErrors(): void
+    public function testInvalidSubmissionReRendersTheContactPageWithErrorsAndInput(): void
     {
         $client = static::createClient();
         $payload = $this->payload($client, [
             'name' => '',
             'email' => 'not-an-email',
+            'company' => 'Beispiel GmbH',
             'message' => 'x',
         ]);
 
-        $client->request('POST', '/kontakt', $payload);
+        $crawler = $client->request('POST', '/kontakt', $payload);
 
         self::assertResponseStatusCodeSame(422);
-        self::assertSelectorTextContains('body', 'Bitte geben Sie Ihren Namen an.');
+        self::assertSame('/kontakt', $crawler->filter('nav[aria-label="Bereiche"] a[aria-current="page"]')->attr('href'));
+        self::assertSelectorTextContains('.contact', 'Bitte geben Sie Ihren Namen an.');
+        self::assertSame('not-an-email', $crawler->filter('#f_email')->attr('value'));
+        self::assertSame('Beispiel GmbH', $crawler->filter('#f_company')->attr('value'));
+        self::assertSame('x', $crawler->filter('#f_message')->text());
+        self::assertSame('name', $crawler->filter('form')->attr('data-error-focus'));
     }
 
     public function testExpiredTimestampReRendersInsteadOfFakingSuccess(): void
@@ -247,7 +284,7 @@ final class ContactControllerTest extends WebTestCase
      */
     private function payload(KernelBrowser $client, array $fields, int $age = 5): array
     {
-        $crawler = $client->request('GET', '/');
+        $crawler = $client->request('GET', '/kontakt');
         $token = $crawler->filter('input[name="_token"]')->attr('value');
         $secret = static::getContainer()->getParameter('kernel.secret');
 

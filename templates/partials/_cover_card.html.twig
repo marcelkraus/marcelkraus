@@ -1,0 +1,34 @@
+{# The person card under the tabs, the same on every page: portrait, name,
+   job title and claim, so a visitor knows whose site this is before reading
+   anything else.
+
+   Embed it, and fill `more` for an introduction that runs on the name's
+   column; the card then carries no right column. Without `more` the card
+   closes on the right with “Nachricht schreiben”, unless `reach` is false.
+
+   The portrait is shown in black and white by the stylesheet, never by
+   editing the photograph, and is never mirrored. The soft hyphen lets
+   “Softwareentwickler” break on a phone; “Senior” has none and stays whole.
+   The claim breaks after its first sentence at every width, so the punch
+   line stands on its own. Where even the first sentence is too wide—beside
+   the phone portrait below 360 pixels—“mit Hut.” moves down together rather
+   than leaving “Hut.” alone.
+
+   Params: reach (default true). Block: more. #}
+{%- set reach = reach ?? true -%}
+{%- set more -%}{% block more %}{% endblock %}{%- endset -%}
+<section class="card cover{% if more|trim is not empty %} cover-has-more{% endif %}" aria-label="Marcel Kraus">
+    <span class="cover-face"><img src="{{ asset('images/portrait.jpg') }}" alt="Porträt von Marcel Kraus" width="576" height="720"></span>
+    <div class="cover-who">
+        <h1 class="text-t2 font-bold">Marcel Kraus</h1>
+        <p class="text-t3">Senior Software&shy;entwickler iOS/Web</p>
+    </div>
+    <p class="cover-claim text-t3 text-muted">Nicht nur mit&nbsp;Hut.<br>Mit Köpfchen.</p>
+    {% if more|trim is not empty %}
+        <div class="cover-more">{{ more }}</div>
+    {% elseif reach %}
+        <div class="cover-reach">
+            {{ include('partials/_link.html.twig', { href: path('app_contact_page'), label: 'Nachricht schreiben', to: 'page', class: 'button' }, with_context = false) }}
+        </div>
+    {% endif %}
+</section>

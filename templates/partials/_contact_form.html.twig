@@ -3,25 +3,24 @@
 {% import _self as field %}
 
 {% macro label(name, text, required) %}
-    <label for="f_{{ name }}" class="block font-mono text-xs uppercase tracking-[0.15em] text-neutral-600">{{ text }}{% if required %} <span class="text-accent-on-light" aria-hidden="true">*</span>{% endif %}</label>
+    <label for="f_{{ name }}" class="lead-in">{{ text }}{% if required %} <span aria-hidden="true">*</span>{% endif %}</label>
 {% endmacro %}
 
 {% macro input(name, text, old, errors, options) %}
     {% set options = options|default({}) %}
     {% set error = errors[name]|default(null) %}
     {% set required = options.required|default(false) %}
-    <div>
+    <div class="field">
         {{ _self.label(name, text, required) }}
         <input type="{{ options.type|default('text') }}" id="f_{{ name }}" name="{{ name }}" value="{{ old[name]|default('') }}"
                {% if options.autocomplete is defined %}autocomplete="{{ options.autocomplete }}"{% endif %}
                {% if required %}aria-required="true"{% endif %}
-               class="mt-2 w-full rounded-lg border {{ error ? 'border-error-border' : 'border-neutral-200' }} bg-white px-4 py-3 text-sm text-neutral-900 {{ error ? 'focus:border-error-border' : 'focus:border-accent' }} focus:outline-2 focus:outline-offset-2 focus:outline-accent"
                {% if error %}aria-invalid="true" aria-describedby="e_{{ name }}"{% endif %}>
-        {% if error %}<p id="e_{{ name }}" class="mt-1.5 font-mono text-xs text-error">{{ error }}</p>{% endif %}
+        {% if error %}<p id="e_{{ name }}" class="field-error">{{ error }}</p>{% endif %}
     </div>
 {% endmacro %}
 
-<form method="post" action="{{ path('app_contact') }}" class="space-y-5" novalidate{% if focus is defined and focus %} data-error-focus="{{ focus }}"{% endif %}>
+<form method="post" action="{{ path('app_contact') }}" class="contact-form" novalidate{% if focus is defined and focus %} data-error-focus="{{ focus }}"{% endif %}>
     <input type="hidden" name="_token" value="{{ csrf_token('contact') }}">
     <input type="hidden" name="ts" value="{{ contact_timestamp }}">
     <input type="hidden" name="ts_sig" value="{{ contact_timestamp_signature }}">
@@ -34,31 +33,23 @@
     </div>
 
     {% if errors.form is defined %}
-        <p class="rounded-lg border border-error-border bg-error-surface px-4 py-3 font-mono text-xs text-error-on-surface" role="alert">{{ errors.form }}</p>
+        <p class="form-alert field-wide" role="alert">{{ errors.form }}</p>
     {% endif %}
 
-    <div class="grid gap-5 sm:grid-cols-2">
-        {{ field.input('company', 'Firma', old, errors, { autocomplete: 'organization' }) }}
-        {{ field.input('name', 'Name', old, errors, { required: true, autocomplete: 'name' }) }}
-    </div>
+    {{ field.input('name', 'Name', old, errors, { required: true, autocomplete: 'name' }) }}
+    {{ field.input('company', 'Firma', old, errors, { autocomplete: 'organization' }) }}
+    {{ field.input('email', 'E-Mail', old, errors, { required: true, type: 'email', autocomplete: 'email' }) }}
+    {{ field.input('phone', 'Telefon', old, errors, { type: 'tel', autocomplete: 'tel' }) }}
 
-    <div class="grid gap-5 sm:grid-cols-2">
-        {{ field.input('email', 'E-Mail', old, errors, { required: true, type: 'email', autocomplete: 'email' }) }}
-        {{ field.input('phone', 'Telefon', old, errors, { type: 'tel', autocomplete: 'tel' }) }}
-    </div>
-
-    <div>
+    <div class="field field-wide">
         {{ field.label('message', 'Nachricht', true) }}
         <textarea id="f_message" name="message" rows="5" aria-required="true"
                   {% if errors.message is defined %}aria-invalid="true" aria-describedby="e_message"{% endif %}
-                  class="mt-2 w-full rounded-lg border {{ errors.message is defined ? 'border-error-border' : 'border-neutral-200' }} bg-white px-4 py-3 text-sm text-neutral-900 placeholder:text-neutral-500 {{ errors.message is defined ? 'focus:border-error-border' : 'focus:border-accent' }} focus:outline-2 focus:outline-offset-2 focus:outline-accent" placeholder="Worum geht es? Eine Stelle, ein Projekt, ein erstes Gespräch – schreiben Sie einfach ein paar Sätze.">{{ old.message|default('') }}</textarea>
-        {% if errors.message is defined %}<p id="e_message" class="mt-1.5 font-mono text-xs text-error">{{ errors.message }}</p>{% endif %}
+                  placeholder="Worum geht es? Eine Stelle, ein Projekt, ein erstes Gespräch – schreiben Sie einfach ein paar Sätze.">{{ old.message|default('') }}</textarea>
+        {% if errors.message is defined %}<p id="e_message" class="field-error">{{ errors.message }}</p>{% endif %}
     </div>
 
-    <div class="flex flex-wrap items-center gap-4 pt-2">
-        <button type="submit" class="{{ include('partials/_button_class.html.twig', {}, with_context = false) }}">Nachricht senden</button>
-        <p class="font-mono text-xs text-neutral-600">Pflichtfelder <span class="text-accent-on-light">*</span></p>
-    </div>
+    <button type="submit" class="button button-solid">Nachricht senden</button>
 
-    <p class="text-sm leading-relaxed text-neutral-600">Mit dem Absenden stimmen Sie meiner <a class="font-semibold text-accent-on-light transition-colors hover:text-accent-on-light-hover" href="{{ path('app_data_privacy') }}">Datenschutzerklärung</a> zu.</p>
+    <p class="field-wide font-mono text-m2 text-muted">Pflichtfelder * · Mit dem Absenden stimmen Sie meiner <a class="underline" href="{{ path('app_data_privacy') }}">Datenschutzerklärung</a> zu.</p>
 </form>

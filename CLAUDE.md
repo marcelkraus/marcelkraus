@@ -2,12 +2,12 @@
 
 ## Overview
 
-Personal website of Marcel Kraus (https://www.marcelkraus.de). It does two jobs, in this order:
+Personal website of Marcel Kraus (https://www.marcelkraus.de). It does two jobs, each on a page of its own:
 
-1. **A curriculum vitae for job applications.** Career, competences, contact. No projects, no references, no app listings—the portfolio lives on krausgebaut and, in part, krausgedruckt.
-2. **The hub of the brand family.** It carries the logo holding all three brands and points at the two commercial ones.
+1. **A curriculum vitae for job applications**—Profil, at `/`. Career, competences, passion. No client work and no references—those live on krausgebaut.
+2. **The hub of the brand family**—Portfolio, at `/portfolio`. krausgebaut and krausgedruckt as two towers, everything else Marcel runs in one card below them.
 
-German only, one color scheme (light). One page plus the two legal pages. Guiding rule for every case of doubt: **keep the site simple.**
+Kontakt, at `/kontakt`, carries the one contact form. German only, one color scheme (light). Three pages plus the two legal pages. Guiding rule for every case of doubt: **keep the site simple.**
 
 ## Stack notes
 
@@ -16,42 +16,59 @@ German only, one color scheme (light). One page plus the two legal pages. Guidin
 
 ## Partials
 
-`_icons` keeps **no stock**: every name has a caller, and the names are alphabetical. Most come from Heroicons v2 outline; `remote` and `wheel` are drawn for this site, so a name missing from the Heroicons catalog is not necessarily missing here.
-
-The career timeline and the brand band hold literal maps of class names in `homepage.html.twig`, because a utility class can never be assembled from a variable.
+Every link with an arrow goes through `_link.html.twig`, so `↗`, `→` and `↓` mean the same on every page. A career station's marker color and a tower's colors are the stylesheet's, keyed on a `data-marker` or `data-brand` attribute rather than on a class assembled in the template.
 
 ## Design
 
-The light “spec-sheet” look of the family with the curriculum-vitae additions below. No dark mode. Tokens, contrast rules and the family bracket are in `../docs/BRAND_FAMILY.md`.
+**marcelkraus stands in front of the family, not inside it**, with a design system of its own; what it still shares with the two siblings is in `../docs/BRAND_FAMILY.md`. No dark mode.
 
-**What this site does differently:**
+* **Tokens and scales live in the Tailwind theme, the layout measures in `:root`; the recurring parts are component classes**—frame, card, cells, cover card, tabs, tower, work, button, link—used by the partials. A utility is for the single case. No `!important`.
+* **Nothing outside the scales.** The frame is 1104 px on twelve columns of 48 with a gutter of 48; spacing runs on 8, 16, 24, 48 and 96 only; type on four steps of Aller and two of mono. The spacing scale binds distances, not the size of a thing—a portrait, the logo, a field. The one type size outside the scales is a tower's name, which shrinks with its tower below the full frame; the two optical values outside them are the station marker, centered on its hairline, and the button's 1.5 px border, a step heavier than a card's hairline. **One breakpoint**, at 1000 px, where the page margin, the gutter and the padding drop from 48 to 24 and the four Aller steps shrink.
+* **One section is one card**—white, a 1 px hairline, never a card inside a card. The ground is the facade of hairlines, drawn by the stylesheet without a script. **Nothing moves**: not the facade, the cards, the towers or the arrows.
+* **On the page, a square marker stands only on a career station**—not before a heading, not in the tabs, not before the availability.
+* **The tabs are real tabs** on the lower edge of the header, the active one white and open into the card below. The list is `app.pages` in `config/services.yaml`, which the sitemap reads too; the active tab follows the path rather than the route, so the contact page re-rendered by a failed POST keeps its tab, and a legal page matches none. On a phone the tabs run at full width under the logo, 48 px high. The header does not stick.
+* **The cover card is the same person card on all three pages**—portrait in black and white, name, job title, claim. On Portfolio “Nachricht schreiben →” stands on the right behind a hairline; on Kontakt there is no button, the form being the page; on Profil the name's column carries the introduction instead—lead, key facts, both buttons. No location, no founding year, no further channels. **The availability stands on Profil alone.**
+* **“Lebenslauf als PDF ↗” stands once on Portfolio**, in the closing cell, and twice on Profil—in the cover card and in the closing card; Kontakt carries none. It opens in a new tab—the one case besides another website—because the document is served inline and would otherwise replace the page. `.button` and `.button-solid` are the two tones of one component.
+* **The footer carries the tridents and one line**—copyright and the legal links. No contact rows: the channels stand beside the form on `/kontakt` and nowhere else; LinkedIn is among them because it belongs on a curriculum vitae and not on a sales page.
+* **The legal pages carry the same header with no tab active**, no cover card, and their text in one card.
 
-* **Section numbers** (`01` … `05`) sit in the eyebrow, in mono—the family's technical voice applied to a curriculum-vitae convention, structuring a long single page without a table of contents. **The number carries the accent, the label does not**, so the structure reads before the label. Both siblings set the whole eyebrow in the accent. Contrast is not the reason; `accent-on-light` measures 6.48:1 on `neutral-100`.
-* **Four contact rows in the footer**, because LinkedIn belongs on a curriculum vitae and not on a sales page.
-* **The hero carries two buttons**, the document filled and Kontakt outlined beside it; `_button_class` has a second tone for that rather than a second copy of the skin. The document opens in a new tab—the one case besides an external link—because it is served inline and would otherwise replace the page. The accessible name announces it.
-* **Four navigation items:** Werdegang, Kompetenzen, Leidenschaft, Kontakt. The closing band is not in the navigation, as on both siblings. **Label and eyebrow must match word for word**; a test pins it.
-* **The mobile menu carries no contact button.** The navigation already has that item, and with the icon button in the bar the word would stand three times in one open panel.
-* **Three mixed-case mono sizes are three roles**—the milestone tag, the data line, the year in the timeline—not one role written three ways. Sizes: `text-sm` in the mobile menu, `text-xs` in the normal case, `text-[0.6875rem]` for a micro label.
+## The pages
 
-## The body
+### Profil
 
-The body follows the logic of a curriculum vitae rather than the sibling's section rhythm. Section rhythm: light → `neutral-100` → light → `neutral-100` → dark, the one dark block being the closing brand band.
+Five cards: the cover card with the introduction, Werdegang, Kompetenzen, Leidenschaft, and a narrow closing card with the document and the message once more. No section numbers, no section navigation, no contact card.
 
-* **The career is one single vertical list**, at every width, with a hairline rail and one square marker per station—the same marker shape as in the eyebrow, the footer lists and the brand band. The rail stops below the last station; the marker does not change color there. Every station carries either the accent or the color of its brand, so the timeline says at a glance which line of the career a station belongs to. **No carousel:** it shows less on a desktop than on a phone and keeps hidden cards in the tab order.
-* **Several roles at one employer are nested, not listed side by side.** Ten years at Chefkoch is the strongest single statement in the document, and two stations next to each other read as two jobs rather than one development. The employer line carries the whole span, the roles sit indented below it on their own hairline. Chefkoch is the only case.
+* **The career is one single vertical list**, at every width, with a hairline beside each station and one square marker on it. The three trades carry the color of their brand, every other station `station` (`neutral-700`), so the timeline says at a glance which stations are the self-employment. **No carousel:** it shows less on a desktop than on a phone and keeps hidden cards in the tab order.
+* **Several roles at one employer are nested, not listed side by side.** Ten years at Chefkoch is the strongest single statement in the document, and two stations next to each other read as two jobs rather than one development. The employer line carries the whole span, the roles stand below it. Chefkoch is the only case.
 * **The availability names one month.** “Ab Dezember” stands as a literal in the page and in the printed document. **No year:** the document carries its own date three rows above the line, and the page is read the day it is served. The word *freigestellt* deliberately appears nowhere: it answers a question the reader did not ask and raises one they did not have. A date answers the only question there is—when?
 * **Competences carry a year where a year says something, and never a rating.** A year is checkable; self-awarded scales are an anti-pattern.
 * **Voice:** first person singular (“ich”), the visitor addressed formally (“Sie”)—the audience is a hiring company, and it matches krausgebaut.
 * **The station texts follow one build.** Responsibility and scope are nominal (“Mitverantwortlich für…”); what Marcel personally achieved is a full sentence in the first person (“Ich habe … begleitet”); the trades are purely descriptive, because a business describes itself and does not claim an achievement.
 * **No selling on this site, not even in a trade's description.** A trade says what it does, in what process, and stops. Sales copy belongs on krausgebaut.
-* **Jurassic Jeep sits in the career and nowhere else**—not in the brand band, not in the footer. A curriculum vitae listing two of three registered trades invites the question what else is missing, and an omission weighs more than the thing omitted. The brand band stays at two cards because the mark is three squares for three brands.
-* **The passion section carries four cards**, three of which link out. Two of them are the deliberate exception to “no projects here”: they make a different statement than a portfolio tile—not “I built this for a client” but “for this problem I write the software myself.” The Maker card points at krausgedruckt, a business rather than a self-written tool, so the section carries both kinds of link. The destinations live in `hobbies.json`.
+* **Jurassic Jeep sits in the career**, with the two other trades. A curriculum vitae listing two of three registered trades invites the question what else is missing, and an omission weighs more than the thing omitted.
+* **The passion section carries four cells**, two by two, three of which link out under “Daraus wurde”, the link carrying the name alone. Two of them point at a self-written tool: not “I built this for a client” but “for this problem I write the software myself.” The Maker cell points at krausgedruckt, a business, so the section carries both kinds of link. The destinations live in `hobbies.json`.
+
+### Portfolio
+
+The two businesses as towers, then one card, “Außerdem von mir.” No introductory line.
+
+* **Two square towers**, krausgedruckt on the right and higher, krausgebaut 144 px lower. The markup carries them in reverse brand order, so the higher one comes first for a keyboard and a screen reader. On a phone krausgedruckt stands first, both 88 % wide and still offset.
+* **A tower carries its name, its claim and its domain**, and no header line. The domain is the button (“krausgebaut.de ↗”), and the button stretches over the whole tower, so the tower is the link. Type stays white on either brand.
+* **The mark is the favicon glyph as a tone-on-tone wallpaper**, in the brand's deep step. Both glyphs share one outline, so one rule places either: 60 % of the tile high (34 % on a phone), a sixth out at the top and at the right. The two files are copied into `assets/marks/`; a project reads nothing from its siblings (`assets/README.md`).
+* **“Außerdem von mir” is a 3 × 2 grid of cells**: the five works and a closing cell, a list on a phone. A work carries a framed screenshot, its name, its kind, one sentence and a link naming its destination without “Zu”; the link stretches over the cell. No color stripe, no categories.
+* **The closing cell carries name, postal address and the document.** Contact lives in the cover card alone.
+
+### Kontakt
+
+The cover card without a button, then one card: the channels on the left—address, e-mail, LinkedIn, WhatsApp, response time—and the form on the right.
 
 ## Brand mark and favicons
 
 `_logo.html.twig` is the three squares and the wordmark as one lockup, the squares running left to right in the order the brands came into being. Colors come from `fill-*` classes.
 
-The favicons are the three brand squares on a white tile with a `neutral-300` hairline—one step darker than the interface hairline, because at 16 px `neutral-200` disappears. The squares carry the verbatim master colors, which are exactly what the tokens resolve to; the values are in `../docs/BRAND_FAMILY.md`.
+The favicons are the three brand squares on a white tile with a `neutral-300` hairline, because at 16 px `neutral-200` disappears. The squares carry the verbatim master colors, which are exactly what the tokens resolve to; the values are in `../docs/BRAND_FAMILY.md`.
+
+**`tridents-hanging.svg` and `tridents-standing.svg` carry the hex of the `hair` token as a literal**, as `favicon.svg` carries the brand colors: a background image never sees the theme. They move with the token.
 
 `portrait.jpg` is a 4:5 crop of a square original.
 
@@ -72,12 +89,11 @@ The rendered order is the file order. **Employment runs newest first; each busin
 **It carries no duration.** The period already stands in the date column to the left; a second figure only invites the reader to check one against the other, and the two rarely agree because counting whole months and counting elapsed time give different answers.
 
 * **`division`** is a second line under the company name, for a unit such as `Bundesverband`.
-* **`marker`** takes `krausgebaut`, `krausgedruckt`, `jurassic-jeep` or `secondary` and selects the station's color from the literal map in the template; without it the station takes the accent. The three trades carry their own color, the employments share the accent, and `secondary` sets a station back into `neutral-500`—today only the vocational school, so the accent belongs to the working life alone. `secondary` also grays the position line, the only place a marker value reaches beyond its square.
-* **`neutral-500` is the floor for a set-back station, not `neutral-400`.** The calmer step measures 2.58:1 on this ground and misses the 3:1 WCAG 1.4.11 asks of an indicator; `neutral-500` measures 4.74:1.
-* **`url`** hangs the business homepage in the muted location line—label `Homepage` plus the `external` glyph, no underline, because the glyph is a shape rather than a color and satisfies WCAG 1.4.1 on its own. The label is identical on all three, so the `aria-label` names the business; otherwise a screen reader announces the same word three times without a subject.
+* **`marker`** takes `krausgebaut`, `krausgedruckt`, `jurassic-jeep` or `secondary`. On the page the stylesheet reads it as `data-marker`: a trade's value selects its brand color, and every other station takes the gray; the printed document groups its three blocks on the field, `secondary` being Ausbildung.
+* **`url`** hangs the business homepage in the muted location line—label `Homepage` with `↗`. The label is identical on all three, so a screen reader hears the business named after it; otherwise it announces the same word three times without a subject.
 * **`roles[]`** turns one entry into an employer with several roles, each with its own `years`, `position`, `description` and `tags[]`; the entry then omits its own `position`. Giving every entry a `roles[]` would spare the branch in the template and inflate six single-role entries instead.
 * An entry **without `description`** renders as a condensed one-liner, which is what keeps the vocational school from taking as much room as twelve years at the ASB.
-* **No employment entry carries an open end.** The only statement about availability lives in the hero. The businesses are open by design (`seit 11/2023`, `seit 05/2021`, `seit 01/2002`).
+* **No employment entry carries an open end.** The only statement about availability lives in the cover card on Profil. The businesses are open by design (`seit 11/2023`, `seit 05/2021`, `seit 01/2002`).
 
 ### skills.json
 
@@ -90,6 +106,17 @@ Groups in order of intensity—the order *is* the statement—entries alphabetic
 * **A station tag is not a competence.** Tags say what a station worked with, the groups here say what Marcel can do today, so the two lists stay independent. A technology that is neither a competence nor a defining part of a station appears in neither list.
 * **A year that cannot be defended in an interview is worse than none.** No year names when a framework shipped; it names when Marcel started with it.
 
+### brands.json
+
+The two towers on Portfolio, in the order the brands came into being: `name`, `claim`, `url`, `domain` (the label of the button), `mark` (a file in `assets/marks/`) and `colorToken`, which the tower hands to the stylesheet as `data-brand` and which selects the brand tokens there.
+
+### works.json
+
+The cells of “Außerdem von mir,” in the rendered order: `name`, `kind`, `description` (one sentence), `url`, `urlLabel` and `image`.
+
+* **`urlLabel` names the destination**—the domain, or `App Store`—never an invitation such as “Zu …”.
+* **`image` is a file under `public/images/works/`**, a square screenshot of 640 × 640. The screenshots are made once and committed; the page never fetches anything from a work at runtime, and a test asserts it.
+
 ### Structured data
 
 `knowsAbout` in the JSON-LD is **built from the content files**, not hardcoded: the skills carry the professional terms, the hobbies the private ones. Sorted and deduplicated, so reordering a content file does not change the output.
@@ -99,16 +126,17 @@ Groups in order of intensity—the order *is* the statement—entries alphabetic
 The mechanism is in `../../docs/WEB_STACK.md`. Specific here:
 
 * Fields: name, e-mail, company, phone, message; required are name, e-mail and message. **`Firma` means the sender's employer.**
-* Success ⇒ mail to `CONTACT_TO` (reply-to = sender), PRG redirect to `/#kontakt` with flash `contact_success`.
+* Success ⇒ mail to `CONTACT_TO` (reply-to = sender), PRG redirect to `/kontakt#kontakt` with flash `contact_success`; the confirmation replaces the form. An error renders the contact page with the input kept and status 422.
+* **Exactly one contact form on the site**, on `/kontakt`, reached through the tab and through “Nachricht schreiben →.”
 * **The e-mail address is validated twice**, so `Assert\Email` runs in `strict` mode: the loose default accepts addresses that `Mime\Address` then rejects with an `InvalidArgumentException`, which the transport catch does not cover and which would land as a bare error page.
 * The legal mailbox is `mail+legal@marcelkraus.de`. A test asserts that no `mailto:` reaches the markup.
-* **No downloadable references.** An Arbeitszeugnis carries the letterhead, function and signature of a named third party; publishing it publishes someone else's data, and once indexed it stays indexed. One sentence in the contact section says they are sent on request. No protected area, no signed links, no checkbox in the form.
+* **No downloadable references.** An Arbeitszeugnis carries the letterhead, function and signature of a named third party; publishing it publishes someone else's data, and once indexed it stays indexed. One sentence on the contact page says they are sent on request. No protected area, no signed links, no checkbox in the form.
 
 ## The printed curriculum vitae
 
 `GET /lebenslauf` renders the document from the same content files the page reads. **Not a second document**—a hand-kept PDF drifts against the site, and then there are two truths about one career. `ContentRepository` makes that structural: one reader, two outputs.
 
-Delivered **inline**, so it opens in the browser; the file name travels along for whoever saves it. `X-Robots-Tag: noindex`, because the file duplicates the homepage and carries the postal address—the indexed truth stays the page. A `Disallow` would be worse than useless: a path never fetched is a header never read.
+Delivered **inline**, so it opens in the browser; the file name travels along for whoever saves it. `X-Robots-Tag: noindex`, because the file duplicates Profil and carries the postal address—the indexed truth stays the page. A `Disallow` would be worse than useless: a path never fetched is a header never read.
 
 **Two pages is a requirement, not a preference**, and a test asserts it. The layout sits close enough to the limit that one longer station description pushes it over, and nothing else would notice.
 
@@ -135,7 +163,7 @@ The lockup lives in the page header, which is what makes it repeat without the b
 
 ### The head, and what it leaves out
 
-The right column carries Datum, Anschrift, Telefon, Verfügbar, E-Mail and `Portfolio & Profile`, then the QR code. That last label does real work: it says the one address behind it is where the projects and the other profiles are, which is why there is **no LinkedIn row and no second QR**. Two codes side by side cannot be told apart without reading their labels, and a reader who scans the wrong one blames the document. One code is a device; two are a pattern that invites a third.
+The right column carries Datum, Anschrift, Telefon, Verfügbar, E-Mail and `Homepage`, then the QR code. The label names the page and not one of its tabs, since the tabs may trade places; the one address behind it is where the portfolio and the other profiles are, which is why there is **no LinkedIn row and no second QR**. Two codes side by side cannot be told apart without reading their labels, and a reader who scans the wrong one blames the document. One code is a device; two are a pattern that invites a third.
 
 **No photograph.** The page carries the portrait one scan away, and a 4:5 image at any usable size costs 40 to 60 mm of a first page that has 23 mm to spare. Adding it means a third page or a shorter profile, and the profile is the only part of the document that says in Marcel's own words who he is.
 
@@ -143,22 +171,23 @@ A quiet page number closes each page, centered in the bottom margin—the band r
 
 ### What the document does differently from the page
 
-* **No section numbers.** On the page they structure one long scroll; here there are four headings on two numbered pages, and the ordinal would collide—`02` is Kompetenzen on the page and Selbstständigkeit in the document.
+* **No section numbers**, as on the page.
+* **No color but the logo's.** The byline, the positions and the square before a section are the document's ink, `neutral-900` (`#171717`) like the title and the company names—not the hub's `--color-ink`, since a second near-black a few shades apart would be noise on paper. The purple stays in the logo alone, and a test asserts it; no station carries a brand color.
 * **No technology tags.** They are a device of the page.
 * **No years in the competences.** The document is read in one sitting; the figures only crowd a line that is already dense.
 * **Three blocks instead of one timeline**—Berufserfahrung, Selbstständigkeit, Ausbildung—grouped on the `marker` field, which needs no extra data.
-* **A short profile** that exists nowhere on the page; the hero carries a tagline, which is a different thing. It lives in `config/services.yaml` because a content file would only be ignored by the page.
+* **A short profile** that exists nowhere on the page; the cover card carries the claim, which is a different thing. It lives in `config/services.yaml` because a content file would only be ignored by the page.
 
 ### mPDF has two rules that shape the whole template
 
 1. **Every distance is cell padding or a spacer element.** Block margins inside a table cell are dropped, and an empty spacer renders only sometimes.
-2. **Every area is an image.** Neither a background nor a border on a block inside a cell is drawn. The square before an eyebrow is `marker-accent.svg`; the rail beside the nested roles is a cell border.
+2. **Every area is an image.** Neither a background nor a border on a block inside a cell is drawn. The square before an eyebrow is `marker-ink.svg`; the rail beside the nested roles is a cell border.
 
 `shrink_tables_to_fit` is **off**. It silently rescales individual tables mPDF thinks too wide, which produces two different body sizes on one page. Every column here has an explicit width, so nothing needs rescuing.
 
 ### Assets
 
-`logo.svg`, `qr-code.svg` and `marker-accent.svg` under `public/images/` carry literal hex, as `favicon.svg` does: mPDF parses its own stylesheet and never sees the theme, so there is no token to bind to. The values are the ones the tokens resolve to and have to move with them.
+`logo.svg`, `qr-code.svg` and `marker-ink.svg` under `public/images/` carry literal hex, as `favicon.svg` does: mPDF parses its own stylesheet and never sees the theme, so there is no token to bind to. The values are the ones the tokens resolve to and have to move with them.
 
 **The QR code has no quiet zone of its own**—the view box is cropped to the 25 data modules, because the white paper around it is the quiet zone and the built-in border only pushes the ink off the column edge. It carries `width`/`height`, for the same reason `favicon.svg` must.
 
@@ -166,11 +195,11 @@ A quiet page number closes each page, centered in the bottom margin—the band r
 
 ## SEO / meta
 
-Centralized in `base.html.twig`: canonical, Open Graph, Twitter card, sharing image `public/images/sharing.jpg`. `Person` JSON-LD in the homepage `structured_data` block, `sameAs` pointing at both sibling sites and LinkedIn. Homepage title: `Marcel Kraus · Senior Softwareentwickler iOS/Web aus Erftstadt bei Köln`; subpage title scheme: `{Page} · Marcel Kraus`. The homepage is the only indexable page.
+Centralized in `base.html.twig`: canonical, Open Graph, Twitter card, sharing image `public/images/sharing.jpg`. `Person` JSON-LD in Profil's `structured_data` block, `sameAs` pointing at both sibling sites and LinkedIn. Profil's title: `Marcel Kraus · Senior Softwareentwickler iOS/Web aus Erftstadt bei Köln`; every other page: `{Page} · Marcel Kraus`. **Profil, Portfolio and Kontakt are indexable** and make up the sitemap, which reads `app.pages` like the tabs; the legal pages are `noindex,follow` and stay out of it.
 
-The sharing image was rendered from the real logo partial and the real fonts: white, the eyebrow and the logo lockup on the left, the job title in the accent below it, domain and location as a mono line at the bottom, and the three brand squares oversized and cropped off the right edge—the same device krausgebaut uses with its gear.
+The sharing image is one card on the facade: the portrait in black and white at full card height on the left; name, job title and the claim on two lines on the right; `www.marcelkraus.de` alone at the foot. **No logo and no place**, and nothing that expires. `bin/render-sharing-image` photographs it from `/sharing-image`, a page registered in dev alone that embeds the real cover card in the real stylesheet and fonts, so a change to the card reaches the image by running the script again. The file is a finished asset and gets committed.
 
-**The job title has two forms.** “Senior Softwareentwickler iOS/Web” stands under the name in the hero, in the page `<title>`, in the descriptions and on the sharing image; the `jobTitle` of the JSON-LD and the profile of the printed document carry “Senior Softwareentwickler” alone. The tagline (“Nicht nur mit Hut. Mit Köpfchen.”) is a line of its own below the job title.
+**The job title has two forms.** “Senior Softwareentwickler iOS/Web” stands under the name in the cover card, in the page `<title>`, in the descriptions and on the sharing image; the `jobTitle` of the JSON-LD and the profile of the printed document carry “Senior Softwareentwickler” alone. The claim (“Nicht nur mit Hut. Mit Köpfchen.”) stands below the job title, broken after its first sentence on the page, on the sharing image and in the printed document.
 
 ## Deployment
 

@@ -1,7 +1,6 @@
 [
     {
         "title": "Hobbyschrauber",
-        "icon": "wrench",
         "description": "Ob Karosserie, Antrieb oder Elektrik: Mein Herz schlägt für das Schrauben an altem Blech. So begleiten mich unter anderem ein „Jurassic Park“-Jeep und K.I.T.T. aus „Knight Rider“ bereits seit vielen Jahren.",
         "url": "https://schrauberfuchs.app",
         "urlLabel": "Schrauberfuchs",
@@ -12,7 +11,6 @@
     },
     {
         "title": "RC-Modellbauer",
-        "icon": "remote",
         "description": "Kleine Modelle, große Wirkung. Mit den RC-Modellen konnte ich als Kind erste Erfahrungen in der Automobiltechnik sammeln und so mein technisches Verständnis aufbauen.",
         "url": "https://meetmyrc.com",
         "urlLabel": "meetMyRC",
@@ -23,7 +21,6 @@
     },
     {
         "title": "Maker",
-        "icon": "cube",
         "description": "Eigene Ideen greifbar machen und in die Realität bringen: Ein unglaublich befriedigendes Gefühl. Egal ob für die Fahrzeugprojekte in der Werkstatt, den eigenen Haushalt oder die Familie.",
         "url": "https://www.krausgedruckt.de",
         "urlLabel": "krausgedruckt",
@@ -34,7 +31,6 @@
     },
     {
         "title": "Sim Racer",
-        "icon": "wheel",
         "description": "25 km, 73 Kurven, 200 Puls. Wenn ich im echten Leben mal nicht schraube oder fahre, fahre ich zumindest virtuell – und suche im Simulator in der grünen Hölle die letzten Zehntel.",
         "knowsAbout": [
             "Sim Racing"

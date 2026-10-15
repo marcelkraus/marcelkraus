@@ -1,15 +1,15 @@
-{% import 'partials/_icons.html.twig' as icons %}
+{# The frame of every page: the facade as the ground, the header with the
+   logo and the tabs, the footer with the tridents. The active tab follows
+   the path rather than the route name, so the contact page re-rendered by
+   the POST that handles its form keeps its tab; a legal page matches none
+   and leaves all three inactive. #}
 <!DOCTYPE html>
 <html lang="de">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     {% block meta_robots %}<meta name="robots" content="index,follow">{% endblock %}
-    {# The brand description feeds two places: the meta tag and the paragraph
-       under the logo in the footer. One source, so they cannot drift apart.
-       Subpages override meta_description alone; the footer keeps naming the
-       brand rather than the page. #}
-    <meta name="description" content="{% block meta_description %}{% block brand_description %}Marcel Kraus, Senior Softwareentwickler iOS/Web aus Erftstadt bei Köln, selbstständig seit 2002. Lebenslauf, Werdegang und Kontakt.{% endblock %}{% endblock %}">
+    <meta name="description" content="{% block meta_description %}Marcel Kraus, Senior Softwareentwickler iOS/Web aus Erftstadt bei Köln, selbstständig seit 2002. Lebenslauf, Werdegang und Kontakt.{% endblock %}">
     <title>{% block title %}Marcel Kraus · Senior Softwareentwickler iOS/Web aus Erftstadt bei Köln{% endblock %}</title>
 
     {# Favicons. Three files, all derived from the master artwork: the SVG scales
@@ -66,165 +66,39 @@
         </script>
     {% endif %}
 </head>
-<body class="min-h-screen bg-white font-sans text-neutral-600 antialiased">
-    <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-lg focus:bg-neutral-900 focus:px-4 focus:py-2 focus:font-mono focus:text-xs focus:uppercase focus:tracking-wider focus:text-white">Zum Inhalt springen</a>
+<body class="facade">
+    <a href="#main" class="skip-link">Zum Inhalt springen</a>
 
-    {% set home = path('app_homepage') %}
-    {% set nav_items = [
-        { label: 'Werdegang', href: home ~ '#werdegang' },
-        { label: 'Kompetenzen', href: home ~ '#kompetenzen' },
-        { label: 'Leidenschaft', href: home ~ '#leidenschaft' },
-        { label: 'Kontakt', href: home ~ '#kontakt' }
-    ] %}
+    {% set current_path = app.request.baseUrl ~ app.request.pathInfo %}
 
-    {# ── Header ─────────────────────────────────────────────────── #}
-    <header class="fixed inset-x-0 top-0 z-50 border-b border-neutral-200 bg-white/90 backdrop-blur-sm">
-        {# The three columns are a grid, not a flex row with `justify-between`.
-           In a flex row the navigation is squeezed between logo and actions,
-           so its starting edge follows the width of its own labels and lands
-           somewhere else on the sibling sites. A fixed first column gives all
-           three brands the same edge.
-
-           The fixed column only applies from `lg` up, where the navigation is
-           visible and the shared edge is actually perceived. Below that it would
-           reserve 160 pixels for a logo that needs less and push the actions off
-           a 320 pixel screen, which WCAG 1.4.10 forbids. #}
-        <div class="mx-auto grid h-20 max-w-6xl grid-cols-[auto_1fr_auto] lg:grid-cols-[10rem_1fr_auto] items-center gap-6 px-6 lg:px-8">
-            <a href="{{ path('app_homepage') }}" class="inline-flex items-center" aria-label="Startseite">
-                {{ include('partials/_logo.html.twig', { class: 'h-9 w-auto' }) }}
-            </a>
-
-            {# Desktop navigation #}
-            <nav class="hidden items-center gap-8 lg:flex" aria-label="Hauptnavigation">
-                {% for item in nav_items %}
-                    <a href="{{ item.href }}" class="font-mono text-xs uppercase tracking-[0.15em] text-neutral-600 transition-colors hover:text-accent-on-light">{{ item.label }}</a>
-                {% endfor %}
-            </nav>
-
-            <div class="col-start-3 flex items-center justify-self-end gap-3">
-                {# Shrinks to its icon below `sm`: at 320 pixels the logo, a
-                   full-width button and the burger do not fit into one row. #}
-                <a href="{{ path('app_homepage') }}#kontakt" class="{{ include('partials/_button_class.html.twig', { size: 'compact' }, with_context = false) }}">
-                    <span class="sm:hidden">{{ icons.icon('mail', 'h-5 w-5') }}</span>
-                    <span class="sr-only sm:not-sr-only">Kontakt</span>
-                </a>
-
-                <button type="button" id="menu-toggle" class="inline-flex h-11 w-11 items-center justify-center rounded-lg text-neutral-900 lg:hidden" aria-controls="mobile-menu" aria-expanded="false" aria-label="Menü öffnen">
-                    <svg data-menu-icon="closed" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.75" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5M3.75 17.25h16.5"/></svg>
-                    <svg data-menu-icon="open" class="hidden h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.75" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/></svg>
-                </button>
-            </div>
-        </div>
-
-        {# Mobile menu #}
-        <div id="mobile-menu" class="hidden border-t border-neutral-200 bg-white lg:hidden">
-            <nav class="mx-auto flex max-w-6xl flex-col px-6 py-2 pb-4" aria-label="Mobile Navigation">
-                {% for item in nav_items %}
-                    <a href="{{ item.href }}" class="border-b border-neutral-100 py-3 font-mono text-sm uppercase tracking-[0.15em] text-neutral-600 hover:text-accent-on-light" data-menu-link>{{ item.label }}</a>
-                {% endfor %}
-            </nav>
-        </div>
+    <header class="frame site-head">
+        <a href="{{ path('app_homepage') }}" class="site-head-logo" aria-label="Startseite">
+            {{ include('partials/_logo.html.twig') }}
+        </a>
+        <nav class="tabs" aria-label="Bereiche">
+            {% for page in pages %}
+                <a href="{{ path(page.route) }}"{% if current_path == path(page.route) %} aria-current="page"{% endif %}>{{ page.label }}</a>
+            {% endfor %}
+        </nav>
     </header>
 
-    {# ── Content ────────────────────────────────────────────────── #}
-    <main id="main" tabindex="-1">
+    <main id="main" class="frame site-main" tabindex="-1">
+        {% block cover %}{% endblock %}
         {% block content %}{% endblock %}
     </main>
 
-    {# ── Footer ─────────────────────────────────────────────────── #}
-    <footer class="border-t border-neutral-800 bg-neutral-900 text-neutral-400">
-        <div class="mx-auto max-w-6xl px-6 py-16 lg:px-8">
-            <div class="grid gap-12 md:grid-cols-[1.5fr_1fr_1fr]">
-                <div>
-                    {{ include('partials/_logo.html.twig', { class: 'h-9 w-auto text-white', mono: true }) }}
-                    <p class="mt-5 max-w-xs text-sm leading-relaxed">{{ block('brand_description') }}</p>
-                </div>
-
-                <div>
-                    <h2 class="font-mono text-xs uppercase tracking-[0.2em] text-neutral-400">Kontakt &amp; Kanäle</h2>
-                    <ul class="mt-4 space-y-1 text-sm">
-                        <li><a href="{{ path('app_homepage') }}#kontakt" class="inline-flex items-center gap-2.5 py-2.5 transition-colors hover:text-white"><span class="inline-block h-2.5 w-2.5 shrink-0 rounded-[2px] bg-accent-on-dark" aria-hidden="true"></span>Kontaktformular</a></li>
-                        <li><a href="{{ path('app_contact_email') }}" class="inline-flex items-center gap-2.5 py-2.5 transition-colors hover:text-white"><span class="inline-block h-2.5 w-2.5 shrink-0 rounded-[2px] bg-accent-on-dark" aria-hidden="true"></span>E-Mail</a></li>
-                        <li><a href="https://www.linkedin.com/in/kraus-marcel" target="_blank" rel="noopener" class="inline-flex items-center gap-2.5 py-2.5 transition-colors hover:text-white"><span class="inline-block h-2.5 w-2.5 shrink-0 rounded-[2px] bg-accent-on-dark" aria-hidden="true"></span>LinkedIn</a></li>
-                        <li><a href="{{ path('app_contact_whats_app') }}" class="inline-flex items-center gap-2.5 py-2.5 transition-colors hover:text-white"><span class="inline-block h-2.5 w-2.5 shrink-0 rounded-[2px] bg-accent-on-dark" aria-hidden="true"></span>WhatsApp</a></li>
-                    </ul>
-                </div>
-
-                <div>
-                    {# Same heading as on both sibling sites, only the direction
-                       of the view is reversed: here the hub points back at the
-                       spokes. #}
-                    <h2 class="font-mono text-xs uppercase tracking-[0.2em] text-neutral-400">Mehr von Marcel</h2>
-                    <ul class="mt-4 space-y-1 text-sm">
-                        <li><a href="https://www.krausgebaut.de" class="inline-flex items-center gap-2.5 py-2.5 transition-colors hover:text-white"><span class="inline-block h-2.5 w-2.5 shrink-0 rounded-[2px] bg-brand-krausgebaut-on-dark" aria-hidden="true"></span>krausgebaut</a></li>
-                        <li><a href="https://www.krausgedruckt.de" class="inline-flex items-center gap-2.5 py-2.5 transition-colors hover:text-white"><span class="inline-block h-2.5 w-2.5 shrink-0 rounded-[2px] bg-brand-krausgedruckt" aria-hidden="true"></span>krausgedruckt</a></li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="mt-14 flex flex-col gap-4 border-t border-neutral-800 pt-6 text-xs sm:flex-row sm:items-center sm:justify-between">
-                <p class="font-mono uppercase tracking-[0.15em] text-neutral-400">© {{ 'now'|date('Y') }} Marcel Kraus</p>
-                <nav class="flex gap-6" aria-label="Rechtliches">
-                    <a href="{{ path('app_imprint') }}" class="py-2 transition-colors hover:text-white">Impressum</a>
-                    <a href="{{ path('app_data_privacy') }}" class="py-2 transition-colors hover:text-white">Datenschutz</a>
+    <footer class="site-foot">
+        <div class="site-foot-tridents" aria-hidden="true"></div>
+        <div class="site-foot-line">
+            <div class="frame site-foot-row">
+                <p>© {{ 'now'|date('Y') }} Marcel Kraus</p>
+                <nav aria-label="Rechtliches">
+                    <a href="{{ path('app_imprint') }}">Impressum</a> · <a href="{{ path('app_data_privacy') }}">Datenschutz</a>
                 </nav>
             </div>
         </div>
     </footer>
 
-    {% block javascript %}
-        <script>
-            // Mobile menu toggle.
-            (function () {
-                const toggle = document.getElementById('menu-toggle');
-                const menu = document.getElementById('mobile-menu');
-                if (toggle === null || menu === null) {
-                    return;
-                }
-
-                const setOpen = (open) => {
-                    menu.classList.toggle('hidden', open === false);
-                    toggle.setAttribute('aria-expanded', String(open));
-                    toggle.setAttribute('aria-label', open ? 'Menü schließen' : 'Menü öffnen');
-                    toggle.querySelector('[data-menu-icon="closed"]').classList.toggle('hidden', open);
-                    toggle.querySelector('[data-menu-icon="open"]').classList.toggle('hidden', open === false);
-                };
-
-                toggle.addEventListener('click', () => {
-                    setOpen(menu.classList.contains('hidden'));
-                });
-
-                menu.querySelectorAll('[data-menu-link]').forEach((link) => {
-                    link.addEventListener('click', () => setOpen(false));
-                });
-
-                // A tap next to an open menu is a request to close it—without
-                // this the panel stays open until the burger is hit again.
-                document.addEventListener('click', (event) => {
-                    if (menu.classList.contains('hidden')) {
-                        return;
-                    }
-
-                    if (menu.contains(event.target) === false && toggle.contains(event.target) === false) {
-                        setOpen(false);
-                    }
-                });
-
-                document.addEventListener('keydown', (event) => {
-                    if (event.key === 'Escape' && menu.classList.contains('hidden') === false) {
-                        setOpen(false);
-                        toggle.focus();
-                    }
-                });
-
-                // Close when resizing up to desktop.
-                window.matchMedia('(min-width: 1024px)').addEventListener('change', (event) => {
-                    if (event.matches) {
-                        setOpen(false);
-                    }
-                });
-            }());
-        </script>
-    {% endblock %}
+    {% block javascript %}{% endblock %}
 </body>
 </html>

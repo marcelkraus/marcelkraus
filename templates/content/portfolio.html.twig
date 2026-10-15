@@ -1,0 +1,37 @@
+{# Portfolio, the hub: the two businesses as towers and everything else
+   Marcel runs in one card, “Außerdem von mir”, closing on who stands
+   behind it. Without works the card keeps only that closing cell.
+
+   The towers stand in reverse order of the brands, so krausgedruckt, the
+   higher one, comes first for a keyboard and a screen reader; where each
+   tower stands is the stylesheet's. #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Portfolio · Marcel Kraus{% endblock %}
+{% block meta_description %}Portfolio von Marcel Kraus, Senior Softwareentwickler iOS/Web aus Erftstadt bei Köln und dem Menschen hinter krausgebaut und krausgedruckt.{% endblock %}
+
+{% block cover %}
+    {{ include('partials/_cover_card.html.twig') }}
+{% endblock %}
+
+{% block content %}
+    <div class="towers">
+        {% for brand in brands|reverse %}
+            {{ include('partials/_tower.html.twig', { brand: brand }, with_context = false) }}
+        {% endfor %}
+    </div>
+
+    <section id="works" class="card works" aria-labelledby="works-title">
+        <h2 id="works-title" class="lead-in works-title">Außerdem von mir</h2>
+        <div class="cells cells-3">
+            {% for work in works %}
+                {{ include('partials/_work.html.twig', { work: work }, with_context = false) }}
+            {% endfor %}
+            <div class="works-closing">
+                <h3 class="text-t3 font-bold">Marcel Kraus</h3>
+                <address class="lead-in">Bonner Str. 88<br>50374 Erftstadt</address>
+                {{ include('partials/_link.html.twig', { href: path('app_curriculum_vitae_pdf'), label: 'Lebenslauf als PDF', to: 'out', class: 'button' }, with_context = false) }}
+            </div>
+        </div>
+    </section>
+{% endblock %}

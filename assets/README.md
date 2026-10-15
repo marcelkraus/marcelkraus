@@ -23,3 +23,7 @@ PY
 ```
 
 JetBrains Mono is licensed under the SIL Open Font License, which permits the derivation.
+
+## marks
+
+`krausgebaut.svg` and `krausgedruckt.svg` are verbatim copies of the siblings' `public/favicon.svg`. Portfolio inlines them through the Twig namespace `@marks`, so the stylesheet can drop the ground and recolor the glyph tone on tone; `brands.json` names the file per brand. A project reads nothing from its siblings, so a changed favicon is copied over again by hand.

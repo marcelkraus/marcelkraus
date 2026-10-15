@@ -8,7 +8,7 @@ use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 /**
  * Reads the JSON content files. Extracted from the controller once the printed
- * curriculum vitae needed the same data: two readers on the same four files
+ * curriculum vitae needed the same data: two readers on the same files
  * would be two chances for the page and the document to drift apart, and the
  * whole point of generating the document is that they cannot.
  *

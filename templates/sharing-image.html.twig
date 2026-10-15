@@ -1,0 +1,39 @@
+{# The sharing image, as a page for `bin/render-sharing-image` to photograph
+   at 1200 × 630. The cover card is the real partial, so name, job title and
+   claim cannot drift from the site; only its grid is laid out anew here—the
+   portrait at full card height on the left, the domain at the foot of the
+   text column. No logo, and nothing that expires.
+
+   The stage is zoomed by 1.6 rather than the type set larger: a chat card
+   shows the image about 320 pixels wide, and zooming keeps every measure
+   the site's own. The window stays 1200 wide, so the desktop tokens apply.
+   The rules below are this page's alone; the stylesheet does not scan this
+   file, so a utility written here would not exist. The stage, 750 × 393.75
+   at zoom 1.6, is the window size in the script. #}
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>Sharing image · Marcel Kraus</title>
+    <meta name="robots" content="noindex,nofollow">
+    <link rel="stylesheet" href="/css/output.css">
+    <style>
+        html, body { margin: 0; }
+        .sharing { position: relative; width: 750px; height: 393.75px; overflow: hidden; zoom: 1.6; }
+        .sharing.facade { display: block; min-height: 0; }
+        .sharing .cover { position: absolute; inset: 24px 36px; padding: 0; gap: 0; grid-template-columns: 36% 1fr; }
+        .sharing .cover-face { width: auto; height: 100%; aspect-ratio: auto; border: 0; border-right: 1px solid var(--color-hair); }
+        .sharing .cover-who { padding: 24px 28px 0; align-self: start; }
+        .sharing .cover-claim { padding: 0 28px; }
+        .sharing .cover-more { padding: 0 28px 24px; align-self: end; }
+        .sharing-domain { font-family: var(--font-mono); font-size: 17px; line-height: 1.4; color: var(--color-muted); }
+    </style>
+</head>
+<body>
+    <div class="facade sharing" style="--head: 0px;">
+        {% embed 'partials/_cover_card.html.twig' %}
+            {% block more %}<p class="sharing-domain">www.marcelkraus.de</p>{% endblock %}
+        {% endembed %}
+    </div>
+</body>
+</html>

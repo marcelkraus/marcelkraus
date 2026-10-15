@@ -1,18 +1,18 @@
 [
     {
+        "claim": ["IT, die läuft.", "Dafür sorge ich."],
+        "colorToken": "krausgebaut",
+        "domain": "krausgebaut.de",
+        "mark": "krausgebaut.svg",
         "name": "krausgebaut",
-        "title": "Internet- & IT-Dienstleistungen",
-        "since": "seit 2002",
-        "description": "Ob App- & Web-Entwicklung, Durchführung von Schulungen & Workshops oder IT-Support vor Ort im Rhein-Erft-Kreis.",
-        "url": "https://www.krausgebaut.de",
-        "colorToken": "krausgebaut"
+        "url": "https://www.krausgebaut.de"
     },
     {
+        "claim": ["Sie haben die Idee.", "Ich mache sie greifbar!"],
+        "colorToken": "krausgedruckt",
+        "domain": "krausgedruckt.de",
+        "mark": "krausgedruckt.svg",
         "name": "krausgedruckt",
-        "title": "3D-Druck-Dienstleistungen",
-        "since": "seit 2023",
-        "description": "Additive Fertigung von Prototypen, Ersatzteilen, Werkzeugen, Dekoartikeln und mehr nach individuellen Vorgaben.",
-        "url": "https://www.krausgedruckt.de",
-        "colorToken": "krausgedruckt"
+        "url": "https://www.krausgedruckt.de"
     }
 ]

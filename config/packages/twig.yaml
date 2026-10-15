@@ -2,7 +2,11 @@ twig:
     globals:
         contact_email_address: '%app.contact_email_address%'
         legal_email_address: '%app.legal_email_address%'
+        pages: '%app.pages%'
     file_name_pattern: '*.twig'
+    # The marks of the two siblings, see assets/README.md.
+    paths:
+        '%kernel.project_dir%/assets/marks': marks
 
 when@test:
     twig:

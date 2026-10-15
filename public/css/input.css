@@ -5,10 +5,13 @@
 @import "tailwindcss" source(none);
 @plugin "@tailwindcss/typography";
 @source "../../templates/**/*.html.twig";
+/* The page the sharing image is photographed from writes no utilities, only
+   rules of its own, and its words must not turn into rules here. */
+@source not "../../templates/sharing-image.html.twig";
 
 /* Self-hosted fonts—no external requests. Aller carries the wordmark,
    headlines and body (ties the type to the logo); JetBrains Mono is the
-   technical voice for eyebrows, labels and spec data. Latin covers the
+   technical voice for lead-ins, labels and spec data. Latin covers the
    German umlauts (ä ö ü ß). */
 @font-face {
     font-family: "Aller";
@@ -34,60 +37,60 @@
     font-display: swap;
 }
 
-/* Design tokens. The single chromatic color is the purple accent; everything
-   else is Tailwind's neutral-*. Typographic roles: Aller (display + body),
-   JetBrains Mono (technical). */
+/* Design tokens: a template takes a token or a component class below; a
+   utility class is for the single case. */
 @theme {
     --font-sans: "Aller", ui-sans-serif, system-ui, sans-serif;
     --font-display: "Aller", ui-sans-serif, system-ui, sans-serif;
     --font-mono: "JetBrains Mono Variable", ui-monospace, monospace;
 
-    /* One vocabulary, all three brands: the role is in the name, so the
-       difference between the sites falls into the values and not into the
-       naming.
+    /* Hair draws cards and the facade, line the quieter rules inside a card;
+       muted measures 6.0:1 on paper. */
+    --color-hair: #d9dce1;
+    --color-ink: #0f1115;
+    --color-line: #e6e8ec;
+    --color-muted: #5d6470;
+    --color-paper: var(--color-white);
+    /* The marker of every career station that is not a trade. */
+    --color-station: var(--color-neutral-700);
+    --color-tab: var(--color-gray-100);
 
-         accent                 the brand itself—surfaces, borders, markers,
-                                the mark. Never type without a checked step.
-         accent-on-light        type on a light ground
-         accent-on-dark         type on a dark ground
-         accent-hover           hover of a filled surface
-         accent-on-light-hover  hover of type on a light ground
+    /* Four steps of Aller, two of mono; a phone shrinks the four below. */
+    --text-t1: 4rem;
+    --text-t1--line-height: 0.95;
+    --text-t1--letter-spacing: -0.04em;
+    --text-t2: 2.5rem;
+    --text-t2--line-height: 1.05;
+    --text-t2--letter-spacing: -0.03em;
+    --text-t3: 1.375rem;
+    --text-t3--line-height: 1.3;
+    --text-t4: 1.0625rem;
+    --text-t4--line-height: 1.6;
+    --text-m1: 0.8125rem;
+    --text-m1--line-height: 1.6;
+    --text-m2: 0.6875rem;
+    --text-m2--line-height: 1.6;
 
-       The accent is Tailwind's purple-700—the palette color of the left
-       square in the master logo, which stands for the employment career.
-       Bound to the token rather than a copied hex so it cannot drift from
-       the palette.
-
-       The purple is a DARK color, like krausgebaut's petrol: it carries a
-       light ground as it is (7.07:1) and misses AA as type on a dark one
-       (2.54:1), where it needs a brighter step (purple-400, 6.42:1). The
-       hover of a filled surface moves in whichever direction keeps its label
-       readable—here the label is white, so the fill DARKENS. */
+    /* The purple of the left square in the logo, which stands for the
+       employment career; the logo is the one place it appears. */
     --color-accent: var(--color-purple-700);
-    --color-accent-on-light: var(--color-purple-700);
-    --color-accent-on-dark: var(--color-purple-400);
-    --color-accent-hover: var(--color-purple-800);
-    --color-accent-on-light-hover: var(--color-purple-800);
 
-    /* The two sibling brands. They appear as the other two squares in the
-       logo, as marker dots in the footer and in the closing brand band.
-       A role step exists only where the base value fails as type, so a
-       missing step is information: krausgebaut's petrol measures 2.74:1 on
-       the dark band and needs the brighter cyan-600 (5.47:1 there, 4.95:1 on
-       the footer), while krausgedruckt's papaya passes as it is (5.50:1 and
-       4.98:1). */
+    /* The two sibling brands: the other two squares in the logo, the
+       towers on Portfolio and the markers of their stations. */
     --color-brand-krausgebaut: var(--color-cyan-800);
-    --color-brand-krausgebaut-on-dark: var(--color-cyan-600);
+    /* The deep step is the tone-on-tone mark on a Portfolio tower: the
+       master color darkened by a fifth, fixed by the spec as a value. */
+    --color-brand-krausgebaut-deep: #004c60;
     --color-brand-krausgedruckt: var(--color-orange-600);
+    --color-brand-krausgedruckt-deep: #c43a00;
 
     /* Jurassic Jeep is a trade, not a brand of the family—it has no square
-       in the logo and no tile in the closing band, only a marker in the
-       career. red-700 is the closest palette step to that site's own
-       Performance Red, at a perceptual distance of 0.0155 in oklab and
-       roughly three times closer than orange-700; the value itself lives in
-       jurassic-jeep, which owns it. Binding to the palette keeps the rule
-       that no interface token carries a copied hex. 6.42:1 on
-       white, so the marker clears the 3:1 of WCAG 1.4.11 with room to spare.
+       in the logo, only a marker in the career. red-700 is the closest
+       palette step to that site's own Performance Red, at a perceptual
+       distance of 0.0155 in oklab and roughly three times closer than
+       orange-700; the value itself lives in jurassic-jeep, which owns it.
+       6.42:1 on white, so the marker clears the 3:1 of WCAG
+       1.4.11 with room to spare.
        The same palette step also backs --color-error-on-surface; the two
        never meet on a page, and the role names keep them apart. */
     --color-brand-jurassic-jeep: var(--color-red-700);
@@ -98,62 +101,887 @@
          error-surface     the tinted panel behind a form-level message
          error-on-surface  type on that panel (5.87:1)
          error-border      the outline of an invalid field and of the panel
-                           (3.81:1 on white, 3.48:1 on the panel)
-
-       The border step used to be red-300, which measures 1.75:1 on the panel
-       and misses the 3:1 WCAG 1.4.11 asks of a state indicator. */
+                           (3.81:1 on white, 3.48:1 on the panel, above
+                           the 3:1 WCAG 1.4.11 asks of a state indicator) */
     --color-error: var(--color-red-600);
     --color-error-surface: var(--color-red-50);
     --color-error-on-surface: var(--color-red-700);
     --color-error-border: var(--color-red-500);
-
 }
 
-/* Base layer. */
-@layer base {
-    html {
-        scroll-behavior: smooth;
-        /* Offset anchor targets for the fixed header. */
-        scroll-padding-top: 5rem;
-    }
+/* 1104 pixels are twelve columns of 48 with gutters of 48; spacing runs on
+   8, 16, 24, 48 and 96 only. */
+:root {
+    --frame: 69rem;
+    --edge: --spacing(12);
+    --gap: --spacing(12);
+    --pad: --spacing(12);
+    --head: 75px;
+}
 
+/* The one breakpoint of the site. */
+@media (width <= 1000px) {
+    :root {
+        --edge: --spacing(6);
+        --gap: --spacing(6);
+        --pad: --spacing(6);
+        --head: 104px;
+        --text-t1: 2.75rem;
+        --text-t2: 2rem;
+        --text-t3: 1.25rem;
+        --text-t4: 1rem;
+    }
+}
+
+@layer base {
     body {
+        font-family: var(--font-sans);
+        font-size: var(--text-t4);
+        line-height: var(--text-t4--line-height);
+        color: var(--color-ink);
         -webkit-font-smoothing: antialiased;
         text-rendering: optimizeLegibility;
     }
 
-    /* Contact/postal addresses should not render italic. */
     address {
         font-style: normal;
     }
 
     ::selection {
-        background-color: var(--color-accent);
-        color: white;
+        background-color: var(--color-ink);
+        color: var(--color-paper);
     }
 
     :focus-visible {
-        outline: 2px solid var(--color-accent);
+        outline: 2px solid var(--color-ink);
         outline-offset: 2px;
-    }
-
-    /* The ring follows the same rule as type: the accent measures 2.54:1 on
-       the footer and 2.80:1 on the brand band, below the 3:1 that WCAG 1.4.11
-       asks of an indicator. On those grounds it takes the brighter step
-       (6.42:1 and 7.09:1). */
-    .bg-neutral-900 :focus-visible,
-    .bg-neutral-950 :focus-visible {
-        outline-color: var(--color-accent-on-dark);
     }
 }
 
-@media (prefers-reduced-motion: reduce) {
-    *,
-    *::before,
-    *::after {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-        scroll-behavior: auto !important;
+@layer components {
+    /* The facade: hairlines on a 12 pixel pitch below the header, three to a
+       trident on a 36 pixel beat centered on the window, so both edges crop alike. */
+    .facade {
+        display: flex;
+        flex-direction: column;
+        min-height: 100dvh;
+        background:
+            linear-gradient(to bottom, var(--color-paper) 0 var(--head), var(--color-hair) 0 calc(var(--head) + 1px), transparent 0) no-repeat,
+            url("../images/tridents-hanging.svg") repeat-x center top calc(var(--head) + 1px) / 36px 72px,
+            linear-gradient(var(--color-paper), var(--color-paper)) no-repeat left 0 top calc(var(--head) + 1px) / 100% 72px,
+            linear-gradient(90deg, transparent 0 5.5px, var(--color-line) 5.5px 6.5px, transparent 6.5px 17.5px, var(--color-line) 17.5px 18.5px, transparent 18.5px 29.5px, var(--color-line) 29.5px 30.5px, transparent 30.5px) center / 36px 100% var(--color-paper);
+    }
+
+    .frame {
+        width: min(var(--frame), 100% - 2 * var(--edge));
+        margin-inline: auto;
+    }
+
+    .skip-link {
+        position: absolute;
+        left: --spacing(4);
+        top: --spacing(4);
+        z-index: 10;
+        padding: --spacing(2) --spacing(4);
+        background: var(--color-ink);
+        color: var(--color-paper);
+        font-family: var(--font-mono);
+        font-size: var(--text-m1);
+        transform: translateY(-200%);
+    }
+
+    .skip-link:focus-visible {
+        transform: none;
+    }
+
+    /* The active tab is white and open downward into the card below it. */
+    .site-head {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        height: var(--head);
+    }
+
+    .site-head-logo {
+        align-self: center;
+    }
+
+    .site-head-logo svg {
+        display: block;
+        height: 30px;
+        width: auto;
+    }
+
+    .tabs {
+        display: flex;
+        gap: --spacing(2);
+        font-family: var(--font-mono);
+        font-size: var(--text-m1);
+    }
+
+    .tabs a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: --spacing(12);
+        padding: 0 --spacing(6);
+        color: var(--color-muted);
+        background: var(--color-tab);
+        border: 1px solid var(--color-hair);
+        border-bottom: 0;
+        box-shadow: 0 1px 0 var(--color-hair);
+    }
+
+    .tabs a:hover {
+        color: var(--color-ink);
+    }
+
+    .tabs a[aria-current] {
+        position: relative;
+        z-index: 2;
+        color: var(--color-ink);
+        font-weight: 600;
+        background: var(--color-paper);
+        box-shadow: 0 1px 0 var(--color-paper);
+    }
+
+    .tabs a:focus-visible {
+        outline-offset: -4px;
+    }
+
+    .site-main {
+        position: relative;
+        z-index: 1;
+        flex: 1;
+    }
+
+    /* One section is one card, never a card inside a card. */
+    .card {
+        background: var(--color-paper);
+        border: 1px solid var(--color-hair);
+    }
+
+    .card + .card {
+        margin-top: var(--gap);
+    }
+
+    .card-padded {
+        padding: var(--pad);
+    }
+
+    /* Profil closes on the pair of its cover card, on a narrower edge. */
+    .card-closing {
+        padding: --spacing(6);
+    }
+
+    /* The quiet mono line: a card's lead-in, the label of a field or a
+       channel. */
+    .lead-in {
+        font-family: var(--font-mono);
+        font-size: var(--text-m1);
+        line-height: var(--text-m1--line-height);
+        color: var(--color-muted);
+    }
+
+    /* A card opens on a lead-in and its title. */
+    .card-head h2 {
+        margin-top: --spacing(2);
+    }
+
+    .card-intro {
+        max-width: 60ch;
+        margin-top: --spacing(4);
+    }
+
+    .card-body {
+        margin-top: var(--pad);
+    }
+
+    /* Cells: a grid split by hairlines—the one-pixel gap shows the line. */
+    .cells {
+        display: grid;
+        gap: 1px;
+        background: var(--color-hair);
+        border-top: 1px solid var(--color-hair);
+    }
+
+    .cells > * {
+        padding: --spacing(6);
+        background: var(--color-paper);
+        hyphens: auto;
+    }
+
+    .cells-2 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .cells-3 {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .cells-4 {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    /* The arrow system lives in partials/_link. */
+    .link {
+        font-weight: 700;
+        text-decoration: underline;
+        text-decoration-thickness: 1px;
+        text-underline-offset: 4px;
+    }
+
+    .lead-in .link {
+        font-weight: inherit;
+    }
+
+    .link-arrow {
+        display: inline-block;
+        font-weight: 400;
+        text-decoration: none;
+    }
+
+    .button {
+        display: inline-flex;
+        align-items: center;
+        gap: --spacing(2);
+        min-height: --spacing(12);
+        padding: 0 --spacing(6);
+        font-weight: 700;
+        color: var(--color-ink);
+        background: var(--color-paper);
+        border: 1.5px solid var(--color-ink);
+        cursor: pointer;
+    }
+
+    .button-solid {
+        color: var(--color-paper);
+        background: var(--color-ink);
+    }
+
+    .buttons {
+        display: flex;
+        flex-wrap: wrap;
+        gap: --spacing(2);
+    }
+
+    /* A right column behind a hairline carries the way to the form, unless
+       the name's column carries an introduction. */
+    .cover {
+        display: grid;
+        grid-template: "face who reach" auto "face claim reach" 1fr / 168px 1fr auto;
+        gap: 0 var(--pad);
+        padding: --spacing(6);
+    }
+
+    .cover-face {
+        grid-area: face;
+        align-self: start;
+        width: 168px;
+        aspect-ratio: 1;
+        overflow: hidden;
+        border: 1px solid var(--color-hair);
+    }
+
+    .cover-face img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: 50% 22%;
+        filter: grayscale(1);
+    }
+
+    .cover-who {
+        grid-area: who;
+        align-self: end;
+    }
+
+    .cover-who p {
+        margin-top: --spacing(2);
+        hyphens: manual;
+    }
+
+    .cover-claim {
+        grid-area: claim;
+        margin-top: --spacing(2);
+    }
+
+    .cover-reach {
+        grid-area: reach;
+        display: flex;
+        align-items: center;
+        padding-left: var(--pad);
+        border-left: 1px solid var(--color-hair);
+    }
+
+    .cover-has-more {
+        grid-template: "face who" auto "face claim" auto "face more" 1fr / 168px 1fr;
+    }
+
+    .cover-more {
+        grid-area: more;
+        padding-top: --spacing(6);
+    }
+
+    .cover-lead {
+        max-width: 60ch;
+    }
+
+    .cover-facts {
+        display: flex;
+        flex-wrap: wrap;
+        gap: --spacing(4) --spacing(12);
+        margin-top: --spacing(6);
+        font-family: var(--font-mono);
+        font-size: var(--text-m1);
+    }
+
+    .cover-facts dt {
+        color: var(--color-muted);
+    }
+
+    .cover-facts dd {
+        font-weight: 600;
+    }
+
+    .cover-more .buttons {
+        margin-top: --spacing(6);
+    }
+
+    /* Werdegang: the period on three columns, the station on nine beside a
+       hairline that carries the marker—gray unless the station is a trade. */
+    .station {
+        --marker: var(--color-station);
+        display: grid;
+        grid-template-columns: 3fr 9fr;
+        gap: 0 var(--gap);
+    }
+
+    .station[data-marker="jurassic-jeep"] {
+        --marker: var(--color-brand-jurassic-jeep);
+    }
+
+    .station[data-marker="krausgebaut"] {
+        --marker: var(--color-brand-krausgebaut);
+    }
+
+    .station[data-marker="krausgedruckt"] {
+        --marker: var(--color-brand-krausgedruckt);
+    }
+
+    .station + .station {
+        margin-top: var(--pad);
+    }
+
+    .station-when {
+        line-height: calc(var(--text-t3) * var(--text-t3--line-height));
+    }
+
+    .station-what {
+        position: relative;
+        max-width: calc(68ch + --spacing(6));
+        padding-left: --spacing(6);
+        border-left: 1px solid var(--color-hair);
+    }
+
+    .station-what::before {
+        content: "";
+        position: absolute;
+        left: -5px;
+        top: 9px;
+        width: 9px;
+        height: 9px;
+        background: var(--marker);
+    }
+
+    .station-role {
+        margin-top: --spacing(4);
+    }
+
+    .station-text {
+        margin-top: --spacing(2);
+    }
+
+    .station-roles > li + li {
+        margin-top: --spacing(6);
+    }
+
+    .tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: --spacing(2);
+        margin-top: --spacing(4);
+        font-family: var(--font-mono);
+        font-size: var(--text-m2);
+        line-height: var(--text-m2--line-height);
+    }
+
+    .tags span {
+        padding: 0 --spacing(2);
+        border: 1px solid var(--color-hair);
+    }
+
+    /* Kompetenzen: one cell per group, the year to the right of its entry,
+       or below it where the cell is too narrow for both. */
+    .skills h3 {
+        margin-bottom: --spacing(4);
+    }
+
+    .skills li {
+        display: flex;
+        flex-direction: column;
+        padding-block: --spacing(2);
+        border-top: 1px solid var(--color-line);
+    }
+
+    .skills li .lead-in {
+        white-space: nowrap;
+    }
+
+    /* Leidenschaft: what came of a passion sits at the foot of its cell. */
+    .passion {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .passion p {
+        margin-top: --spacing(2);
+    }
+
+    .passion-ref {
+        margin-top: auto;
+        padding-top: --spacing(6);
+    }
+
+    .passion-ref .link {
+        display: inline-block;
+        margin-top: --spacing(2);
+    }
+
+    .passion .passion-from {
+        margin-top: 0;
+        font-family: var(--font-mono);
+        font-size: var(--text-m2);
+        line-height: var(--text-m2--line-height);
+        color: var(--color-muted);
+    }
+
+    /* Portfolio: two square towers, krausgedruckt right and 144 of a 528
+       column higher than krausgebaut. Type stays white on either brand. */
+    .towers {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        align-items: start;
+        gap: var(--gap);
+        margin-top: var(--gap);
+    }
+
+    .tower {
+        --mark-height: 0.6;
+        container-type: inline-size;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        aspect-ratio: 1;
+        overflow: hidden;
+        padding: var(--pad);
+        color: var(--color-paper);
+        background: var(--tower);
+    }
+
+    .tower[data-brand="krausgebaut"] {
+        --tower: var(--color-brand-krausgebaut);
+        --tower-deep: var(--color-brand-krausgebaut-deep);
+        order: 1;
+        margin-top: 27.27%;
+    }
+
+    .tower[data-brand="krausgedruckt"] {
+        --tower: var(--color-brand-krausgedruckt);
+        --tower-deep: var(--color-brand-krausgedruckt-deep);
+        order: 2;
+    }
+
+    /* Both glyphs share an outline of 472 × 594 on 886, so one rule places
+       either: --mark-height of the tile high, a sixth out at top and right. */
+    .tower-mark svg {
+        position: absolute;
+        top: calc(var(--mark-height) * -41.25%);
+        left: calc(100% - var(--mark-height) * 101.07%);
+        width: calc(var(--mark-height) * 149.16%);
+        height: auto;
+    }
+
+    .tower-mark rect {
+        fill: none;
+    }
+
+    .tower-mark path {
+        fill: var(--tower-deep);
+    }
+
+    .tower-name,
+    .tower-claim {
+        position: relative;
+    }
+
+    /* krausgedruckt, the longer name, runs about 6.3 ems wide; below the
+       full frame the name shrinks with the tower instead of leaving it. */
+    .tower-name {
+        font-size: min(var(--text-t1), 100cqi / 6.4);
+        font-weight: 700;
+        line-height: var(--text-t1--line-height);
+        letter-spacing: var(--text-t1--letter-spacing);
+    }
+
+    .tower-claim {
+        margin-top: --spacing(2);
+    }
+
+    .tower-link {
+        align-self: flex-start;
+        margin-top: --spacing(6);
+        color: var(--tower);
+        border: 0;
+    }
+
+    /* The stretched link: the whole tower or cell is its click target. */
+    .tower-link::after,
+    .work-link::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+    }
+
+    .tower-link:focus-visible {
+        outline-color: var(--color-paper);
+        outline-offset: 4px;
+    }
+
+    /* Außerdem von mir: one cell per work, a closing cell last. */
+    .works {
+        margin-top: var(--gap);
+    }
+
+    .works-title {
+        padding: --spacing(6);
+    }
+
+    .work {
+        position: relative;
+    }
+
+    .work-shot {
+        display: block;
+        aspect-ratio: 1;
+        overflow: hidden;
+        margin-bottom: --spacing(4);
+        border: 1px solid var(--color-hair);
+    }
+
+    .work-shot img {
+        display: block;
+        width: 100%;
+        height: auto;
+    }
+
+    .work:hover .work-shot {
+        border-color: var(--color-ink);
+    }
+
+    .work-text {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: --spacing(2);
+    }
+
+    .works-closing {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        align-items: flex-start;
+        gap: --spacing(2);
+    }
+
+    .works-closing .button {
+        margin-top: --spacing(4);
+    }
+
+    /* Kontakt: the channels on four columns, the form on eight, a hairline
+       between them. */
+    .contact {
+        display: grid;
+        grid-template-columns: 4fr 8fr;
+    }
+
+    .contact-side {
+        padding-right: var(--pad);
+        border-right: 1px solid var(--color-hair);
+    }
+
+    .contact-main {
+        padding-left: var(--pad);
+    }
+
+    .ways {
+        margin-top: --spacing(6);
+        border-top: 1px solid var(--color-line);
+    }
+
+    .ways > div {
+        padding-block: --spacing(4);
+        border-bottom: 1px solid var(--color-line);
+    }
+
+    .ways dd {
+        margin-top: --spacing(2);
+    }
+
+    .contact-form {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: --spacing(6);
+    }
+
+    .contact-form .button {
+        justify-self: start;
+    }
+
+    .field {
+        display: grid;
+        gap: --spacing(2);
+        align-content: start;
+    }
+
+    .field-wide {
+        grid-column: 1 / -1;
+    }
+
+    .field input,
+    .field textarea {
+        min-height: --spacing(12);
+        padding: --spacing(2) --spacing(4);
+        background: var(--color-paper);
+        border: 1px solid var(--color-hair);
+    }
+
+    .field textarea {
+        min-height: 160px;
+        resize: vertical;
+    }
+
+    .field textarea::placeholder {
+        color: var(--color-muted);
+    }
+
+    .field [aria-invalid] {
+        border-color: var(--color-error-border);
+    }
+
+    .field-error {
+        font-family: var(--font-mono);
+        font-size: var(--text-m1);
+        color: var(--color-error);
+    }
+
+    .form-alert {
+        padding: --spacing(2) --spacing(4);
+        font-family: var(--font-mono);
+        font-size: var(--text-m1);
+        color: var(--color-error-on-surface);
+        background: var(--color-error-surface);
+        border: 1px solid var(--color-error-border);
+    }
+
+    .contact-confirmation p {
+        margin-top: --spacing(2);
+    }
+
+    /* The tridents stand on the last line. */
+    .site-foot {
+        position: relative;
+        z-index: 1;
+        margin-top: var(--gap);
+    }
+
+    .site-foot-tridents {
+        height: 72px;
+        background: url("../images/tridents-standing.svg") repeat-x center bottom / 36px 72px var(--color-paper);
+    }
+
+    .site-foot-line {
+        background: var(--color-paper);
+        border-top: 1px solid var(--color-hair);
+    }
+
+    .site-foot-row {
+        display: flex;
+        justify-content: space-between;
+        gap: --spacing(2);
+        padding-block: --spacing(6);
+        font-family: var(--font-mono);
+        font-size: var(--text-m1);
+        color: var(--color-muted);
+    }
+
+    .site-foot-row a:hover {
+        color: var(--color-ink);
+    }
+
+    /* Phone. */
+    @media (width <= 1000px) {
+        .site-head {
+            flex-direction: column;
+            align-items: stretch;
+            gap: --spacing(4);
+            height: auto;
+            padding-top: --spacing(4);
+        }
+
+        .site-head-logo {
+            align-self: flex-start;
+        }
+
+        .site-head-logo svg {
+            height: 24px;
+        }
+
+        /* Full width under the logo; 48 pixels high, above the 44 a thumb
+           needs. */
+        .tabs a {
+            flex: 1;
+            padding: 0 --spacing(2);
+            font-size: var(--text-m2);
+            white-space: nowrap;
+        }
+
+        /* Name, job title and claim stay beside the portrait; the rest runs
+           below at full width. */
+        .cover {
+            grid-template: "face who" auto "face claim" auto "reach reach" auto / 72px 1fr;
+            gap: 0 --spacing(4);
+        }
+
+        .cover-has-more {
+            grid-template: "face who" auto "face claim" auto "more more" auto / 72px 1fr;
+        }
+
+        .cover-face {
+            width: 72px;
+        }
+
+        .cover-who {
+            align-self: start;
+        }
+
+        .cover-reach {
+            margin-top: --spacing(4);
+            padding: --spacing(4) 0 0;
+            border-left: 0;
+            border-top: 1px solid var(--color-hair);
+        }
+
+        .cover-reach .button {
+            flex: 1;
+            justify-content: center;
+        }
+
+        .cover-facts {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .cover-more .buttons,
+        .card-closing .buttons {
+            flex-direction: column;
+        }
+
+        .cover-more .buttons .button,
+        .card-closing .buttons .button {
+            justify-content: center;
+        }
+
+        .station {
+            grid-template-columns: minmax(0, 1fr);
+        }
+
+        .station-when {
+            padding-left: calc(--spacing(6) + 1px);
+            line-height: var(--text-m1--line-height);
+        }
+
+        .cells > * {
+            padding: --spacing(4);
+        }
+
+        .cells-2,
+        .cells-3 {
+            grid-template-columns: minmax(0, 1fr);
+        }
+
+        .cells-4 {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        /* A list: the screenshot small on the left, the text beside it. */
+        .work {
+            display: grid;
+            grid-template-columns: 88px minmax(0, 1fr);
+            gap: --spacing(4);
+            align-items: start;
+        }
+
+        .work-shot {
+            margin-bottom: 0;
+        }
+
+        .works-title {
+            padding: --spacing(4);
+        }
+
+        .towers {
+            grid-template-columns: 1fr;
+        }
+
+        /* Never larger than a tower of the full frame. */
+        .tower {
+            --mark-height: 0.34;
+            width: min(88%, 33rem);
+        }
+
+        .tower[data-brand="krausgebaut"] {
+            order: 2;
+            margin-top: 0;
+        }
+
+        .tower[data-brand="krausgedruckt"] {
+            order: 1;
+            justify-self: end;
+        }
+
+        .contact,
+        .contact-form {
+            grid-template-columns: 1fr;
+        }
+
+        .contact-side {
+            padding: 0 0 --spacing(6);
+            border-right: 0;
+            border-bottom: 1px solid var(--color-hair);
+        }
+
+        .contact-main {
+            padding: --spacing(6) 0 0;
+        }
+
+        .site-foot-row {
+            flex-direction: column;
+        }
     }
 }

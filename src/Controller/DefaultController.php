@@ -45,7 +45,30 @@ final class DefaultController extends AbstractController
     #[Route('/', name: 'app_homepage', methods: ['GET'])]
     public function homepage(): Response
     {
-        return $this->renderHomepage();
+        $hobbies = $this->content->load('hobbies');
+        $skills = $this->content->load('skills');
+
+        return $this->render('content/homepage.html.twig', [
+            'hobbies' => $hobbies,
+            'knowsAbout' => $this->knowsAbout($skills, $hobbies),
+            'milestones' => $this->content->load('milestones'),
+            'skills' => $skills,
+        ]);
+    }
+
+    #[Route('/portfolio', name: 'app_portfolio', methods: ['GET'])]
+    public function portfolio(): Response
+    {
+        return $this->render('content/portfolio.html.twig', [
+            'brands' => $this->content->load('brands'),
+            'works' => $this->content->load('works'),
+        ]);
+    }
+
+    #[Route('/kontakt', name: 'app_contact_page', methods: ['GET'])]
+    public function contactPage(): Response
+    {
+        return $this->renderContactPage();
     }
 
     #[Route('/kontakt', name: 'app_contact', methods: ['POST'])]
@@ -60,7 +83,7 @@ final class DefaultController extends AbstractController
         if ($honeypot !== '' || $timestampState === 'invalid' || $timestampState === 'too_fast') {
             $this->addFlash('contact_success', true);
 
-            return $this->redirect($this->generateUrl('app_homepage', ['_fragment' => 'kontakt']));
+            return $this->redirect($this->generateUrl('app_contact_page'));
         }
 
         $data = new ContactRequest();
@@ -127,7 +150,7 @@ final class DefaultController extends AbstractController
 
         $this->addFlash('contact_success', true);
 
-        return $this->redirect($this->generateUrl('app_homepage', ['_fragment' => 'kontakt']));
+        return $this->redirect($this->generateUrl('app_contact_page'));
     }
 
     /**
@@ -170,18 +193,19 @@ final class DefaultController extends AbstractController
         );
 
         $context = [
-            'claim' => 'Nicht nur mit Hut. Mit Köpfchen.',
+            // One line per sentence, broken as the cover card breaks it.
+            'claim' => ['Nicht nur mit Hut.', 'Mit Köpfchen.'],
             'profile' => $this->getParameter('app.curriculum_vitae_profile'),
             // No LinkedIn row and no second QR code: the homepage links the
             // profile anyway, and two codes side by side are indistinguishable
             // without reading their labels.
             'contact' => [
                 ['label' => 'Datum', 'value' => $this->germanDateFormatter->dayMonthAndYear($today)],
-                ['label' => 'Anschrift', 'value' => 'Bonner Straße 88<br>50374 Erftstadt'],
+                ['label' => 'Anschrift', 'value' => 'Bonner Str. 88<br>50374 Erftstadt'],
                 ['label' => 'Telefon', 'value' => $this->getParameter('app.phone_number')],
                 ['label' => 'Verfügbar', 'value' => 'Ab Dezember'],
                 ['label' => 'E-Mail', 'value' => $this->getParameter('app.contact_email_address')],
-                ['label' => 'Portfolio & Profile', 'value' => 'www.marcelkraus.de'],
+                ['label' => 'Homepage', 'value' => 'www.marcelkraus.de'],
             ],
             'sections' => [
                 [
@@ -197,7 +221,7 @@ final class DefaultController extends AbstractController
                     'milestones' => $bySection(static fn (?string $marker): bool => $marker === 'secondary'),
                 ],
             ],
-            'markerPath' => $this->getParameter('kernel.project_dir') . '/public/images/marker-accent.svg',
+            'markerPath' => $this->getParameter('kernel.project_dir') . '/public/images/marker-ink.svg',
             'qrCodePath' => $this->getParameter('kernel.project_dir') . '/public/images/qr-code.svg',
             'skills' => $this->content->load('skills'),
             'languages' => 'Englisch (B2)',
@@ -274,36 +298,32 @@ final class DefaultController extends AbstractController
     #[Route('/sitemap.xml', name: 'app_sitemap', methods: ['GET'])]
     public function sitemap(): Response
     {
-        // One page carries the whole curriculum vitae. The legal pages are
-        // noindex and stay out.
-        $location = $this->generateUrl('app_homepage', [], UrlGeneratorInterface::ABSOLUTE_URL);
+        // The legal pages are noindex and stay out.
+        $entries = '';
+        foreach ($this->getParameter('app.pages') as $page) {
+            $location = $this->generateUrl($page['route'], [], UrlGeneratorInterface::ABSOLUTE_URL);
+            $entries .= "    <url>\n        <loc>{$location}</loc>\n        <changefreq>monthly</changefreq>\n    </url>\n";
+        }
 
         $xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
             . "<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n"
-            . "    <url>\n        <loc>{$location}</loc>\n        <changefreq>monthly</changefreq>\n        <priority>1.0</priority>\n    </url>\n"
+            . $entries
             . "</urlset>\n";
 
         return new Response($xml, Response::HTTP_OK, ['Content-Type' => 'application/xml; charset=UTF-8']);
     }
 
     /**
-     * Renders the homepage, always seeding a fresh anti-spam timestamp and
-     * the JSON-driven content.
+     * Renders the contact page, seeding a fresh anti-spam timestamp unless
+     * the form state brings a reusable one.
      *
      * @param array<string, mixed> $formState
      */
-    private function renderHomepage(array $formState = [], int $status = Response::HTTP_OK): Response
+    private function renderContactPage(array $formState = [], int $status = Response::HTTP_OK): Response
     {
         $timestamp = (string) time();
-        $hobbies = $this->content->load('hobbies');
-        $skills = $this->content->load('skills');
 
-        $response = $this->render('content/homepage.html.twig', array_merge([
-            'brands' => $this->content->load('brands'),
-            'hobbies' => $hobbies,
-            'knowsAbout' => $this->knowsAbout($skills, $hobbies),
-            'milestones' => $this->content->load('milestones'),
-            'skills' => $skills,
+        $response = $this->render('content/contact.html.twig', array_merge([
             'contact_timestamp' => $timestamp,
             'contact_timestamp_signature' => $this->signTimestamp($timestamp),
             'contact_errors' => [],
@@ -316,7 +336,7 @@ final class DefaultController extends AbstractController
     }
 
     /**
-     * Re-renders the homepage with contact-form errors, the submitted values
+     * Re-renders the contact page with contact-form errors, the submitted values
      * and the first errored field name so the client can focus it.
      *
      * @param array<string, string> $errors
@@ -350,7 +370,7 @@ final class DefaultController extends AbstractController
             $formState['contact_timestamp_signature'] = $submittedSignature;
         }
 
-        return $this->renderHomepage($formState, Response::HTTP_UNPROCESSABLE_ENTITY);
+        return $this->renderContactPage($formState, Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
     /**

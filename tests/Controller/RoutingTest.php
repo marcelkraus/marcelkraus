@@ -18,6 +18,8 @@ final class RoutingTest extends WebTestCase
     public static function successfulPaths(): iterable
     {
         yield 'homepage' => ['/'];
+        yield 'portfolio' => ['/portfolio'];
+        yield 'contact' => ['/kontakt'];
         yield 'imprint' => ['/impressum'];
         yield 'privacy' => ['/datenschutz'];
         yield 'robots' => ['/robots.txt'];
@@ -44,12 +46,28 @@ final class RoutingTest extends WebTestCase
         }
     }
 
-    public function testHomepageIsIndexed(): void
+    public function testTheThreePagesAreIndexed(): void
     {
         $client = static::createClient();
-        $client->request('GET', '/');
 
-        self::assertSelectorExists('meta[name="robots"][content="index,follow"]');
+        foreach (['/', '/portfolio', '/kontakt'] as $path) {
+            $client->request('GET', $path);
+
+            self::assertSelectorExists('meta[name="robots"][content="index,follow"]');
+        }
+    }
+
+    /**
+     * The page the sharing image is photographed from lives in dev alone.
+     * Outside it the route does not exist, so it can never be indexed as a
+     * fourth page that carries nothing but the cover card.
+     */
+    public function testTheSharingImagePageIsNotServedOutsideDev(): void
+    {
+        $client = static::createClient();
+        $client->request('GET', '/sharing-image');
+
+        self::assertResponseStatusCodeSame(404);
     }
 
     public function testContactRoutesRedirectAndKeepTheAddressOutOfTheDocument(): void
@@ -122,16 +140,24 @@ final class RoutingTest extends WebTestCase
         }
     }
 
-    public function testSitemapIsWellFormedAndCarriesTheHomepage(): void
+    /**
+     * Exactly the three pages worth finding: a legal page in the sitemap
+     * contradicts its own `noindex`, and a page missing from it is found late.
+     */
+    public function testSitemapNamesExactlyProfilPortfolioAndKontakt(): void
     {
         $client = static::createClient();
         $client->request('GET', '/sitemap.xml');
 
-        $body = (string) $client->getResponse()->getContent();
+        $xml = simplexml_load_string((string) $client->getResponse()->getContent());
+        self::assertNotFalse($xml);
 
-        self::assertNotFalse(simplexml_load_string($body));
-        self::assertStringContainsString('<loc>', $body);
-        self::assertStringContainsString('</urlset>', $body);
+        $paths = [];
+        foreach ($xml->url as $url) {
+            $paths[] = (string) parse_url((string) $url->loc, PHP_URL_PATH);
+        }
+
+        self::assertSame(['/', '/portfolio', '/kontakt'], $paths);
     }
 
     public function testRobotsKeepsTheRedirectRoutesOutOfCrawlerCorpora(): void
