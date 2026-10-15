@@ -68,7 +68,7 @@ final class PortfolioTest extends WebTestCase
         self::assertNotEmpty($sources);
         foreach ($sources as $source) {
             self::assertStringStartsWith('/images/works/', $source);
-            self::assertFileExists(__DIR__ . '/../../public' . $source);
+            self::assertFileExists(__DIR__ . '/../../public' . strtok($source, '?'));
         }
     }
 
