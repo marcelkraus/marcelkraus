@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Controller;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 final class CurriculumVitaePdfTest extends WebTestCase
@@ -38,14 +39,24 @@ final class CurriculumVitaePdfTest extends WebTestCase
     }
 
     // One longer station description pushes the layout to a third page.
-    public function testTheDocumentIsExactlyTwoPages(): void
+    #[DataProvider('copies')]
+    public function testTheDocumentIsExactlyTwoPages(string $path): void
     {
         $client = static::createClient();
-        $client->request('GET', '/lebenslauf');
+        $client->request('GET', $path);
 
         $pages = preg_match_all('#/Type\s*/Page[^s]#', (string) $client->getResponse()->getContent());
 
         self::assertSame(2, $pages);
+    }
+
+    /**
+     * @return iterable<string, array{string}>
+     */
+    public static function copies(): iterable
+    {
+        yield 'public' => ['/lebenslauf'];
+        yield 'with contact' => ['/lebenslauf?kontakt'];
     }
 
     // Only the logo paints purple, and it is the one drawing with both sibling colors.
@@ -71,11 +82,46 @@ final class CurriculumVitaePdfTest extends WebTestCase
         self::assertCount(0, $outsideTheLogo, 'Purple outside the logo.');
     }
 
+    public function testThePublicDocumentLeavesPhoneAndEmailToTheHomepage(): void
+    {
+        $client = static::createClient();
+        $client->request('GET', '/lebenslauf');
+        $pdf = (string) $client->getResponse()->getContent();
+
+        self::assertFalse(self::shows($pdf, 'TELEFON'));
+        self::assertFalse(self::shows($pdf, 'E-MAIL'));
+    }
+
+    public function testTheContactParameterAddsPhoneAndEmail(): void
+    {
+        $client = static::createClient();
+        $client->request('GET', '/lebenslauf?kontakt');
+        $pdf = (string) $client->getResponse()->getContent();
+
+        self::assertTrue(self::shows($pdf, 'TELEFON'));
+        self::assertTrue(self::shows($pdf, 'E-MAIL'));
+    }
+
     public function testThePageLinksToTheDocument(): void
     {
         $client = static::createClient();
         $crawler = $client->request('GET', '/');
 
         self::assertCount(2, $crawler->filter('a[href="/lebenslauf"]'));
+    }
+
+    // mPDF writes text as UTF-16BE literals and the labels in capitals.
+    private static function shows(string $pdf, string $text): bool
+    {
+        preg_match_all('#stream\r?\n(.*?)\r?\nendstream#s', $pdf, $matches);
+        $needle = mb_convert_encoding($text, 'UTF-16BE', 'UTF-8');
+
+        foreach ($matches[1] as $raw) {
+            if (str_contains(@gzuncompress($raw) ?: $raw, $needle)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

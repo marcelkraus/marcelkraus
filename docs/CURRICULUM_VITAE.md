@@ -6,7 +6,7 @@ Delivered **inline**, so it opens in the browser; the file name travels along fo
 
 **Two pages is a requirement, not a preference**, and a test asserts it. The layout sits close enough to the limit that one longer station description pushes it over, and nothing else would notice.
 
-**Merge with `pdfunite`, never with Preview.** An application is the cover letter plus this document in one file. Preview rewrites the embedded fonts when it saves and loses the character map of the mPDF subsets: the pages still look right and print right, but the text extracts as garbage, so search, copying the address and an applicant tracking system all fail. Dragging the PDF into Pages is worse still—Pages fits the page into its text column and scales it to 93 %. `pdfunite anschreiben.pdf lebenslauf.pdf bewerbung.pdf` keeps the fonts, the text and the logo position untouched.
+**Merge with `pdfunite`, never with Preview.** An application is the cover letter plus the `?kontakt` copy of this document in one file. Preview rewrites the embedded fonts when it saves and loses the character map of the mPDF subsets: the pages still look right and print right, but the text extracts as garbage, so search, copying the address and an applicant tracking system all fail. Dragging the PDF into Pages is worse still—Pages fits the page into its text column and scales it to 93 %. `pdfunite anschreiben.pdf lebenslauf.pdf bewerbung.pdf` keeps the fonts, the text and the logo position untouched.
 
 **It replaces a print stylesheet**, which cannot hold a letterhead grid to the millimeter while every browser sets its own margins and running heads.
 
@@ -31,7 +31,7 @@ The lockup lives in the page header, which is what makes it repeat without the b
 
 ## The head, and what it leaves out
 
-The right column carries Datum, Anschrift, Telefon, Verfügbar, E-Mail and `Homepage`, then the QR code. The label names the page and not one of its tabs, since the tabs may trade places; the one address behind it is where the portfolio and the other profiles are, which is why there is **no LinkedIn row and no second QR**. Two codes side by side cannot be told apart without reading their labels, and a reader who scans the wrong one blames the document. One code is a device; two are a pattern that invites a third.
+The right column carries Datum, Anschrift, Verfügbar and `Homepage`, then the QR code. Telefon and E-Mail join only with `?kontakt`, for the copy sent with an application: an application is private, not a matter of the trade, so the public copy names no private channel and leaves contact to the homepage and its form on `/kontakt`. Both copies keep to two pages. The label names the page and not one of its tabs, since the tabs may trade places; the one address behind it is where the portfolio and the other profiles are, which is why there is **no LinkedIn row and no second QR**. Two codes side by side cannot be told apart without reading their labels, and a reader who scans the wrong one blames the document. One code is a device; two are a pattern that invites a third.
 
 **No photograph.** The page carries the portrait one scan away, and a 4:5 image at any usable size costs 40 to 60 mm of a first page that has 23 mm to spare. Adding it means a third page or a shorter profile, and the profile is the only part of the document that says in Marcel's own words who he is.
 

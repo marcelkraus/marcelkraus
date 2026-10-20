@@ -2,7 +2,7 @@
     {
         "claim": ["IT, die läuft.", "Dafür sorge ich."],
         "colorToken": "krausgebaut",
-        "domain": "krausgebaut.de",
+        "domain": "www.krausgebaut.de",
         "mark": "krausgebaut.svg",
         "name": "krausgebaut",
         "url": "https://www.krausgebaut.de"
@@ -10,7 +10,7 @@
     {
         "claim": ["Sie haben die Idee.", "Ich mache sie greifbar!"],
         "colorToken": "krausgedruckt",
-        "domain": "krausgedruckt.de",
+        "domain": "www.krausgedruckt.de",
         "mark": "krausgedruckt.svg",
         "name": "krausgedruckt",
         "url": "https://www.krausgedruckt.de"

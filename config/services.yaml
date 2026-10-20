@@ -10,7 +10,6 @@ parameters:
     app.contact_email_address: 'mail@marcelkraus.de'
     # Shown on the legal pages only, so what is harvested there arrives on its own tag.
     app.legal_email_address: 'mail+legal@marcelkraus.de'
-    app.whats_app_url: 'https://wa.me/message/TKVKBR7RPHA7B1'
 
     # The tabs and the sitemap read this list.
     app.pages:

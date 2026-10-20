@@ -150,16 +150,12 @@ final class DefaultController extends AbstractController
         return $this->redirect('mailto:' . $this->getParameter('app.contact_email_address'));
     }
 
-    #[Route('/kontakt-per-whats-app', name: 'app_contact_whats_app', methods: ['GET'])]
-    public function contactByWhatsApp(): Response
-    {
-        return $this->redirect($this->getParameter('app.whats_app_url'));
-    }
-
     #[Route('/lebenslauf', name: 'app_curriculum_vitae_pdf', methods: ['GET'])]
-    public function curriculumVitaePdf(): Response
+    public function curriculumVitaePdf(Request $request): Response
     {
         $today = new DateTimeImmutable();
+
+        $withContact = $request->query->has('kontakt');
 
         $milestones = $this->content->load('milestones');
 
@@ -170,14 +166,14 @@ final class DefaultController extends AbstractController
         $context = [
             'claim' => ['Nicht nur mit Hut.', 'Mit Köpfchen.'],
             'profile' => $this->getParameter('app.curriculum_vitae_profile'),
-            'contact' => [
+            'contact' => array_values(array_filter([
                 ['label' => 'Datum', 'value' => $this->germanDateFormatter->dayMonthAndYear($today)],
                 ['label' => 'Anschrift', 'value' => 'Bonner Str. 88<br>50374 Erftstadt'],
-                ['label' => 'Telefon', 'value' => $this->getParameter('app.phone_number')],
+                $withContact ? ['label' => 'Telefon', 'value' => $this->getParameter('app.phone_number')] : null,
                 ['label' => 'Verfügbar', 'value' => 'Ab Dezember'],
-                ['label' => 'E-Mail', 'value' => $this->getParameter('app.contact_email_address')],
+                $withContact ? ['label' => 'E-Mail', 'value' => $this->getParameter('app.contact_email_address')] : null,
                 ['label' => 'Homepage', 'value' => 'www.marcelkraus.de'],
-            ],
+            ])),
             'sections' => [
                 [
                     'title' => 'Berufserfahrung',
@@ -241,7 +237,6 @@ final class DefaultController extends AbstractController
 
         $disallowed = [
             '/kontakt-per-email',
-            '/kontakt-per-whats-app',
         ];
 
         $rules = "User-agent: *\n";

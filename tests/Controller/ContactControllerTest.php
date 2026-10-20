@@ -41,7 +41,6 @@ final class ContactControllerTest extends WebTestCase
         self::assertSelectorTextContains('.contact', 'Bonner Str. 88 · 50374 Erftstadt');
         self::assertSelectorTextContains('.contact', 'In der Regel innerhalb eines Werktags');
         self::assertSelectorExists('.contact a[href="/kontakt-per-email"]');
-        self::assertSelectorExists('.contact a[href="/kontakt-per-whats-app"]');
 
         $linkedIn = $crawler->filter('.contact a[href="https://www.linkedin.com/in/kraus-marcel"]');
         self::assertSame('_blank', $linkedIn->attr('target'));

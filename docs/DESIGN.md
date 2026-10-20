@@ -40,14 +40,14 @@ Five cards: the cover card with the introduction, Werdegang, Kompetenzen, Leiden
 The two businesses as towers, then one card, “Außerdem von mir.” No introductory line.
 
 * **Two square towers**, krausgedruckt on the right and higher, krausgebaut 144 px lower. The markup carries them in reverse brand order, so the higher one comes first for a keyboard and a screen reader. On a phone krausgedruckt stands first, both 88 % wide and still offset.
-* **A tower carries its name, its claim and its domain**, and no header line. The claim breaks after its first sentence, as the cover card's does. The domain is the button (“krausgebaut.de ↗”), and the button stretches over the whole tower, so the tower is the link. Type stays white on either brand.
+* **A tower carries its name, its claim and its domain**, and no header line. The claim breaks after its first sentence, as the cover card's does. The domain is the button (“www.krausgebaut.de ↗”), written with `www.` as the printed pieces write it, and the button stretches over the whole tower, so the tower is the link. Type stays white on either brand.
 * **The mark is the favicon glyph as a tone-on-tone wallpaper**, in the brand's deep step. Both glyphs share one outline, so one rule places either: 60 % of the tile high (34 % on a phone), a sixth out at the top and at the right. The two files are copied into `assets/marks/`; a project reads nothing from its siblings (`assets/README.md`).
 * **“Außerdem von mir” is a 3 × 2 grid of cells**: the five works and a closing cell, a list on a phone. A work carries a framed screenshot, its name, its kind, one sentence and a link naming its destination without “Zu”; the link stretches over the cell. No color stripe, no categories.
 * **The closing cell carries name, postal address and the document.** Contact lives in the cover card alone.
 
 ### Kontakt
 
-The cover card without a button, then one card: the channels on the left—address, e-mail, LinkedIn, WhatsApp, response time—and the form on the right.
+The cover card without a button, then one card: the channels on the left—address, e-mail, LinkedIn, response time—and the form on the right.
 
 ## Brand mark and favicons
 

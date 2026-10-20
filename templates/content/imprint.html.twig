@@ -7,7 +7,7 @@
 {% block content %}
     <article class="card card-padded">
         <div class="max-w-3xl hyphens-auto">
-            {{ include('partials/_legal_head.html.twig', { title: 'Impressum', date: '15. Oktober 2026' }, with_context = false) }}
+            {{ include('partials/_legal_head.html.twig', { title: 'Impressum', date: '20. Oktober 2026' }, with_context = false) }}
 
             <div class="mt-12 space-y-12">
                 <section>
@@ -23,9 +23,7 @@
                 <section>
                     <h2 class="text-t3 font-bold">Kontakt</h2>
                     <dl class="mt-4 space-y-2">
-                        <div class="flex gap-4"><dt class="w-24 shrink-0 text-muted">E-Mail</dt><dd class="min-w-0 wrap-anywhere">{{ include('partials/_legal_mail_address.html.twig') }}</dd></div>
-                        <div class="flex gap-4"><dt class="w-24 shrink-0 text-muted">WhatsApp</dt><dd><a href="{{ path('app_contact_whats_app') }}" class="link">Über den WhatsApp-Link auf dieser Seite</a></dd></div>
-                        <div class="flex gap-4"><dt class="w-24 shrink-0 text-muted">Telefon</dt><dd>Erstkontakt bitte über das <a href="{{ path('app_contact_page') }}" class="link">Kontaktformular</a>, per E-Mail oder per WhatsApp</dd></div>
+                        <div class="flex gap-4"><dt class="w-24 shrink-0 text-muted">E-Mail</dt><dd class="min-w-0 wrap-anywhere">{{ include('partials/_legal_mail_address.html.twig') }}<br>Erstkontakt bitte über das <a href="{{ path('app_contact_page') }}" class="link">Kontaktformular</a> oder per E-Mail</dd></div>
                     </dl>
                 </section>
 

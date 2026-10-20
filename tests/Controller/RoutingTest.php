@@ -66,11 +66,9 @@ final class RoutingTest extends WebTestCase
     {
         $client = static::createClient();
 
-        foreach (['/kontakt-per-email', '/kontakt-per-whats-app'] as $path) {
-            $client->request('GET', $path);
+        $client->request('GET', '/kontakt-per-email');
 
-            self::assertResponseRedirects();
-        }
+        self::assertResponseRedirects();
     }
 
     public function testTheRetiredEnglishPathsRedirectToTheHomepage(): void
@@ -146,6 +144,14 @@ final class RoutingTest extends WebTestCase
 
         $body = (string) $client->getResponse()->getContent();
         self::assertStringContainsString('Disallow: /kontakt-per-email', $body);
-        self::assertStringContainsString('Disallow: /kontakt-per-whats-app', $body);
+    }
+
+    // The site belongs to private life, so it offers no WhatsApp; a stale link must not lead to the business account.
+    public function testTheSiteOffersNoWhatsApp(): void
+    {
+        $client = static::createClient();
+        $client->request('GET', '/kontakt-per-whats-app');
+
+        self::assertResponseStatusCodeSame(404);
     }
 }
