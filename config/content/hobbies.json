@@ -4,7 +4,7 @@
         "description": "Ob Karosserie, Antrieb oder Elektrik: Mein Herz schlägt für das Schrauben an altem Blech. So begleiten mich unter anderem ein „Jurassic Park“-Jeep und K.I.T.T. aus „Knight Rider“ bereits seit vielen Jahren.",
         "url": "https://schrauberfuchs.app",
         "urlLabel": "Schrauberfuchs",
-        "urlNote": "Eigenentwicklung zur Planung & Dokumentation der Arbeit an Fahrzeugen: Aufgaben, Arbeitszeit, Teile, Ausgaben & mehr",
+        "urlNote": "Eigenentwicklung zur Planung & Dokumentation der Arbeit an Fahrzeugen: Aufgaben, Arbeitszeit, Teile, Kosten & mehr",
         "knowsAbout": [
             "Oldtimer Restoration"
         ]
@@ -12,9 +12,6 @@
     {
         "title": "RC-Modellbauer",
         "description": "Kleine Modelle, große Wirkung. Mit den RC-Modellen konnte ich als Kind erste Erfahrungen in der Automobiltechnik sammeln und so mein technisches Verständnis aufbauen.",
-        "url": "https://meetmyrc.com",
-        "urlLabel": "meetMyRC",
-        "urlNote": "Eigenentwicklung zur Präsentation & Verwaltung von RC-Fahrzeugen, inklusive Community-Features",
         "knowsAbout": [
             "Radio-Controlled Models"
         ]

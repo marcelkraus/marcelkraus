@@ -71,19 +71,4 @@ final class PortfolioTest extends WebTestCase
             self::assertFileExists(__DIR__ . '/../../public' . strtok($source, '?'));
         }
     }
-
-    public function testTheClosingCellCarriesTheAddressAndTheDocumentInANewTab(): void
-    {
-        $client = static::createClient();
-        $crawler = $client->request('GET', '/portfolio');
-
-        $closing = $crawler->filter('#works address')->closest('div');
-        self::assertNotNull($closing);
-
-        $path = static::getContainer()->get('router')->generate('app_curriculum_vitae_pdf');
-        $document = $closing->filter(sprintf('a[href="%s"]', $path));
-        self::assertCount(1, $document);
-        self::assertSame('_blank', $document->attr('target'));
-        self::assertStringContainsString('öffnet in neuem Tab', $document->text());
-    }
 }

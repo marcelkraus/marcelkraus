@@ -650,6 +650,15 @@
         gap: --spacing(2);
     }
 
+    /* The closing cell fills the last row, however many works stand before it. */
+    .work:nth-child(3n + 1) + .works-closing {
+        grid-column: span 2;
+    }
+
+    .work:nth-child(3n) + .works-closing {
+        grid-column: 1 / -1;
+    }
+
     .works-closing {
         display: flex;
         flex-direction: column;
@@ -880,6 +889,10 @@
 
         .work-shot {
             margin-bottom: 0;
+        }
+
+        .work + .works-closing {
+            grid-column: auto;
         }
 
         .works-title {

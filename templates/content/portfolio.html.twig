@@ -23,9 +23,9 @@
                 {{ include('partials/_work.html.twig', { work: work }, with_context = false) }}
             {% endfor %}
             <div class="works-closing">
-                <h3 class="text-t3 font-bold">Marcel Kraus</h3>
-                <address class="lead-in">Bonner Str. 88<br>50374 Erftstadt</address>
-                {{ include('partials/_link.html.twig', { href: path('app_curriculum_vitae_pdf'), label: 'Lebenslauf als PDF', to: 'out', class: 'button' }, with_context = false) }}
+                <h3 class="text-t3 font-bold">Passt das zu Ihnen?</h3>
+                <p class="text-muted">Erzählen Sie mir von Ihrer Stelle – ich freue mich auf Ihre Nachricht.</p>
+                {{ include('partials/_link.html.twig', { href: path('app_contact_page'), label: 'Nachricht schreiben', to: 'page', class: 'button button-solid' }, with_context = false) }}
             </div>
         </div>
     </section>

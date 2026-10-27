@@ -60,12 +60,12 @@ final class ShellTest extends WebTestCase
         $client = static::createClient();
 
         $crawler = $client->request('GET', '/portfolio');
-        $message = $crawler->filter('main a[href="/kontakt"]');
+        $message = $crawler->filter('.cover a[href="/kontakt"]');
         self::assertCount(1, $message);
         self::assertNull($message->attr('target'));
 
         $crawler = $client->request('GET', '/kontakt');
-        self::assertCount(0, $crawler->filter('main a[href="/kontakt"]'));
+        self::assertCount(0, $crawler->filter('.cover a[href="/kontakt"]'));
     }
 
     public function testTheDocumentLinkOpensANewTabAndAnnouncesIt(): void

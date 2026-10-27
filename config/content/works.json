@@ -1,27 +1,11 @@
 [
     {
-        "description": "Planung & Dokumentation der Arbeit an Fahrzeugen: Aufgaben, Arbeitszeit, Teile, Ausgaben & mehr",
+        "description": "Planung & Dokumentation der Arbeit an Fahrzeugen: Aufgaben, Arbeitszeit, Teile, Kosten & mehr",
         "image": "schrauberfuchs.jpg",
         "kind": "Web-App",
         "name": "Schrauberfuchs",
         "url": "https://schrauberfuchs.app",
         "urlLabel": "schrauberfuchs.app"
-    },
-    {
-        "description": "Präsentation & Verwaltung von RC-Fahrzeugen, inklusive Community-Features",
-        "image": "meetmyrc.jpg",
-        "kind": "Web-App",
-        "name": "meetMyRC",
-        "url": "https://meetmyrc.com",
-        "urlLabel": "meetmyrc.com"
-    },
-    {
-        "description": "Überblick über die wirklichen Gesamtkosten von 3D-Druck-Projekten: Material-, Arbeits- & Betriebskosten",
-        "image": "3d-druck-kostenrechner.jpg",
-        "kind": "iOS-App",
-        "name": "3D-Druck-Kostenrechner",
-        "url": "https://apps.apple.com/de/app/3d-druck-kostenrechner/id6502561182",
-        "urlLabel": "App Store"
     },
     {
         "description": "Der „Jurassic Park“-Jeep aus Erftstadt bei Köln",
@@ -38,5 +22,13 @@
         "name": "myKNIGHT",
         "url": "https://www.myknight.de",
         "urlLabel": "www.myknight.de"
+    },
+    {
+        "description": "Überblick über die wirklichen Gesamtkosten von 3D-Druck-Projekten: Material-, Arbeits- & Betriebskosten",
+        "image": "3d-druck-kostenrechner.jpg",
+        "kind": "iOS-App",
+        "name": "3D-Druck-Kostenrechner",
+        "url": "https://apps.apple.com/de/app/3d-druck-kostenrechner/id6502561182",
+        "urlLabel": "App Store"
     }
 ]
