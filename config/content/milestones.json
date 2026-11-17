@@ -35,13 +35,12 @@
         "company": "krausgedruckt",
         "position": "3D-Druck-Dienstleister",
         "location": "Erftstadt · selbstständig",
-        "description": "Additive Fertigung individueller Teile im FDM-Verfahren: Prototypen, Werkzeuge, Ersatzteile und Dekoration, als Einzelstück ebenso wie als Kleinserie. Dazu 3D-Modellierung und Prototypentwicklung direkt am Objekt sowie ein Onlineshop.",
+        "description": "Additive Fertigung individueller Teile im FDM-Verfahren: Prototypen, Werkzeuge, Ersatzteile und Dekoration, als Einzelstück ebenso wie als Kleinserie. Dazu 3D-Modellierung und Prototypentwicklung direkt am Objekt.",
         "tags": [
             "3D-Druck",
             "3D-Modellierung",
             "FDM",
-            "Kleinserienfertigung",
-            "Onlineshop"
+            "Kleinserienfertigung"
         ],
         "marker": "krausgedruckt",
         "url": "https://www.krausgedruckt.de"
