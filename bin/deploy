@@ -12,7 +12,7 @@ if [ ! -f .env.local ]; then
     exit 1
 fi
 
-# A copied secret makes CSRF and the anti-spam timestamp forgeable, invisibly.
+# Symfony signs with it; a copied secret is public.
 if ! grep -qE '^APP_SECRET=.+' .env.local || grep -qE '^APP_SECRET=(<ChangeMe|""$)' .env.local; then
     echo "bin/deploy: .env.local has no usable APP_SECRET—aborting." >&2
     exit 1
@@ -23,20 +23,6 @@ if [ -n "$committed_secret" ] && grep -qF "APP_SECRET=${committed_secret}" .env.
     echo "bin/deploy: .env.local repeats the APP_SECRET from the repository—aborting." >&2
     exit 1
 fi
-
-# The committed `null://null` throws every mail away while the form says it was sent.
-if ! grep -qE '^MAILER_DSN=.+' .env.local || grep -qE '^MAILER_DSN=null://' .env.local; then
-    echo "bin/deploy: .env.local sets no usable MAILER_DSN—aborting." >&2
-    exit 1
-fi
-
-# The value that takes effect is checked, whichever file it comes from.
-for setting in CONTACT_TO CONTACT_FROM; do
-    if [ -z "$(grep -hE "^${setting}=.+" .env.local .env 2>/dev/null | head -1 | cut -d= -f2-)" ]; then
-        echo "bin/deploy: neither .env.local nor .env sets ${setting}—aborting." >&2
-        exit 1
-    fi
-done
 
 # Without it the auto-scripts of `composer install` build the cache for dev.
 if ! grep -qE '^APP_ENV=prod$' .env.local; then

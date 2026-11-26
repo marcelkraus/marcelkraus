@@ -41,8 +41,6 @@
     --color-line: #e6e8ec;
     --color-muted: #5d6470;
     --color-paper: var(--color-white);
-    --color-station: var(--color-neutral-700);
-    --color-tab: var(--color-gray-100);
 
     --text-t1: 4rem;
     --text-t1--line-height: 0.95;
@@ -56,8 +54,6 @@
     --text-t4--line-height: 1.6;
     --text-m1: 0.8125rem;
     --text-m1--line-height: 1.6;
-    --text-m2: 0.6875rem;
-    --text-m2--line-height: 1.6;
 
     --color-accent: var(--color-purple-700);
 
@@ -66,16 +62,6 @@
     --color-brand-krausgebaut-deep: #004c60;
     --color-brand-krausgedruckt: var(--color-orange-600);
     --color-brand-krausgedruckt-deep: #c43a00;
-
-    /* The nearest palette step to jurassic-jeep's own Performance Red; 6.42:1 on
-       white. */
-    --color-brand-jurassic-jeep: var(--color-red-700);
-    /* error 4.77:1 on white, error-on-surface 5.87:1 on the panel, error-border
-       3.48:1 on the panel. */
-    --color-error: var(--color-red-600);
-    --color-error-surface: var(--color-red-50);
-    --color-error-on-surface: var(--color-red-700);
-    --color-error-border: var(--color-red-500);
 }
 
 :root {
@@ -83,7 +69,8 @@
     --edge: --spacing(12);
     --gap: --spacing(12);
     --pad: --spacing(12);
-    --head: 75px;
+    /* As high as the header of krausgedruckt. */
+    --head: 80px;
 }
 
 @media (width <= 1000px) {
@@ -91,7 +78,6 @@
         --edge: --spacing(6);
         --gap: --spacing(6);
         --pad: --spacing(6);
-        --head: 104px;
         --text-t1: 2.75rem;
         --text-t2: 2rem;
         --text-t3: 1.25rem;
@@ -164,56 +150,14 @@
         position: relative;
         z-index: 1;
         display: flex;
-        justify-content: space-between;
-        align-items: flex-end;
+        align-items: center;
         height: var(--head);
-    }
-
-    .site-head-logo {
-        align-self: center;
     }
 
     .site-head-logo svg {
         display: block;
         height: 30px;
         width: auto;
-    }
-
-    .tabs {
-        display: flex;
-        gap: --spacing(2);
-        font-family: var(--font-mono);
-        font-size: var(--text-m1);
-    }
-
-    .tabs a {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: --spacing(12);
-        padding: 0 --spacing(6);
-        color: var(--color-muted);
-        background: var(--color-tab);
-        border: 1px solid var(--color-hair);
-        border-bottom: 0;
-        box-shadow: 0 1px 0 var(--color-hair);
-    }
-
-    .tabs a:hover {
-        color: var(--color-ink);
-    }
-
-    .tabs a[aria-current] {
-        position: relative;
-        z-index: 2;
-        color: var(--color-ink);
-        font-weight: 600;
-        background: var(--color-paper);
-        box-shadow: 0 1px 0 var(--color-paper);
-    }
-
-    .tabs a:focus-visible {
-        outline-offset: -4px;
     }
 
     .site-main {
@@ -235,10 +179,6 @@
         padding: var(--pad);
     }
 
-    .card-closing {
-        padding: --spacing(6);
-    }
-
     .lead-in {
         font-family: var(--font-mono);
         font-size: var(--text-m1);
@@ -248,15 +188,6 @@
 
     .card-head h2 {
         margin-top: --spacing(2);
-    }
-
-    .card-intro {
-        max-width: 60ch;
-        margin-top: --spacing(4);
-    }
-
-    .card-body {
-        margin-top: var(--pad);
     }
 
     /* Cells: a grid split by hairlines—the one-pixel gap shows the line. */
@@ -273,16 +204,8 @@
         hyphens: auto;
     }
 
-    .cells-2 {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
     .cells-3 {
         grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
-
-    .cells-4 {
-        grid-template-columns: repeat(4, minmax(0, 1fr));
     }
 
     .link {
@@ -290,10 +213,6 @@
         text-decoration: underline;
         text-decoration-thickness: 1px;
         text-underline-offset: 4px;
-    }
-
-    .lead-in .link {
-        font-weight: inherit;
     }
 
     .link-arrow {
@@ -320,15 +239,9 @@
         background: var(--color-ink);
     }
 
-    .buttons {
-        display: flex;
-        flex-wrap: wrap;
-        gap: --spacing(2);
-    }
-
     .cover {
         display: grid;
-        grid-template: "face who reach" auto "face claim reach" 1fr / 168px 1fr auto;
+        grid-template: "face who" auto "face claim" 1fr / 168px 1fr;
         gap: 0 var(--pad);
         padding: --spacing(6);
     }
@@ -366,14 +279,6 @@
         margin-top: --spacing(2);
     }
 
-    .cover-reach {
-        grid-area: reach;
-        display: flex;
-        align-items: center;
-        padding-left: var(--pad);
-        border-left: 1px solid var(--color-hair);
-    }
-
     .cover-has-more {
         grid-template: "face who" auto "face claim" auto "face more" 1fr / 168px 1fr;
     }
@@ -385,141 +290,6 @@
 
     .cover-lead {
         max-width: 60ch;
-    }
-
-    .cover-facts {
-        display: flex;
-        flex-wrap: wrap;
-        gap: --spacing(4) --spacing(12);
-        margin-top: --spacing(6);
-        font-family: var(--font-mono);
-        font-size: var(--text-m1);
-    }
-
-    .cover-facts dt {
-        color: var(--color-muted);
-    }
-
-    .cover-facts dd {
-        font-weight: 600;
-    }
-
-    .cover-more .buttons {
-        margin-top: --spacing(6);
-    }
-
-    .station {
-        --marker: var(--color-station);
-        display: grid;
-        grid-template-columns: 3fr 9fr;
-        gap: 0 var(--gap);
-    }
-
-    .station[data-marker="jurassic-jeep"] {
-        --marker: var(--color-brand-jurassic-jeep);
-    }
-
-    .station[data-marker="krausgebaut"] {
-        --marker: var(--color-brand-krausgebaut);
-    }
-
-    .station[data-marker="krausgedruckt"] {
-        --marker: var(--color-brand-krausgedruckt);
-    }
-
-    .station + .station {
-        margin-top: var(--pad);
-    }
-
-    .station-when {
-        line-height: calc(var(--text-t3) * var(--text-t3--line-height));
-    }
-
-    .station-what {
-        position: relative;
-        max-width: calc(68ch + --spacing(6));
-        padding-left: --spacing(6);
-        border-left: 1px solid var(--color-hair);
-    }
-
-    .station-what::before {
-        content: "";
-        position: absolute;
-        left: -5px;
-        top: 9px;
-        width: 9px;
-        height: 9px;
-        background: var(--marker);
-    }
-
-    .station-role {
-        margin-top: --spacing(4);
-    }
-
-    .station-text {
-        margin-top: --spacing(2);
-    }
-
-    .station-roles > li + li {
-        margin-top: --spacing(6);
-    }
-
-    .tags {
-        display: flex;
-        flex-wrap: wrap;
-        gap: --spacing(2);
-        margin-top: --spacing(4);
-        font-family: var(--font-mono);
-        font-size: var(--text-m2);
-        line-height: var(--text-m2--line-height);
-    }
-
-    .tags span {
-        padding: 0 --spacing(2);
-        border: 1px solid var(--color-hair);
-    }
-
-    .skills h3 {
-        margin-bottom: --spacing(4);
-    }
-
-    .skills li {
-        display: flex;
-        flex-direction: column;
-        padding-block: --spacing(2);
-        border-top: 1px solid var(--color-line);
-    }
-
-    .skills li .lead-in {
-        white-space: nowrap;
-    }
-
-    .passion {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .passion p {
-        margin-top: --spacing(2);
-    }
-
-    .passion-ref {
-        margin-top: auto;
-        padding-top: --spacing(6);
-    }
-
-    .passion-ref .link {
-        display: inline-block;
-        margin-top: --spacing(2);
-    }
-
-    .passion .passion-from {
-        margin-top: 0;
-        font-family: var(--font-mono);
-        font-size: var(--text-m2);
-        line-height: var(--text-m2--line-height);
-        color: var(--color-muted);
     }
 
     .towers {
@@ -547,14 +317,14 @@
     .tower[data-brand="krausgebaut"] {
         --tower: var(--color-brand-krausgebaut);
         --tower-deep: var(--color-brand-krausgebaut-deep);
-        order: 1;
-        margin-top: 27.27%;
+        order: 2;
     }
 
     .tower[data-brand="krausgedruckt"] {
         --tower: var(--color-brand-krausgedruckt);
         --tower-deep: var(--color-brand-krausgedruckt-deep);
-        order: 2;
+        order: 1;
+        margin-top: calc(2 * var(--gap));
     }
 
     /* Both glyphs share an outline of 472 × 594 on 886, so one rule places
@@ -617,8 +387,8 @@
         margin-top: var(--gap);
     }
 
-    .works-title {
-        padding: --spacing(6);
+    .works-head {
+        padding: var(--pad);
     }
 
     .work {
@@ -671,94 +441,6 @@
         margin-top: --spacing(4);
     }
 
-    .contact {
-        display: grid;
-        grid-template-columns: 4fr 8fr;
-    }
-
-    .contact-side {
-        padding-right: var(--pad);
-        border-right: 1px solid var(--color-hair);
-    }
-
-    .contact-main {
-        padding-left: var(--pad);
-    }
-
-    .ways {
-        margin-top: --spacing(6);
-        border-top: 1px solid var(--color-line);
-    }
-
-    .ways > div {
-        padding-block: --spacing(4);
-        border-bottom: 1px solid var(--color-line);
-    }
-
-    .ways dd {
-        margin-top: --spacing(2);
-    }
-
-    .contact-form {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: --spacing(6);
-    }
-
-    .contact-form .button {
-        justify-self: start;
-    }
-
-    .field {
-        display: grid;
-        gap: --spacing(2);
-        align-content: start;
-    }
-
-    .field-wide {
-        grid-column: 1 / -1;
-    }
-
-    .field input,
-    .field textarea {
-        min-height: --spacing(12);
-        padding: --spacing(2) --spacing(4);
-        background: var(--color-paper);
-        border: 1px solid var(--color-hair);
-    }
-
-    .field textarea {
-        min-height: 160px;
-        resize: vertical;
-    }
-
-    .field textarea::placeholder {
-        color: var(--color-muted);
-    }
-
-    .field [aria-invalid] {
-        border-color: var(--color-error-border);
-    }
-
-    .field-error {
-        font-family: var(--font-mono);
-        font-size: var(--text-m1);
-        color: var(--color-error);
-    }
-
-    .form-alert {
-        padding: --spacing(2) --spacing(4);
-        font-family: var(--font-mono);
-        font-size: var(--text-m1);
-        color: var(--color-error-on-surface);
-        background: var(--color-error-surface);
-        border: 1px solid var(--color-error-border);
-    }
-
-    .contact-confirmation p {
-        margin-top: --spacing(2);
-    }
-
     .site-foot {
         position: relative;
         z-index: 1;
@@ -785,37 +467,29 @@
         color: var(--color-muted);
     }
 
+    .site-foot-owner {
+        display: flex;
+        flex-direction: column;
+        gap: --spacing(2);
+    }
+
+    .site-foot-profiles {
+        display: flex;
+        flex-wrap: wrap;
+        gap: --spacing(4);
+    }
+
     .site-foot-row a:hover {
         color: var(--color-ink);
     }
 
     @media (width <= 1000px) {
-        .site-head {
-            flex-direction: column;
-            align-items: stretch;
-            gap: --spacing(4);
-            height: auto;
-            padding-top: --spacing(4);
-        }
-
-        .site-head-logo {
-            align-self: flex-start;
-        }
-
         .site-head-logo svg {
             height: 24px;
         }
 
-        /* 48 pixels, above the 44 a thumb needs. */
-        .tabs a {
-            flex: 1;
-            padding: 0 --spacing(2);
-            font-size: var(--text-m2);
-            white-space: nowrap;
-        }
-
         .cover {
-            grid-template: "face who" auto "face claim" auto "reach reach" auto / 72px 1fr;
+            grid-template: "face who" auto "face claim" 1fr / 72px 1fr;
             gap: 0 --spacing(4);
         }
 
@@ -831,53 +505,12 @@
             align-self: start;
         }
 
-        .cover-reach {
-            margin-top: --spacing(4);
-            padding: --spacing(4) 0 0;
-            border-left: 0;
-            border-top: 1px solid var(--color-hair);
-        }
-
-        .cover-reach .button {
-            flex: 1;
-            justify-content: center;
-        }
-
-        .cover-facts {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-        }
-
-        .cover-more .buttons,
-        .card-closing .buttons {
-            flex-direction: column;
-        }
-
-        .cover-more .buttons .button,
-        .card-closing .buttons .button {
-            justify-content: center;
-        }
-
-        .station {
-            grid-template-columns: minmax(0, 1fr);
-        }
-
-        .station-when {
-            padding-left: calc(--spacing(6) + 1px);
-            line-height: var(--text-m1--line-height);
-        }
-
         .cells > * {
             padding: --spacing(4);
         }
 
-        .cells-2,
         .cells-3 {
             grid-template-columns: minmax(0, 1fr);
-        }
-
-        .cells-4 {
-            grid-template-columns: repeat(2, minmax(0, 1fr));
         }
 
         .work {
@@ -895,42 +528,17 @@
             grid-column: auto;
         }
 
-        .works-title {
-            padding: --spacing(4);
-        }
-
         .towers {
             grid-template-columns: 1fr;
         }
 
-        .tower {
-            --mark-height: 0.34;
-            width: min(88%, 33rem);
-        }
-
         .tower[data-brand="krausgebaut"] {
-            order: 2;
-            margin-top: 0;
+            order: 1;
         }
 
         .tower[data-brand="krausgedruckt"] {
-            order: 1;
-            justify-self: end;
-        }
-
-        .contact,
-        .contact-form {
-            grid-template-columns: 1fr;
-        }
-
-        .contact-side {
-            padding: 0 0 --spacing(6);
-            border-right: 0;
-            border-bottom: 1px solid var(--color-hair);
-        }
-
-        .contact-main {
-            padding: --spacing(6) 0 0;
+            order: 2;
+            margin-top: 0;
         }
 
         .site-foot-row {

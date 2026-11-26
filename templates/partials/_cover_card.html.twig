@@ -1,19 +1,13 @@
-{# Params: reach (default true). Block: more, an introduction on the name's
-   column instead of the right column. #}
-{%- set reach = reach ?? true -%}
+{# Block: more, a line under the claim on the name's column. #}
 {%- set more -%}{% block more %}{% endblock %}{%- endset -%}
 <section class="card cover{% if more|trim is not empty %} cover-has-more{% endif %}" aria-label="Marcel Kraus">
     <span class="cover-face"><img src="{{ asset('images/portrait.jpg') }}" alt="Porträt von Marcel Kraus" width="576" height="720"></span>
     <div class="cover-who">
         <h1 class="text-t2 font-bold">Marcel Kraus</h1>
-        <p class="text-t3">Senior Software&shy;entwickler iOS/Web</p>
+        <p class="text-t3">Software&shy;entwickler iOS/Web<br>Internet-, IT- &amp; 3D-Druck-Dienstleister</p>
     </div>
     <p class="cover-claim text-t3 text-muted">Nicht nur mit&nbsp;Hut.<br>Mit Köpfchen.</p>
     {% if more|trim is not empty %}
         <div class="cover-more">{{ more }}</div>
-    {% elseif reach %}
-        <div class="cover-reach">
-            {{ include('partials/_link.html.twig', { href: path('app_contact_page'), label: 'Nachricht schreiben', to: 'page', class: 'button' }, with_context = false) }}
-        </div>
     {% endif %}
 </section>

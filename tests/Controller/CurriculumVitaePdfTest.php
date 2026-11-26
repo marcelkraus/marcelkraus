@@ -102,14 +102,6 @@ final class CurriculumVitaePdfTest extends WebTestCase
         self::assertTrue(self::shows($pdf, 'E-MAIL'));
     }
 
-    public function testThePageLinksToTheDocument(): void
-    {
-        $client = static::createClient();
-        $crawler = $client->request('GET', '/');
-
-        self::assertCount(2, $crawler->filter('a[href="/lebenslauf"]'));
-    }
-
     // mPDF writes text as UTF-16BE literals and the labels in capitals.
     private static function shows(string $pdf, string $text): bool
     {

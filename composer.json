@@ -2,7 +2,7 @@
     "name": "marcelkraus/marcelkraus",
     "type": "project",
     "license": "proprietary",
-    "description": "My personal CV and hub for my business sites",
+    "description": "The hub in front of my business sites",
     "minimum-stability": "stable",
     "prefer-stable": true,
     "require": {
@@ -16,13 +16,9 @@
         "symfony/dotenv": "8.1.*",
         "symfony/flex": "^2.12",
         "symfony/framework-bundle": "8.1.*",
-        "symfony/mailer": "8.1.*",
         "symfony/monolog-bundle": "^4.1",
-        "symfony/rate-limiter": "8.1.*",
         "symfony/runtime": "8.1.*",
-        "symfony/security-csrf": "8.1.*",
         "symfony/twig-bundle": "8.1.*",
-        "symfony/validator": "8.1.*",
         "symfony/yaml": "8.1.*"
     },
     "config": {

@@ -1,145 +1,46 @@
+{# The towers stand in brand order: krausgebaut, the higher one, comes first for
+   a keyboard and a screen reader. #}
 {% extends 'base.html.twig' %}
 
 {% block structured_data %}
-    <script type="application/ld+json">
-        {
-            "@context": "https://schema.org",
-            "@type": "Person",
-            "name": "Marcel Kraus",
-            "jobTitle": "Senior Softwareentwickler",
-            "url": "https://www.marcelkraus.de",
-            "image": "{{ app.request.schemeAndHttpHost ~ asset('images/portrait.jpg') }}",
-            "address": {
-                "@type": "PostalAddress",
-                "addressLocality": "Erftstadt",
-                "addressRegion": "Nordrhein-Westfalen",
-                "addressCountry": "DE"
-            },
-            "sameAs": [
-                "https://www.krausgebaut.de",
-                "https://www.krausgedruckt.de",
-                "https://www.linkedin.com/in/kraus-marcel"
-            ],
-            "knowsAbout": {{ knowsAbout|json_encode(constant('JSON_HEX_TAG') b-or constant('JSON_UNESCAPED_UNICODE'))|raw }}
-        }
-    </script>
+    {%- set person = {
+        '@context': 'https://schema.org',
+        '@type': 'Person',
+        name: 'Marcel Kraus',
+        jobTitle: 'Softwareentwickler iOS/Web und Internet-, IT- & 3D-Druck-Dienstleister',
+        sameAs: profiles|map(profile => profile.url),
+        brand: brands|map(brand => { '@type': 'Brand', name: brand.name, url: brand.url }),
+    } -%}
+    <script type="application/ld+json">{{ person|json_encode(constant('JSON_HEX_TAG') b-or constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_UNESCAPED_UNICODE'))|raw }}</script>
 {% endblock %}
 
 {% block cover %}
     {% embed 'partials/_cover_card.html.twig' %}
-        {% block more %}
-            <p class="cover-lead">Der Herd ist nicht aus – nur die Küche wechselt. Nach zehn Jahren bei Chefkoch habe ich Lust auf ein neues Rezept. iOS und das Web sind mein Handwerk, zuhause bin ich in Erftstadt bei Köln.</p>
-
-            <dl class="cover-facts">
-                {% for fact in [
-                    { label: 'Verfügbarkeit', value: 'Ab Dezember' },
-                    { label: 'Modell', value: 'Remote' },
-                    { label: 'iOS', value: 'seit 2017' },
-                    { label: 'Web', value: 'seit 2002' },
-                    { label: 'Fremdsprachen', value: 'Englisch (B2)' }
-                ] %}
-                    <div><dt>{{ fact.label }}</dt><dd>{{ fact.value }}</dd></div>
-                {% endfor %}
-            </dl>
-
-            {{ include('partials/_next_steps.html.twig', with_context = false) }}
-        {% endblock %}
+        {% block more %}<p class="cover-lead">Nach 25 Jahren nebenberuflicher Tätigkeit stehe ich Ihnen mit krausgebaut ab sofort hauptberuflich als zuverlässiger Partner rund um Ihre <span class="whitespace-nowrap">Internet- &amp;</span> IT-Anforderungen zur Seite. Mit krausgedruckt darüber hinaus für alle Ihre Anfragen im <span class="whitespace-nowrap">3D-Druck</span>-Bereich.</p>{% endblock %}
     {% endembed %}
 {% endblock %}
 
 {% block content %}
-    <section id="werdegang" class="card card-padded" aria-labelledby="werdegang-title">
-        <header class="card-head">
-            <p class="lead-in">Werdegang</p>
-            <h2 id="werdegang-title" class="text-t2 font-bold">Berufliche Stationen</h2>
-            <p class="card-intro text-muted">Vom ersten Ausflug in die Berufswelt über meine Selbstständigkeit als Internet- und IT-Dienstleister bis zum Senior Softwareentwickler: die wichtigen Meilensteine meiner beruflichen Laufbahn. Meine Erfahrungen aus der Selbstständigkeit in Themen wie Kundenkontakt, Anforderungsanalyse, Angebotserstellung, Abnahmen, Support, Betrieb und Wartung bringe ich in jede Festanstellung mit.</p>
+    <div class="towers">
+        {% for brand in brands %}
+            {{ include('partials/_tower.html.twig', { brand: brand }, with_context = false) }}
+        {% endfor %}
+    </div>
+
+    <section id="works" class="card works" aria-labelledby="works-title">
+        <header class="card-head works-head">
+            <p class="lead-in">Außerdem von mir</p>
+            <h2 id="works-title" class="text-t2 font-bold">Aus meinem Portfolio</h2>
         </header>
-
-        <ol class="card-body">
-            {% for milestone in milestones %}
-                <li class="station"{% if milestone.marker is defined %} data-marker="{{ milestone.marker }}"{% endif %}>
-                    <p class="station-when lead-in">{{ milestone.years }}</p>
-                    <div class="station-what">
-                        <h3 class="text-t3 font-bold">{{ milestone.company }}</h3>
-                        <p class="lead-in">
-                            {{- milestone.division is defined ? milestone.division ~ ' · ' -}}
-                            {{- milestone.location -}}
-                            {%- if milestone.url is defined %} · {{ include('partials/_link.html.twig', { href: milestone.url, label: 'Homepage', subject: 'von ' ~ milestone.company, to: 'out' }, with_context = false) }}{% endif -%}
-                        </p>
-                        {% if milestone.roles is defined %}
-                            <ul class="station-roles">
-                                {% for role in milestone.roles %}
-                                    <li>
-                                        <p class="station-role font-bold">{{ role.position }}</p>
-                                        <p class="lead-in">{{ role.years }}</p>
-                                        {% if role.description is defined %}
-                                            <p class="station-text">{{ role.description }}</p>
-                                        {% endif %}
-                                        {{ include('partials/_tags.html.twig', { tags: role.tags|default([]) }, with_context = false) }}
-                                    </li>
-                                {% endfor %}
-                            </ul>
-                        {% else %}
-                            <p class="station-role font-bold">{{ milestone.position }}</p>
-                            {% if milestone.description is defined %}
-                                <p class="station-text">{{ milestone.description }}</p>
-                            {% endif %}
-                            {{ include('partials/_tags.html.twig', { tags: milestone.tags|default([]) }, with_context = false) }}
-                        {% endif %}
-                    </div>
-                </li>
+        <div class="cells cells-3">
+            {% for work in works %}
+                {{ include('partials/_work.html.twig', { work: work }, with_context = false) }}
             {% endfor %}
-        </ol>
-    </section>
-
-    <section id="kompetenzen" class="card card-padded" aria-labelledby="kompetenzen-title">
-        <header class="card-head">
-            <p class="lead-in">Kompetenzen</p>
-            <h2 id="kompetenzen-title" class="text-t2 font-bold">Wie &amp; womit ich arbeite</h2>
-            <p class="card-intro text-muted">Ein Auszug der Technologien, Betriebssysteme, Sprachen und Arbeitsweisen, mit denen ich arbeite.</p>
-        </header>
-
-        <div class="card-body cells cells-4">
-            {% for group in skills %}
-                <div class="skills">
-                    <h3 class="lead-in">{{ group.group }}</h3>
-                    <ul>
-                        {% for entry in group.entries %}
-                            <li><span>{{ entry.name }}</span>{% if entry.since is defined %}<span class="lead-in">{{ entry.since }}</span>{% endif %}</li>
-                        {% endfor %}
-                    </ul>
-                </div>
-            {% endfor %}
+            <div class="works-closing">
+                <h3 class="text-t3 font-bold">Auch Bedarf an einer App oder einer Website?</h3>
+                <p class="text-muted">Erzählen Sie mir von Ihrem Projekt – ich freue mich auf Ihre Nachricht.</p>
+                {{ include('partials/_link.html.twig', { href: 'https://www.krausgebaut.de/#kontakt', label: 'Nachricht schreiben', to: 'out', class: 'button button-solid' }, with_context = false) }}
+            </div>
         </div>
-    </section>
-
-    <section id="leidenschaft" class="card card-padded" aria-labelledby="leidenschaft-title">
-        <header class="card-head">
-            <p class="lead-in">Leidenschaft</p>
-            <h2 id="leidenschaft-title" class="text-t2 font-bold">Was mich sonst antreibt</h2>
-            <p class="card-intro text-muted">Wenn ich nicht am Stehschreibtisch stehe, stehe ich an der Werkbank: Was mich packt, ist Automobiltechnik in jedem Maßstab, die Faszination der Nordschleife und der Reiz, eigene Dinge zu erschaffen.</p>
-        </header>
-
-        <div class="card-body cells cells-2">
-            {% for hobby in hobbies %}
-                <article class="passion">
-                    <h3 class="text-t3 font-bold">{{ hobby.title }}</h3>
-                    <p class="text-muted">{{ hobby.description }}</p>
-                    {% if hobby.url is defined and hobby.urlLabel is defined %}
-                        <div class="passion-ref">
-                            <p class="passion-from">Daraus wurde</p>
-                            {{ include('partials/_link.html.twig', { href: hobby.url, label: hobby.urlLabel, to: 'out' }, with_context = false) }}
-                            {% if hobby.urlNote is defined %}
-                                <p class="lead-in">{{ hobby.urlNote }}</p>
-                            {% endif %}
-                        </div>
-                    {% endif %}
-                </article>
-            {% endfor %}
-        </div>
-    </section>
-
-    <section class="card card-closing" aria-label="Lebenslauf und Kontakt">
-        {{ include('partials/_next_steps.html.twig', with_context = false) }}
     </section>
 {% endblock %}

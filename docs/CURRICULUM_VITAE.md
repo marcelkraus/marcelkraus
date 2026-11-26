@@ -1,8 +1,8 @@
 # The printed curriculum vitae
 
-`GET /lebenslauf` renders the document from the same content files the page reads. **Not a second document**—a hand-kept PDF drifts against the site, and then there are two truths about one career. `ContentRepository` makes that structural: one reader, two outputs.
+`GET /lebenslauf` renders the document from the content files. **Not a second document**—a hand-kept PDF drifts against the site, and then there are two truths about one career. `ContentRepository` makes that structural: one reader, two outputs.
 
-Delivered **inline**, so it opens in the browser; the file name travels along for whoever saves it. `X-Robots-Tag: noindex`, because the file duplicates Profil and carries the postal address—the indexed truth stays the page. A `Disallow` would be worse than useless: a path never fetched is a header never read.
+Delivered **inline**, so it opens in the browser; the file name travels along for whoever saves it. `X-Robots-Tag: noindex`, because the file carries the postal address and is meant for whoever Marcel hands the link to. A `Disallow` would be worse than useless: a path never fetched is a header never read.
 
 **Two pages is a requirement, not a preference**, and a test asserts it. The layout sits close enough to the limit that one longer station description pushes it over, and nothing else would notice.
 
@@ -27,24 +27,24 @@ The lockup lives in the page header, which is what makes it repeat without the b
 
 **Type**, five steps: 24 pt title, 12 pt byline, 10 pt names, 9 pt running text and contact values, 8 pt the technical layer. The fifth step earns its place—with names and running text sharing 10 pt the document runs to three pages.
 
-**Spacing**, four steps, all multiples of 1.5 mm: 0 inside an entry (the lines sit flush, as on the page), 1.5 mm between contact rows, 3 mm between siblings, 9 mm between blocks. The one value outside both scales is 0.5 mm above the period column—an optical nudge, not a distance between things.
+**Spacing**, four steps, all multiples of 1.5 mm: 0 inside an entry (the lines sit flush), 1.5 mm between contact rows, 3 mm between siblings, 9 mm between blocks. The one value outside both scales is 0.5 mm above the period column—an optical nudge, not a distance between things.
 
 ## The head, and what it leaves out
 
-The right column carries Datum, Anschrift, Verfügbar and `Homepage`, then the QR code. Telefon and E-Mail join only with `?kontakt`, for the copy sent with an application: an application is private, not a matter of the trade, so the public copy names no private channel and leaves contact to the homepage and its form on `/kontakt`. Both copies keep to two pages. The label names the page and not one of its tabs, since the tabs may trade places; the one address behind it is where the portfolio and the other profiles are, which is why there is **no LinkedIn row and no second QR**. Two codes side by side cannot be told apart without reading their labels, and a reader who scans the wrong one blames the document. One code is a device; two are a pattern that invites a third.
+The right column carries Datum, Anschrift, Verfügbar and `Homepage`, then the QR code. Telefon and E-Mail join only with `?kontakt`, for the copy sent with an application: an application is private, not a matter of the trade, so the public copy names no private channel and leaves contact to the homepage, whose button leads to the contact form on krausgebaut. Both copies keep to two pages. The label names the site; the one address behind it is where the brands and the other projects are, which is why there is **no LinkedIn row and no second QR**. Two codes side by side cannot be told apart without reading their labels, and a reader who scans the wrong one blames the document. One code is a device; two are a pattern that invites a third.
 
 **No photograph.** The page carries the portrait one scan away, and a 4:5 image at any usable size costs 40 to 60 mm of a first page that has 23 mm to spare. Adding it means a third page or a shorter profile, and the profile is the only part of the document that says in Marcel's own words who he is.
 
 A quiet page number closes each page, centered in the bottom margin—the band runs 277 to 297 mm, so the figure sits at 287 mm. Two pages do not need it to find their way back together; a sheet that falls out of a folder does.
 
-## What the document does differently from the page
+## What the document decides for itself
 
-* **No section numbers**, as on the page.
+* **No section numbers.**
 * **No color but the logo's.** The byline, the positions and the square before a section are the document's ink, `neutral-900` (`#171717`) like the title and the company names—not the hub's `--color-ink`, since a second near-black a few shades apart would be noise on paper. The purple stays in the logo alone, and a test asserts it; no station carries a brand color.
-* **No technology tags.** They are a device of the page.
-* **No years in the competences.** The document is read in one sitting; the figures only crowd a line that is already dense.
+* **No technology tags**, though `milestones.json` carries them.
+* **No years in the competences**, though `skills.json` carries them. The document is read in one sitting; the figures only crowd a line that is already dense.
 * **Three blocks instead of one timeline**—Berufserfahrung, Selbstständigkeit, Ausbildung—grouped on the `marker` field, which needs no extra data.
-* **A short profile** that exists nowhere on the page; the cover card carries the claim, which is a different thing. It lives in `config/services.yaml` because a content file would only be ignored by the page.
+* **A short profile** that exists nowhere on the site; the cover card carries the claim, which is a different thing. It lives in `config/services.yaml`, because it belongs to the document alone.
 
 ## mPDF has two rules that shape the whole template
 

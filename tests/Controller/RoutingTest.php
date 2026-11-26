@@ -8,16 +8,14 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 final class RoutingTest extends WebTestCase
 {
+    use SitePages;
+
     /**
      * @return iterable<string, array{string}>
      */
     public static function successfulPaths(): iterable
     {
-        yield 'homepage' => ['/'];
-        yield 'portfolio' => ['/portfolio'];
-        yield 'contact' => ['/kontakt'];
-        yield 'imprint' => ['/impressum'];
-        yield 'privacy' => ['/datenschutz'];
+        yield from self::pages();
         yield 'robots' => ['/robots.txt'];
         yield 'sitemap' => ['/sitemap.xml'];
     }
@@ -31,29 +29,40 @@ final class RoutingTest extends WebTestCase
         self::assertResponseIsSuccessful();
     }
 
-    public function testLegalPagesAreNotIndexed(): void
+    #[\PHPUnit\Framework\Attributes\DataProvider('legalPages')]
+    public function testLegalPagesAreNotIndexed(string $path): void
     {
         $client = static::createClient();
+        $client->request('GET', $path);
 
-        foreach (['/impressum', '/datenschutz'] as $path) {
-            $client->request('GET', $path);
-
-            self::assertSelectorExists('meta[name="robots"][content="noindex,follow"]');
-        }
+        self::assertSelectorExists('meta[name="robots"][content="noindex,follow"]');
     }
 
-    public function testTheThreePagesAreIndexed(): void
+    #[\PHPUnit\Framework\Attributes\DataProvider('legalPages')]
+    public function testTheLegalPagesNameNoContactForm(string $path): void
     {
         $client = static::createClient();
-
-        foreach (['/', '/portfolio', '/kontakt'] as $path) {
-            $client->request('GET', $path);
-
-            self::assertSelectorExists('meta[name="robots"][content="index,follow"]');
-        }
+        $client->request('GET', $path);
+        self::assertSelectorTextNotContains('main', 'Kontaktformular');
     }
 
-    // Outside dev the route must not exist, or it would be indexed as a fourth page.
+    public function testTheHomepageIsIndexed(): void
+    {
+        $client = static::createClient();
+        $client->request('GET', '/');
+
+        self::assertSelectorExists('meta[name="robots"][content="index,follow"]');
+    }
+
+    public function testPortfolioAnswersNotFoundWithoutARedirect(): void
+    {
+        $client = static::createClient();
+        $client->request('GET', '/portfolio');
+
+        self::assertResponseStatusCodeSame(404);
+    }
+
+    // Outside dev the route must not exist, or it would be indexed as a second page.
     public function testTheSharingImagePageIsNotServedOutsideDev(): void
     {
         $client = static::createClient();
@@ -62,13 +71,15 @@ final class RoutingTest extends WebTestCase
         self::assertResponseStatusCodeSame(404);
     }
 
-    public function testContactRoutesRedirectAndKeepTheAddressOutOfTheDocument(): void
+    public function testTheContactRoutesAreGoneWithoutARedirect(): void
     {
         $client = static::createClient();
 
-        $client->request('GET', '/kontakt-per-email');
+        foreach ([['GET', '/kontakt'], ['POST', '/kontakt'], ['GET', '/kontakt-per-email']] as [$method, $path]) {
+            $client->request($method, $path);
 
-        self::assertResponseRedirects();
+            self::assertResponseStatusCodeSame(404, "{$method} {$path}");
+        }
     }
 
     public function testTheRetiredEnglishPathsRedirectToTheHomepage(): void
@@ -86,7 +97,7 @@ final class RoutingTest extends WebTestCase
         $client->request('GET', '/en/');
 
         self::assertResponseIsSuccessful();
-        self::assertSelectorExists('#werdegang');
+        self::assertSelectorExists('#works');
     }
 
     public function testTheMailAddressNeverAppearsInTheMarkup(): void
@@ -104,24 +115,22 @@ final class RoutingTest extends WebTestCase
     }
 
     // Both halves: the readable disclosure and the decoy only the markup carries.
-    public function testTheLegalPagesSpellTheMailboxOutBehindADecoy(): void
+    #[\PHPUnit\Framework\Attributes\DataProvider('legalPages')]
+    public function testTheLegalPagesSpellTheMailboxOutBehindADecoy(string $path): void
     {
         $client = static::createClient();
+        $client->request('GET', $path);
+        $body = (string) $client->getResponse()->getContent();
 
-        foreach (['/impressum', '/datenschutz'] as $path) {
-            $client->request('GET', $path);
-            $body = (string) $client->getResponse()->getContent();
-
-            self::assertStringContainsString(
-                'mail+legal@<span style="display:none" aria-hidden="true">nospam.</span>marcelkraus.de',
-                $body,
-                $path,
-            );
-            self::assertStringNotContainsString('mail(at)', $body, $path);
-        }
+        self::assertStringContainsString(
+            'mail+legal@<span style="display:none" aria-hidden="true">nospam.</span>marcelkraus.de',
+            $body,
+            $path,
+        );
+        self::assertStringNotContainsString('mail(at)', $body, $path);
     }
 
-    public function testSitemapNamesExactlyProfilPortfolioAndKontakt(): void
+    public function testSitemapNamesTheHomepageAlone(): void
     {
         $client = static::createClient();
         $client->request('GET', '/sitemap.xml');
@@ -134,19 +143,20 @@ final class RoutingTest extends WebTestCase
             $paths[] = (string) parse_url((string) $url->loc, PHP_URL_PATH);
         }
 
-        self::assertSame(['/', '/portfolio', '/kontakt'], $paths);
+        self::assertSame(['/'], $paths);
     }
 
-    public function testRobotsKeepsTheRedirectRoutesOutOfCrawlerCorpora(): void
+    public function testRobotsDisallowsNothing(): void
     {
         $client = static::createClient();
         $client->request('GET', '/robots.txt');
 
         $body = (string) $client->getResponse()->getContent();
-        self::assertStringContainsString('Disallow: /kontakt-per-email', $body);
+        self::assertMatchesRegularExpression('/^Disallow:$/m', $body);
+        self::assertDoesNotMatchRegularExpression('/^Disallow: *\S/m', $body);
     }
 
-    // The site belongs to private life, so it offers no WhatsApp; a stale link must not lead to the business account.
+    // The site takes no inquiries, so it offers no WhatsApp; a stale link must not lead to the business account.
     public function testTheSiteOffersNoWhatsApp(): void
     {
         $client = static::createClient();

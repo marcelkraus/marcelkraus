@@ -1,6 +1,6 @@
 # Deployment
 
-Server directory `~/www/html/marcelkraus`, on the account `krswrk`, host `nix`. Mechanism, deploy keys and the mailer are in `../../../docs/DEPLOYMENT.md`, including the rule that **`marcelkraus.de` must never be registered as a mail domain on this account**—its MX points at `deimos` while the site runs on `nix`.
+Server directory `~/www/html/marcelkraus`, on the account `krswrk`, host `nix`. Mechanism and deploy keys are in `../../../docs/DEPLOYMENT.md`, including the rule that **`marcelkraus.de` must never be registered as a mail domain on this account**—its MX points at `deimos` while the site runs on `nix`.
 
 | # | | |
 | --- | --- | --- |

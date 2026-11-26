@@ -1,6 +1,6 @@
 # Content
 
-`config/content/*.json` is read by `ContentRepository` (missing or malformed → empty list), one reader for the page and the printed document. Editing content needs no code change.
+`config/content/*.json` is read by `ContentRepository` (missing or malformed → empty list), one reader for the page and the printed document. `milestones.json` and `skills.json` feed the printed document alone; `hobbies.json` stays as raw data that nothing reads. Editing content needs no code change.
 
 ## milestones.json
 
@@ -15,11 +15,11 @@ The rendered order is the file order. **Employment runs newest first; each busin
 **It carries no duration.** The period already stands in the date column to the left; a second figure only invites the reader to check one against the other, and the two rarely agree because counting whole months and counting elapsed time give different answers.
 
 * **`division`** is a second line under the company name, for a unit such as `Bundesverband`.
-* **`marker`** takes `krausgebaut`, `krausgedruckt`, `jurassic-jeep` or `secondary`. On the page the stylesheet reads it as `data-marker`: a trade's value selects its brand color, and every other station takes the gray; the printed document groups its three blocks on the field, `secondary` being Ausbildung.
-* **`url`** hangs the business homepage in the muted location line—label `Homepage` with `↗`. The label is identical on all three, so a screen reader hears the business named after it; otherwise it announces the same word three times without a subject.
+* **`marker`** takes `krausgebaut`, `krausgedruckt`, `jurassic-jeep` or `secondary`. The printed document groups its three blocks on the field, `secondary` being Ausbildung.
+* **`url`** is the business homepage, kept as data; the printed document does not show it.
 * **`roles[]`** turns one entry into an employer with several roles, each with its own `years`, `position`, `description` and `tags[]`; the entry then omits its own `position`. Giving every entry a `roles[]` would spare the branch in the template and inflate six single-role entries instead.
 * An entry **without `description`** renders as a condensed one-liner, which is what keeps the vocational school from taking as much room as twelve years at the ASB.
-* **No employment entry carries an open end.** The only statement about availability lives in the cover card on Profil. The businesses are open by design (`seit 11/2023`, `seit 05/2021`, `seit 01/2002`).
+* **No employment entry carries an open end.** The only statement about availability lives in the contact column of the printed document. The businesses are open by design (`seit 11/2023`, `seit 05/2021`, `seit 01/2002`).
 
 ## skills.json
 
@@ -34,15 +34,11 @@ Groups in order of intensity—the order *is* the statement—entries alphabetic
 
 ## brands.json
 
-The two towers on Portfolio, in the order the brands came into being: `name`, `claim` (one line per sentence), `url`, `domain` (the label of the button), `mark` (a file in `assets/marks/`) and `colorToken`, which the tower hands to the stylesheet as `data-brand` and which selects the brand tokens there.
+The two towers on the homepage, in the order the brands came into being: `name`, `claim` (one line per sentence), `url`, `domain` (the label of the button), `mark` (a file in `assets/marks/`) and `colorToken`, which the tower hands to the stylesheet as `data-brand` and which selects the brand tokens there. The JSON-LD names them as the `brand` of the `Person`.
 
 ## works.json
 
-The cells of “Außerdem von mir,” in the rendered order: `name`, `kind`, `description` (one sentence), `url`, `urlLabel` and `image`.
+The cells of “Aus meinem Portfolio,” in the rendered order: `name`, `kind`, `description` (one or two sentences, each ending with a period), `url`, `urlLabel` and `image`.
 
-* **`urlLabel` names the destination**—the domain, or `App Store`—never an invitation such as “Zu …”.
-* **`image` is a file under `public/images/works/`**, a square screenshot of 640 × 640. The screenshots are made once and committed; the page never fetches anything from a work at runtime, and a test asserts it.
-
-## Structured data
-
-`knowsAbout` in the JSON-LD is **built from the content files**, not hardcoded: the skills carry the professional terms, the hobbies the private ones. Sorted and deduplicated, so reordering a content file does not change the output.
+* **`urlLabel` is an invitation by kind**: “Zur Web-App,” “Zum App Store” or “Zur Website.”
+* **`image` is a file under `public/images/works/`**, a square screenshot of 640 × 640. The screenshots are made once and committed; the page never fetches anything from a work at runtime, and a test asserts it. An App Store page is shot headless at a window of 1280 px width and scale 1, and the main column right of the sidebar is cut from x 261, y 1 at 1020 × 1020 and scaled to 640.

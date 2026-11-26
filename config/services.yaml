@@ -11,13 +11,11 @@ parameters:
     # Shown on the legal pages only, so what is harvested there arrives on its own tag.
     app.legal_email_address: 'mail+legal@marcelkraus.de'
 
-    # The tabs and the sitemap read this list.
-    app.pages:
-        - { label: 'Profil', route: 'app_homepage' }
-        - { label: 'Portfolio', route: 'app_portfolio' }
-        - { label: 'Kontakt', route: 'app_contact_page' }
-
     app.phone_number: '0163 6938184'
+
+    app.profiles:
+        - { label: 'GitHub', url: 'https://github.com/marcelkraus' }
+        - { label: 'LinkedIn', url: 'https://www.linkedin.com/in/kraus-marcel' }
 
     # The profile of the printed curriculum vitae, one entry per paragraph.
     app.curriculum_vitae_profile:

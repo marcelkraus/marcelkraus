@@ -1,13 +1,11 @@
-{# The active tab follows the path, so the contact page re-rendered by its POST
-   keeps its tab. #}
 <!DOCTYPE html>
 <html lang="de">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     {% block meta_robots %}<meta name="robots" content="index,follow">{% endblock %}
-    <meta name="description" content="{% block meta_description %}Marcel Kraus, Senior Softwareentwickler iOS/Web aus Erftstadt bei Köln, selbstständig seit 2002. Lebenslauf, Werdegang und Kontakt.{% endblock %}">
-    <title>{% block title %}Marcel Kraus · Senior Softwareentwickler iOS/Web aus Erftstadt bei Köln{% endblock %}</title>
+    <meta name="description" content="{% block meta_description %}Marcel Kraus, Softwareentwickler iOS/Web und Dienstleister aus Erftstadt bei Köln – und der Mensch hinter krausgebaut und krausgedruckt. Nicht nur mit Hut – mit Köpfchen.{% endblock %}">
+    <title>{% block title %}Marcel Kraus · Softwareentwickler iOS/Web &amp; Dienstleister aus Erftstadt bei Köln{% endblock %}</title>
 
     <link rel="icon" href="{{ asset('favicon.ico') }}" sizes="32x32">
     <link rel="icon" href="{{ asset('favicon.svg') }}" type="image/svg+xml">
@@ -56,17 +54,10 @@
 <body class="facade">
     <a href="#main" class="skip-link">Zum Inhalt springen</a>
 
-    {% set current_path = app.request.baseUrl ~ app.request.pathInfo %}
-
     <header class="frame site-head">
         <a href="{{ path('app_homepage') }}" class="site-head-logo" aria-label="Startseite">
             {{ include('partials/_logo.html.twig') }}
         </a>
-        <nav class="tabs" aria-label="Bereiche">
-            {% for page in pages %}
-                <a href="{{ path(page.route) }}"{% if current_path == path(page.route) %} aria-current="page"{% endif %}>{{ page.label }}</a>
-            {% endfor %}
-        </nav>
     </header>
 
     <main id="main" class="frame site-main" tabindex="-1">
@@ -78,7 +69,14 @@
         <div class="site-foot-tridents" aria-hidden="true"></div>
         <div class="site-foot-line">
             <div class="frame site-foot-row">
-                <p>© {{ 'now'|date('Y') }} Marcel Kraus</p>
+                <div class="site-foot-owner">
+                    <p>© {{ 'now'|date('Y') }} Marcel Kraus</p>
+                    <ul class="site-foot-profiles" aria-label="Profile">
+                        {% for profile in profiles %}
+                            <li><a href="{{ profile.url }}" target="_blank" rel="noopener">{{ profile.label }}<span class="sr-only"> – öffnet in neuem Tab</span></a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
                 <nav aria-label="Rechtliches">
                     <a href="{{ path('app_imprint') }}">Impressum</a> · <a href="{{ path('app_data_privacy') }}">Datenschutz</a>
                 </nav>
